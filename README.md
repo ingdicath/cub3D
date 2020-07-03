@@ -3,6 +3,7 @@ CODAM project Curriculum 2019
 
 - [minilibx](https://github.com/ttshivhula/minilibx)
 - [images example](https://github.com/keuhdall/images_example)
+- [Raycasting](https://lodev.org/cgtutor/raycasting.html)
 
 - Se usa esta libreria  minilibx_mms_20200219_beta.tgz
 - Se usa GNL para leer el mapa
