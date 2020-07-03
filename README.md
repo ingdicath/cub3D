@@ -16,7 +16,7 @@ CODAM project Curriculum 2019
 more empty line(s).
 _Se refiere a cada elemento del mapa como Resolucion, color, etc. puede estar separado por una o mas lineas vacias_
 
-'''
+```
 R 1920 1080
 NO ./path_to_the_north_texture
 
@@ -29,22 +29,24 @@ EA ./path_to_the_east_texture
 S ./path_to_the_sprite_texture
 F 220,100,0
 C 225,30,0
-'''
+```
 
 - Except for the map content which always has to be the last, each type of
 element can be set in any order in the file.
 
-_Despues del mapa no pueden existir otros elementos, como Resolucion, color, etc_
+_Despues del mapa no pueden existir otros elementos, como Resolucion, color, etc, pero si podrian haber espacios_
 
 
 - Except for the map, each type of information from an element can be separated
 by one or more space(s).
 _Se refiere a que dentro de cada elemento puede estar separado por uno o mas espacios_
-F 220  ,     100,      0   
 
+```
+F 220  ,     100,      0   
+```
 
 - The map must be parsed as it looks like in the file. Spaces are a valid part of
 the map, and is up to you to handle. You must be able to parse any kind of
 map, as long as it respects the maps rules.
 
-
+_Pueden existir espacios dentro del mapa, siempre que se respeten las reglas de construccion del mismo_
