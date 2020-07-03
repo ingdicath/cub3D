@@ -50,3 +50,14 @@ the map, and is up to you to handle. You must be able to parse any kind of
 map, as long as it respects the maps rules.
 
 _Pueden existir espacios dentro del mapa, siempre que se respeten las reglas de construccion del mismo_
+
+
+NOTAS:
+
+I found however that it's much easier to work with vectors and a camera instead: the position of the player is always a vector (an x and a y coordinate), but now, we make the direction a vector as well: so the direction is now determinated by two values: the x and y coordinate of the direction. 
+
+
+
+- Matriz de rotacion
+https://es.wikipedia.org/wiki/Matriz_de_rotaci%C3%B3n
+
