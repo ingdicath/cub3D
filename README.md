@@ -5,7 +5,9 @@ CODAM project Curriculum 2019
 - [images example](https://github.com/keuhdall/images_example)
 - [Raycasting](https://lodev.org/cgtutor/raycasting.html)
 
-- Se usa esta libreria  minilibx_mms_20200219_beta.tgz
+- Se usa esta libreria  minilibx_mms_20200219_beta.tgz 
+
+NOTA: asegurarse que en el MAC que se vaya a utilizar se tenga instalado X11 (https://www.xquartz.org/)
 - Se usa GNL para leer el mapa
 - Puede no haber sprites dentro del proyecto, aun asi el mapa es valido y debe correr
 - NO puede haber valores negativos en los colores
