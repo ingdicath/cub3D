@@ -6,53 +6,59 @@
 #    By: dsalaman <dsalaman@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/07/07 08:57:54 by dsalaman      #+#    #+#                  #
-#    Updated: 2020/07/07 14:05:06 by dsalaman      ########   odam.nl          #
+#    Updated: 2020/07/09 13:54:04 by dsalaman      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = cub3D
 
-FLAGS= -Wall -Wextra -Werror
+SRC = main.c
 
-MLX_FLAGS = -Lmlx -lmlx -framework OpenGL -framework AppKit
+OBJECTS = $(SRC:.c=.o)
 
-SRC = ft_atoi.c
+EXT_LIB = libft/libft.a mlx/libmlx.dylib gnl/libgnl.a
 
-OBJECTS= $(SRC:.c=.o)
+FLAGS= -Wall -Wextra -Werror -O3 -g
 
-LIBFT = libft.a
+MLX_FLAGS = -lmlx -framework OpenGL -framework AppKit
 
-MLX = libmlx.dylib
+BMP = screenshot.bmp
+
+HEADERS = cub3D.h
+
+INC = -Ilibft -Imlx -Ignl
 
 all: $(NAME)
 
-libft.a: 
-	@cd libft && make
-
-libmlx.dylib: 
-	@cd mlx && make && mv $(MLX)..
-
-$(NAME): $(LIBFT) $(MLX) $(OBJECTS)
-	@gcc $(FLAGS)$(MLX_FLAGS) -o $(NAME)$(OBJECTS) ./libft/$(LIBFT) 
+$(NAME): $(OBJECTS)
+	@make -C libft
+	@make -C gnl
+	@make -C mlx
+	@cp mlx/libmlx.dylib .
+	@gcc $(FLAGS)$(INC)$(MLX_FLAGS) -o $(NAME)$(OBJECTS)$(EXT_LIB)
+	@cp mlx/libmlx.dylib .
 	
-%.o:%.c
-	@gcc $(FLAGS) -lmlx -linc -llibft -c $< -o $@ 
+%.o: %.c $(HEADERS)
+	@gcc $(FLAGS) $(INC) -c $< -o $@
 	@echo "cub3D successful creation"
 
-$(OBJECTS): $(SRC)
-	@gcc -c $(FLAGS) $(SRC)
 
 clean:
 	@rm -f $(OBJECTS)
-	@rm -f *.o
-	@rm -f *~
-	@rm -f ./*/*/*.o
+	@make clean -C libft
+	@make clean -C mlx
+	@make clean -C gnl
 	@rm -f .DS_Store
-	@echo "Objects file were removed."
+	@echo "Objects file were removed - clean."
 
 fclean: clean
-	@rm -f $(NAME) $(MLX)
-	@cd ./libft && make fclean
+	@rm -f $(NAME)
+	@rm -f libmlx.dylib
+	@make fclean -C libft
+	@make fclean -C mlx
+	@make fclean -C gnl
+	@rm -f .DS_Store
+	@echo "Objects file were removed - fclean."
 
 re: fclean all
 
