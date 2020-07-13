@@ -1,21 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parsing.c                                          :+:    :+:            */
+/*   cub3d_utils.c                                      :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/07/09 11:02:40 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/07/13 14:50:27 by dsalaman      ########   odam.nl         */
+/*   Created: 2020/07/13 14:38:08 by dsalaman      #+#    #+#                 */
+/*   Updated: 2020/07/13 14:50:37 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#include <"cub3d.h">
 
-int main (int argc, char **argv)
+void	ft_putstr_fd(char *s, int fd)
 {
-    if(argc < 2)
-        return(ft_puterror("Arguments missing"));
-    if(argc > 3)
-        return(ft_puterror("Too many arguments"));
+	int i;
+
+	i = 0;
+	if (!s)
+		return ;
+	while (s[i] != '\0')
+	{
+		ft_putchar_fd(s[i], fd);
+		i++;
+	}
+}
+
+int     ft_puterror(char *error)
+{
+    ft_putstr_fd("Error:\n", 1);
+    ft_putstr_fd(error, 1);
+    return(-1);
 }

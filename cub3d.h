@@ -32,5 +32,20 @@ typedef     s_screen
 }           t_screen;
 
 
+/* Verificar como trabajar el mapa */
+
+typedef     s_map
+{
+    char    **map_array;
+    int     map_width;
+    int     map_height;
+    int     pos_x;
+    int     pos_y;
+    char    *file_ext; //verificar como incluir la ext aqui
+}           t_map;
+
+void	ft_putstr_fd(char *s, int fd);
+int     ft_puterror(char *error);
+
 
 #endif
