@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   cub3d.h                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2020/07/17 15:45:04 by dsalaman      #+#    #+#                 */
+/*   Updated: 2020/07/17 15:45:04 by dsalaman      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
 # define CUB3D_H
 # include <stdlib.h>
@@ -5,6 +17,7 @@
 # include <string.h>
 # include <fcntl.h>
 # include "mlx/mlx.h"
+# include "gnl/get_next_line.h"
 
 # define SCREENSHOT --save
 
@@ -52,16 +65,18 @@
 void	        ft_putstr_fd(char *s, int fd);
 int             ft_put_error(char *error);
 // size_t		    ft_strlen(const char *s);
-int         ft_strlen(char const *s);
+int             ft_strlen(char const *s);
 int		        ft_strncmp(const char *s1, const char *s2, size_t n);
 char		    *ft_substr(char *s, unsigned int start, size_t len);
 char		    *ft_strdup(const char *s1);
 char		    *ft_strchr(const char *s, int c);
 char		    *ft_strjoin(char *s1, char *s2);
-int             ft_check_file_type(char *map_ext);
+int             ft_check_file_type(char *map_name);
 int             ft_iswhitespace(char c);
 char            **ft_split(char *s, char c);
-size_t  ft_count_words(char const *s, char c);
-
+size_t          ft_count_words(char const *s, char c);
+void            ft_putstr(char *str);
+void            ft_putchar(char c);
+int             ft_read_map(int fd, char **res);
 
 #endif

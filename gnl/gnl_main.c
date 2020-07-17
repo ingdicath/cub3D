@@ -4,32 +4,62 @@
 #include <fcntl.h>
 #include <stdlib.h>
 
-int main(void)
+int main(int argc, char **argv)
 {
-    int 	fd;
-    int 	ret;
-    char 	*line;
-  	char	**res;
-  	int 	i;
+  int 	fd;
+  int 	ret;
+  char 	*line;
+  char	**res;
+  int 	i;
 
-    ret = 1;
-    fd = open("valid_map.cub", O_RDONLY);
-    while (ret > 0)
+  ret = 1;
+  fd = open(argv[1], O_RDONLY);
+  if (argc < 2)
+    return(ft_put_error("at least one argument was expected"));
+  while (ret > 0)
+  {
+    ret = get_next_line(fd, &line);
+    res = ft_split(line,' ');
+    i = 0;
+    while (i < ft_count_words(line, ' '))
     {
-        ret = get_next_line(fd, &line);
-        // printf("[%d]-|%s\n", ret, line);
-        res = ft_split(line,' ');
-        i = 0;
-        while (i < ft_count_words(line, ' '))
-        {
-			printf("%s_", res[i]);
-			i++;
-		}
-		printf("\n");
-	 	free(line);
-	}
-    return (1);
+      ft_putstr(res[i]);
+      ft_putstr(",");
+      i++;
+    }
+    ft_putstr("\n");
+    free(line);
+  }
+  return (1);
 }
+
+
+// int main(void)
+// {
+//     int 	fd;
+//     int 	ret;
+//     char 	*line;
+//   	char	**res;
+//   	int 	i;
+
+//     ret = 1;
+//     fd = open("valid_map.cub", O_RDONLY);
+//     while (ret > 0)
+//     {
+//         ret = get_next_line(fd, &line);
+//         // printf("[%d]-|%s\n", ret, line);
+//         res = ft_split(line,' ');
+//         i = 0;
+//         while (i < ft_count_words(line, ' '))
+//         {
+// 			printf("%s,", res[i]);
+// 			i++;
+// 		}
+// 		printf("\n");
+// 	 	free(line);
+// 	}
+//     return (1);
+// }
 
 
 // int		main(void)
