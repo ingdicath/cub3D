@@ -19,6 +19,8 @@ int main(int argc, char **argv)
   while (ret > 0)
   {
     ret = get_next_line(fd, &line);
+    if (ret < 0)
+      return(ft_put_error("File not found"));
     res = ft_split(line,' ');
     i = 0;
     while (i < ft_count_words(line, ' '))
