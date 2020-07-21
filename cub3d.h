@@ -6,7 +6,7 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/17 15:45:04 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/07/20 21:27:02 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/07/21 22:06:32 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,16 +80,16 @@ size_t          ft_count_words(char const *s, char c);
 void            ft_putstr(char *str);
 void            ft_putchar(char c);
 int 			ft_read_file_map(char *file_name, t_input *mapfile);
-int 			ft_check_resolution(char **line, t_screen *resolution);
 int				ft_atoi(const char *str);
-int 			ft_check_ceiling(char **line, t_color *ceiling);
-int 			ft_check_floor(char **line, t_color *floor);
 int				ft_isnumber(char *str);
 int 			ft_check_valid_color(char *color);
-int             ft_check_north_texture(char **line, char *north_path);
-int             ft_check_west_texture(char **line, char *west_path);
-int             ft_check_east_texture(char **line, char *east_path);
-int             ft_check_texture_so_sprite(char **line, char *texture);
-int             ft_check_unique_type(t_input *mapfile);
-
+int             ft_check_resolution(char **line, t_screen *resolution);
+int             ft_check_ceiling(char **line, t_color *ceiling);
+int             ft_check_floor(char **line, t_color *floor);
+int             ft_check_north_texture(char **line, char **north_path);
+int             ft_check_west_texture(char **line, char **west_path);
+int             ft_check_east_texture(char **line, char **east_path);
+int             ft_check_south_texture(char **line, char **south_path);
+int             ft_check_sprite_texture(char **line, char **sprite_path);
+void            ft_reset_input(t_input *mapfile);
 #endif
