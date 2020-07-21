@@ -86,7 +86,10 @@ int 			ft_check_ceiling(char **line, t_color *ceiling);
 int 			ft_check_floor(char **line, t_color *floor);
 int				ft_isnumber(char *str);
 int 			ft_check_valid_color(char *color);
-
-
+int             ft_check_north_texture(char **line, char *north_path);
+int             ft_check_west_texture(char **line, char *west_path);
+int             ft_check_east_texture(char **line, char *east_path);
+int             ft_check_texture_so_sprite(char **line, char *texture);
+int             ft_check_unique_type(t_input *mapfile);
 
 #endif

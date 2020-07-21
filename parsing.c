@@ -41,7 +41,7 @@ int ft_read_file_map(char *file_name, t_input *mapfile)
     int 	ret;
     int 	fd;
     int		i;
-    int		result;
+    int		result; // borrar
     char 	*line;
   	char	**line_split;
 
@@ -54,12 +54,21 @@ int ft_read_file_map(char *file_name, t_input *mapfile)
       		return (ft_put_error("File not found"));
       	line_split = ft_split(line,' ');
      
-       	result = ft_check_resolution(line_split, &mapfile->resolution); //borrar
+       	result = ft_check_resolution(line_split, &mapfile->resolution);
        	printf("%d %d\n",mapfile->resolution.width,mapfile->resolution.height); //borrar
-       	result = ft_check_ceiling(line_split, &mapfile->ceiling); //borrar
+       	result = ft_check_ceiling(line_split, &mapfile->ceiling); 
        	printf("%d %d %d\n",mapfile->ceiling.red,mapfile->ceiling.green, mapfile->ceiling.blue); //borrar
-       	result = ft_check_floor(line_split, &mapfile->floor); //borrar
+       	result = ft_check_floor(line_split, &mapfile->floor);
        	printf("%d %d %d\n",mapfile->floor.red,mapfile->floor.green, mapfile->floor.blue); //borrar
+       	result = ft_check_north_texture(line_split, mapfile->no_texture); 
+       	printf("%s\n", mapfile->no_texture); //borrar
+       	result = ft_check_east_texture(line_split, mapfile->ea_texture); // revisar, no se puso &mapfile
+       	printf("%s\n", mapfile->ea_texture); //borrar
+       	result = ft_check_west_texture(line_split, mapfile->we_texture); // revisar, no se puso &mapfile
+       	printf("%s\n", mapfile->we_texture); //borrar
+       	result = ft_check_texture_so_sprite(line_split, mapfile->sprite); // revisar, no se puso &mapfile
+       	printf("%s\n", mapfile->sprite); //borrar
+
   //       i = 0;
   //       while (i < ft_count_words(line, ' '))
   //       {
@@ -74,13 +83,12 @@ int ft_read_file_map(char *file_name, t_input *mapfile)
     return (0);
 }
 
-
 int ft_check_resolution(char **line, t_screen *resolution)
 {
 	if (line[0] && line[0][0] == 'R')
 	{
 		if (line[3])
-			return (ft_put_error("more arguments than expected for res"));
+			return (ft_put_error("more arguments than expected for pixels"));
 		if (!line[1] || !line[2])
 			return (ft_put_error("invalid arguments for resolution"));
 		if (!ft_isnumber(line[1]) || !ft_isnumber(line[2]))
@@ -121,15 +129,17 @@ int ft_check_ceiling(char **line, t_color *ceiling)
 	if (line[0] && line[0][0] == 'C')
 	{
 		if (line[4])
-			return (ft_put_error("more arguments than expected"));
+			return (ft_put_error("more arguments than expected") && 
+				ft_put_error("Comma ',' must to be next to the number"));
 		if (!line[1] || !line[2] || !line[3])
 			return (ft_put_error("invalid arguments"));
 		if (!ft_check_valid_color(line[1]) || !ft_check_valid_color(line[2])
 			|| !ft_isnumber(line[3])) 
-			return (ft_put_error("Some arguments are not numbers"));
-		ceiling->red = atoi(line[1]);
-		ceiling->green = atoi(line[2]);
-		ceiling->blue = atoi(line[3]);
+			return (ft_put_error("Some of this arguments are not numbers") &&
+				ft_put_error("Comma ',' must to be next to the number"));
+		ceiling -> red = atoi(line[1]);
+		ceiling -> green = atoi(line[2]);
+		ceiling -> blue = atoi(line[3]);
 		printf ("red ceiling %d \n", ceiling->red); // borrar
 		printf ("blue ceiling %d \n", ceiling->green); //borrar
 		printf ("green ceiling %d \n", ceiling->blue); //borrar
@@ -139,15 +149,6 @@ int ft_check_ceiling(char **line, t_color *ceiling)
 		if (ceiling->red > 255 || ceiling->green > 255 || ceiling->blue > 255)
 			return(ft_put_error("Color value(s) must be maximum 255"));
 	}
-	
-	// //borrar prueba
-	// while (line[i])
- //    {
-
-	// 	printf ("%s\n", line[i]);
-	// 	i++;
-	// }
-	// printf("\n");
 	return (0);
 }
 
@@ -156,12 +157,14 @@ int ft_check_floor(char **line, t_color *floor)
 	if (line[0] && line[0][0] == 'F')
 	{
 		if (line[4])
-			return (ft_put_error("more arguments than expected"));
+			return (ft_put_error("more arguments than expected") && 
+				ft_put_error("Comma ',' must to be next to the number"));
 		if (!line[1] || !line[2] || !line[3])
 			return (ft_put_error("invalid arguments"));
 		if (!ft_check_valid_color(line[1]) || !ft_check_valid_color(line[2])
 			|| !ft_isnumber(line[3])) 
-			return (ft_put_error("Some of this arguments are not numbers"));
+			return (ft_put_error("Some of this arguments are not numbers") &&
+				ft_put_error("Comma ',' must to be next to the number"));
 		floor->red = atoi(line[1]);
 		floor->green = atoi(line[2]);
 		floor->blue = atoi(line[3]);
@@ -174,48 +177,109 @@ int ft_check_floor(char **line, t_color *floor)
 		if (floor->red > 255 || floor->green > 255 || floor->blue > 255)
 			return(ft_put_error("Color value(s) must be maximum 255"));
 	}
-	//borrar prueba
-	// while (line[i])
- 	// {
-	// 	printf ("%s\n", line[i]);
-	// 	i++;
-	// }
-	// printf("\n");
 	return (0);
 }
 
-// t_input ft_read_file_map(char *file_name)
-// {
-//     int 	ret;
-//     int 	fd;
-//     char 	*line;
-//   	int 	i;
-//   	char	**line_split;
-//   	t_input resul;
+int ft_check_texture_so_sprite(char **line, char *texture)
+{
+	if (line[0] && (line[0][0] == 'S'))
+	{
+		if (line[0][1] == 'O')
+		{
+			if (line[2])
+				return (ft_put_error("more arguments than expected for tex"));
+			if (!line[1])
+				return (ft_put_error("invalid arguments for resolution"));
+			texture = line[1];
+			printf ("south texture %s\n", texture); // borrar
+		}
+		else
+		{
+			if (line[2])
+				return (ft_put_error("more arguments than expected for tex"));
+			if (!line[1])
+				return (ft_put_error("invalid arguments for resolution"));
+			texture = line[1];
+			printf ("sprite texture %s\n", texture); // borrar
+		}
+	}
+	return (0);
+}
 
-//     ret = 1;
-//     fd = open(file_name, O_RDONLY);
-//     while (ret > 0)
-//     {
-//         ret = get_next_line(fd, &line);
-//         if (ret < 0)
-//         {
-//       		ft_put_error("File not found");
-//       		return (resul);
-//         }
-//         line_split = ft_split(line,' ');
-//         i = 0;
-//         while (i < ft_count_words(line, ' '))
-//         {
-// 			ft_putstr(line_split[i]);
-//       		ft_putstr(",");
-// 			i++;
-// 		}
-// 		ft_putstr("\n");
-// 	 	free(line);
-// 	}
-//     return (resul);
-// }
+int ft_check_north_texture(char **line, char *north_path)
+{
+	if (line[0] && (line[0][0] == 'N') && (line[0][1] == 'O'))
+	{
+		if (line[2])
+			return (ft_put_error("more arguments than expected for texture"));
+		if (!line[1])
+			return (ft_put_error("invalid arguments for resolution"));
+		north_path = line[1];
+		printf ("north texture %s\n", north_path); // borrar
+	}
+	return (0);
+}
+
+int ft_check_west_texture(char **line, char *west_path)
+{
+	if (line[0] && (line[0][0] == 'W') && (line[0][1] == 'E'))
+	{
+		if (line[2])
+			return (ft_put_error("more arguments than expected for texture"));
+		if (!line[1])
+			return (ft_put_error("invalid arguments for resolution"));
+		west_path = line[1];
+		printf ("west texture %s\n", west_path); // borrar
+	}
+	return (0);
+}
+
+int ft_check_east_texture(char **line, char *east_path)
+{
+	if (line[0] && (line[0][0] == 'E') && (line[0][1] == 'A'))
+	{
+		if (line[2])
+			return (ft_put_error("more arguments than expected for texture"));
+		if (!line[1])
+			return (ft_put_error("invalid arguments for resolution"));
+		east_path = line[1];
+		printf ("east texture %s\n", east_path); // borrar
+	}
+	return (0);
+}
+
+/*
+int ft_check_unique_type(t_input *mapfile)
+{
+	if (no_texture)
+	so_texture;
+	ea_texture;
+	we_texture;
+	sprite;
+	ceiling.red, ceiling.green, ceiling.blue;
+	floor.red, floor.green, floor.blue;
+	resolution.width, resolution.height;
+
+
+		if (&mapfile->resolution.width)
+		return (ft_put_error("argument(s) already exist(s)"));
+
+	if (mapfile -> resolution.width)
+
+
+
+		return(0);
+
+
+}*/
+
+
+
+int ft_initialize_input(t_input *mapfile)
+
+
+
+
 
 int main (int argc, char **argv)
 {
@@ -264,3 +328,7 @@ int main (int argc, char **argv)
 
 //$ gcc parsing.c ft_split.c gnl/get_next_line.c cub3d_utils.c
 
+//solo puede existir un elemento de cada tipo:  una sola R, una sola C, F, etc..
+// south texture y sprite lo estan leyendo dos veces
+// para los colores se podria usar unsigned char, ya que su rango es de 0 - 255
+// crear un inicializador de parametros del mapa, para garantizar que cuando empiece a trabajar no hayan datos almacenados previamente.
