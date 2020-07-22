@@ -92,4 +92,7 @@ int             ft_check_east_texture(char **line, char **east_path);
 int             ft_check_south_texture(char **line, char **south_path);
 int             ft_check_sprite_texture(char **line, char **sprite_path);
 void            ft_reset_input(t_input *mapfile);
+int             ft_check_final_elements(t_input *mapfile);
+
+
 #endif
