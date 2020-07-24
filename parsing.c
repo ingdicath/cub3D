@@ -6,7 +6,7 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/22 13:15:55 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/07/22 13:16:34 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/07/24 10:38:12 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,20 @@ int		ft_check_final_elements(t_input *mapfile)
 		return (ft_put_error("some elements are missing. Check again"));
 	else
 		return (0);
+}
+
+int		ft_array_size(char **array)
+{
+	int i;
+
+	i = 0;
+	while (array[i])
+	{
+		// printf("helo %d %s\n", i, array[i]);
+		i++;
+	}
+	// printf("helo %d \n", i);
+	return (i);
 }
 
 int			ft_check_valid_color(char *color)
@@ -119,14 +133,22 @@ int			ft_read_file_map(char *file_name, t_input *mapfile)
 
 int		ft_check_resolution(char **line, t_screen *resolution)
 {
-	if (line[0] && line[0][0] == 'R')
+	// int	i;
+
+	// i = 0;
+	// while (line[i])
+	// {
+	// 	printf("helo %d %s\n", i, line[i]);
+	// 	i++;
+	// }
+	if (line[0] && (ft_strncmp(line[0],"R", 1) == 0))
 	{
 		if (resolution->width >= 0 || resolution->height >= 0)
+			// printf(" WIDTH IS %d\n", resolution->width);
+			// printf(" HEIGHT IS %d\n", resolution->height);
 			return (ft_put_error("argument(s) for RES already exist(s)"));
-		if (line[3])
-			return (ft_put_error("more arguments than expected for RES"));
-		if (!line[1] || !line[2])
-			return (ft_put_error("invalid arguments for resolution"));
+		if (ft_array_size(line) != 3)
+			return (ft_put_error("wrong number of arguments for RES"));
 		if (!ft_isnumber(line[1]) || !ft_isnumber(line[2]))
 			return (ft_put_error("is not number for resolution"));
 		resolution->width = ft_atoi(line[1]);
@@ -160,19 +182,17 @@ int		ft_check_ceiling(char **line, t_color *ceiling)
 		i++;
 	}
 */
-	if (line[0] && line[0][0] == 'C')
+	if (line[0] && (ft_strncmp(line[0],"C", 1) == 0))
 	{
 		if (ceiling->red >= 0 || ceiling->green >= 0 || ceiling->blue >= 0)
 			return (ft_put_error("argument(s) already for ceiling exist(s)"));
 		if (line[4])
-			return (ft_put_error("more arguments for ceiling than expected") &&
-				ft_put_error("Comma ',' must to be next to the number"));
+			return (ft_put_error("more arguments for ceiling than expected."));
 		if (!line[1] || !line[2] || !line[3])
 			return (ft_put_error("invalid arguments"));
 		if (!ft_check_valid_color(line[1]) || !ft_check_valid_color(line[2])
 			|| !ft_isnumber(line[3]))
-			return (ft_put_error("Some of this arguments are not numbers") &&
-				ft_put_error("Comma ',' must to be next to the number"));
+			return (ft_put_error("Some of this arguments are not numbers"));
 		ceiling->red = atoi(line[1]);
 		ceiling->green = atoi(line[2]);
 		ceiling->blue = atoi(line[3]);
@@ -189,19 +209,17 @@ int		ft_check_ceiling(char **line, t_color *ceiling)
 
 int		ft_check_floor(char **line, t_color *floor)
 {
-	if (line[0] && line[0][0] == 'F')
+	if (line[0] && (ft_strncmp(line[0],"F", 1) == 0))
 	{
 		if (floor->red >= 0 || floor->green >= 0 || floor->blue >= 0)
 			return (ft_put_error("argument(s) already for floor exist(s)"));
 		if (line[4])
-			return (ft_put_error("more arguments for floor than expected") &&
-				ft_put_error("Comma ',' must to be next to the number"));
+			return (ft_put_error("more arguments for floor than expected"));
 		if (!line[1] || !line[2] || !line[3])
 			return (ft_put_error("invalid arguments"));
 		if (!ft_check_valid_color(line[1]) || !ft_check_valid_color(line[2])
 			|| !ft_isnumber(line[3]))
-			return (ft_put_error("Some of this arguments are not numbers") &&
-				ft_put_error("Comma ',' must to be next to the number"));
+			return (ft_put_error("Some of this arguments are not numbers"));
 		floor->red = atoi(line[1]);
 		floor->green = atoi(line[2]);
 		floor->blue = atoi(line[3]);
@@ -234,7 +252,7 @@ int		ft_check_north_texture(char **line, char **north_path)
 
 int		ft_check_south_texture(char **line, char **south_path)
 {
-	if (line[0] && (ft_strncmp(line[0],"SO", 2) == 0))
+	if (line[0] && (ft_strcmp(line[0],"SO") == 0))
 	{
 		if (*south_path != NULL)
 			return (ft_put_error("argument(s) already for SO exist(s)"));
@@ -282,7 +300,7 @@ int		ft_check_east_texture(char **line, char **east_path)
 
 int		ft_check_sprite_texture(char **line, char **sprite_path)
 {
-	if (line[0] && (ft_strncmp(line[0],"S", 1) == 0) && line[0][1] == '\0')
+	if (line[0] && (ft_strcmp(line[0],"S") == 0))
 	{
 		if (*sprite_path != NULL)
 			return (ft_put_error("argument(s) already for sprite exist(s)"));
@@ -303,6 +321,18 @@ int			main(int argc, char **argv)
 	t_input	file_map;
 	int		result;
 
+	int	i;
+
+	i = 0;
+	while (argv[i])
+	{
+		printf("helo %d %s\n", i, argv[i]);
+		i++;
+	}
+
+
+
+
 	error = 0;
 	if (argc < 2)
 		return (ft_put_error("at least one argument was expected"));
@@ -317,7 +347,8 @@ int			main(int argc, char **argv)
 		}
 		if (argc == 3)
 		{
-			if (ft_strncmp(argv[2], "--save", ft_strlen("--save")) == 0)
+			screenshot = ft_strcmp(argv[2], "--save");
+			if (screenshot == 0)
 				screenshot = 1;
 			else
 			{
