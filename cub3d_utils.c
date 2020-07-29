@@ -5,16 +5,17 @@
 /*                                                     +:+                    */
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/07/13 14:38:08 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/07/28 18:52:29 by dsalaman      ########   odam.nl         */
+/*   Created: 2020/07/29 12:55:18 by dsalaman      #+#    #+#                 */
+/*   Updated: 2020/07/29 12:55:49 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void ft_putstr(char *str)
+void	ft_putstr(char *str)
 {
 	int i;
+
 	i = 0;
 	while (str[i] != '\0')
 	{
@@ -23,16 +24,16 @@ void ft_putstr(char *str)
 	}
 }
 
-void	ft_putstr_fd(char *s, int fd)
+void	ft_putstr_fd(char *str, int fd)
 {
 	int i;
 
 	i = 0;
-	if (!s)
+	if (!str)
 		return ;
-	while (s[i] != '\0')
+	while (str[i] != '\0')
 	{
-		write(fd, &s[i], 1);
+		write(fd, &str[i], 1);
 		i++;
 	}
 }
@@ -42,20 +43,12 @@ int		ft_put_error(char *error)
 	ft_putstr_fd("\nError:\n", 1);
 	ft_putstr_fd(error, 1);
 	ft_putstr_fd("\n", 1);
-	return(-1);
+	return (-1);
 }
 
-
-
-// int			ft_strlen(char const *s)
-// {
-// 	int		count;
-
-// 	count = 0;
-// 	while (s[count] != '\0')
-// 		count++;
-// 	return (count);
-// }
+/*
+** ----- first file -----
+*/
 
 size_t		ft_strlen(const char *s)
 {
@@ -162,15 +155,19 @@ char		*ft_strjoin(char *s1, char *s2)
 	return (s3);
 }
 
-int 		ft_iswhitespace(char c)
+/*
+** -----  second file -----
+*/
+
+int					ft_iswhitespace(char c)
 {
 	return (c == '\t' || c == '\n' || c == ' ' || c == '\v' || c == '\f'
 		|| c == '\r');
 }
 
-int ft_isemptyline(char *str)
+int					ft_isemptyline(char *str)
 {
-	int i;
+	int 			i;
 
 	i = 0;
 	if (str[i] == '\0')
@@ -184,7 +181,7 @@ int ft_isemptyline(char *str)
 	return (1);
 }
 
-int				ft_atoi(const char *str)
+int					ft_atoi(const char *str)
 {
 	unsigned long	result;
 	int				i;
@@ -211,9 +208,9 @@ int				ft_atoi(const char *str)
 	return (sign * result);
 }
 
-int		ft_isnumber(char *str)
+int					ft_isnumber(char *str)
 {
-	int i;
+	int 			i;
 
 	i = 0;
 	if (str[i] == '-')
@@ -227,13 +224,12 @@ int		ft_isnumber(char *str)
 	return (1);
 }
 
-int		ft_strcmp(const char *s1, const char *s2)
+int					ft_strcmp(const char *s1, const char *s2)
 {
-	size_t i;
+	size_t 			i;
 
 	i = 0;
 	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
 		i++;
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
-

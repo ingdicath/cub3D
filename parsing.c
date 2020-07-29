@@ -31,7 +31,7 @@ int ft_check_valid_char(char *line)
 {
 	int i;
 
-	i = 0;	
+	i = 0;
 	while (line[i] != '\0')
 	{
 		if (line[i] != '0' && line[i] != '1' && line[i] != '2' &&
@@ -104,12 +104,19 @@ int			ft_read_file_map(char *file_name, t_input *mapfile)
 	int		ret;
 	int		fd;
 	char	*line;
-	char	**line_split; 
+	char	*join_lines;//new
+	char	**line_split;
+	int		length;//new
 
+	length = 0;//new
 	ret = 1;
 	fd = open(file_name, O_RDONLY);
 	if (fd < 0)
 		return (ft_put_error("cannot open .cub map file"));
+	length = ft_strlen(line);//new
+	join_line = malloc(sizeof)(char) * (length + 1);//new
+
+
 	while (ret > 0)
 	{
 		ret = get_next_line(fd, &line);
@@ -119,7 +126,8 @@ int			ft_read_file_map(char *file_name, t_input *mapfile)
 		{
 			if (ft_isemptyline(line) && mapfile->map == NULL)
 				continue ;
-			ft_fill_map(line, mapfile);
+			// ft_join_lines(file_name, mapfile);///// REVISAR FUNCION
+			ft_fill_map(line, mapfile);///
 			print_map(mapfile->map);
 		}
 		else
@@ -131,7 +139,7 @@ int			ft_read_file_map(char *file_name, t_input *mapfile)
 
 /*
         i = 0;
-        while (i < ft_count_words(line, ' ')) 
+        while (i < ft_count_words(line, ' '))
         {
 			ft_putstr(line_split[i]);
       		ft_putstr(",");
@@ -141,42 +149,70 @@ int			ft_read_file_map(char *file_name, t_input *mapfile)
 		free(line);
 		printf("\n");
 	}
+	close(fd);
 	return (0);
 }
 
-int		ft_fill_elements(char **line_split, t_input *mapfile)
+int			ft_fill_elements(char **line_split, t_input *mapfile)
 {
-	int		result;	
+	int		result;
 
 	result = ft_check_resolution(line_split, &mapfile->resolution);
 	result = ft_check_ceiling(line_split, &mapfile->ceiling);
 	result = ft_check_floor(line_split, &mapfile->floor);
 	result = ft_check_north_texture(line_split, &mapfile->no_texture);
-	result = ft_check_south_texture(line_split, &mapfile->so_texture); 
-	result = ft_check_east_texture(line_split, &mapfile->ea_texture); 
-	result = ft_check_west_texture(line_split, &mapfile->we_texture); 
+	result = ft_check_south_texture(line_split, &mapfile->so_texture);
+	result = ft_check_east_texture(line_split, &mapfile->ea_texture);
+	result = ft_check_west_texture(line_split, &mapfile->we_texture);
 	result = ft_check_sprite_texture(line_split, &mapfile->sprite);
-	return (result);		
+	return (result);
 }
 
-// int             ft_fill_map(char *line, t_input *mapfile)
-// {
-// 	int i;
+char		*ft_join_lines(char *line)
+{
+	int		ret;
+	int		fd;
+	char	*new_line;
+	int		length;
 
-// 	i = 0;
-// 	if (ft_check_valid_char(line))
-// 	{
-// 		printf("pollo malo %s\n",line);
+	length = 0;
+	ret = 1;
+	while (ret > 0)
+	{
+		new_line = malloc(sizeof(char) * (length+ 1));
+		if (new_line == 0)
+		{
+			free(new_line);
+			return (NULL);
+		}
+		ret = read(fd, new_line, length);
+		if (ret < 0)
+		{
+			free(new_line);
+			return (NULL);
+		}
+		return (line);
+	}
 
-// 		*mapfile->map = ft_strdup(line);
+}
 
-// 		printf("pollooooooo %s\n",line);
-// 		mapfile->map++;
-// 		printf("hambreeee %s\n",line);
-// 	}
-// 	return (0);
-// }
 
+int			ft_fill_map(char *line, t_input *mapfile)
+{
+	int		i;
+	int		join_lines;
+
+	i = 0;
+	if (ft_check_valid_char(line))
+	{
+		printf("pollo malo %s\n",line);//borrar
+		*mapfile->map = ft_strdup(line);
+		printf("pollooooooo %s\n",line);//borrar
+		mapfile->map++;
+		printf("hambreeee %s\n",line);//borrar
+	}
+	return (0);
+}
 
 void printfs(t_input *mapfile)
 {
@@ -200,18 +236,6 @@ void print_map(char **map)
 		i++;
 	}
 }
-
-
-
-
-
-// 	}
-
-
-
-
-// }
-
 
 // 		if (line[i][j] == 'N' || line[i][j] == 'S' || line[i][j] == 'E' ||
 // 			line[i][j] == 'W')
@@ -402,7 +426,6 @@ int		ft_check_sprite_texture(char **line, char **sprite_path)
 	return (0);
 }
 
-
 int		ft_check_path(char *str)
 {
 	int		ret;
@@ -414,28 +437,12 @@ int		ft_check_path(char *str)
 	if (!ft_check_extension(str, XPM) && !ft_check_extension(str, PNG))
 		return (ft_put_error("invalid extension for texture"));
 	ret = open(str, O_RDONLY);
-	printf("valor: %d\n",ret );
+	printf("valor: %d\n", ret);
 	if (ret < 0)
 		return (ft_put_error("file does not exist."));
 	close(ret);
 	return (1);
 }
-
-/*
-int		ft_check_map_array()
-{
-
-
-}
-
-
-int ft_read_map(char **map_array)
-{
-
-
-
-}
-*/
 
 int			main(int argc, char **argv)
 {
@@ -443,7 +450,6 @@ int			main(int argc, char **argv)
 	int		error;
 	t_input	file_map;
 	int		result;
-
 
 	error = 0;
 	if (argc < 2)
@@ -481,11 +487,9 @@ int			main(int argc, char **argv)
 	// 	return (-1);
 
 	return (0);
-
-	
 }
 /*
-$ gcc parsing.c ft_split.c gnl/get_next_line.c cub3d_utils.c
+$ gcc parsing.c ft_split.c gnl/get_next_line.c cub3d_utils.c -fsanitize=address
 
 solo puede existir un elemento de cada tipo:  una sola R, una sola C, F, etc..
 
