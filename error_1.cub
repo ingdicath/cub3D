@@ -1,0 +1,36 @@
+    
+          
+  R  500 456
+
+WE ./textures/Gold0.xpm
+ 
+NO                             ./textures/Stone.xpm
+SO ./textures/eagle.png
+
+
+S                 ./textures/barrel.png
+
+
+
+EA ./textures/Bark.xpm
+
+F     220,   100,   244
+
+
+C                           249,                                           225,             10
+          
+				
+
+
+
+
+111111111
+100202001
+100000001
+100N00001
+1002020211111
+1000000000001
+1011111100001
+101	   100001
+101    100001
+111    111111

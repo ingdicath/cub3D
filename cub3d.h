@@ -6,12 +6,19 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/17 15:45:04 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/07/21 22:06:32 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/07/28 18:51:57 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
+
+/*
+---------- Extensions ----------
+*/
+# define  CUB ".cub"
+# define  XPM ".xpm"
+# define  PNG ".png"
 
 # include <stdlib.h>
 # include <unistd.h>
@@ -45,9 +52,9 @@ typedef struct  s_input
     t_color     floor;
     t_screen    resolution;
     char        **map;
+    int         start_pos_x;
+    int         start_pos_y;
 }               t_input;
-
-
 
 /* Verificar como trabajar el mapa */
 
@@ -56,9 +63,8 @@ typedef struct         s_map
     char        **map_array;
     int         map_width;
     int         map_height;
-    int         pos_x;
-    int         pos_y;
-    char        *file_ext; //verificar como incluir la ext aqui
+    // int         start_pos_x;
+    // int         start_pos_y;
 }               t_map;
 
 
@@ -66,14 +72,14 @@ typedef struct         s_map
 
 void	        ft_putstr_fd(char *s, int fd);
 int             ft_put_error(char *error);
-// size_t		    ft_strlen(const char *s);
-int             ft_strlen(char const *s);
-int		        ft_strncmp(const char *s1, const char *s2, size_t n);
+size_t		    ft_strlen(const char *s);
 char		    *ft_substr(char *s, unsigned int start, size_t len);
 char		    *ft_strdup(const char *s1);
 char		    *ft_strchr(const char *s, int c);
 char		    *ft_strjoin(char *s1, char *s2);
-int             ft_check_file_type(char *map_name);
+int             ft_strcmp(const char *s1, const char *s2);
+char            *ft_strcpy(char *dst, char const *src);
+
 int             ft_iswhitespace(char c);
 char            **ft_split(char *s, char c);
 size_t          ft_count_words(char const *s, char c);
@@ -92,7 +98,17 @@ int             ft_check_east_texture(char **line, char **east_path);
 int             ft_check_south_texture(char **line, char **south_path);
 int             ft_check_sprite_texture(char **line, char **sprite_path);
 void            ft_reset_input(t_input *mapfile);
-int             ft_check_final_elements(t_input *mapfile);
+int             ft_check_complete_elements(t_input *mapfile);
+int             ft_array_size(char **array);
+int             ft_fill_elements(char **line_split, t_input *mapfile);
+int             ft_fill_map(char *line, t_input *mapfile);
+int             ft_check_path(char *str);
+int             ft_check_extension(char *file_name, char *valid_ext);
+int             ft_check_valid_char(char *line);
+int             ft_isemptyline(char *str);
+
+void printfs(t_input *mapfile);
+void print_map(char **map);
 
 
 #endif

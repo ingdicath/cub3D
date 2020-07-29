@@ -1,5 +1,5 @@
     
-  R      50     1980
+         R      50     1980     
 
  
 NO                             ./path_to_the_north_texture
@@ -11,7 +11,6 @@ S ./path_to_the_sprite_texture
 
 F 220,   100,   244
 
-EA ./path_to_the_east_texture
 
 C                           249,                                           225,             10
 
@@ -22,5 +21,6 @@ C                           249,                                           225, 
 100202021
 100000001
 100000001
+111111111
 
- 
+ 							

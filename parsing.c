@@ -6,22 +6,41 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/22 13:15:55 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/07/24 10:38:12 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/07/28 21:40:14 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include <stdio.h>
 
-int		ft_check_file_type(char *map_name)
+int			ft_check_extension(char *file_name, char *valid_ext)
+{
+	int		name_size;
+	int		ext_size;
+	char	*temp;
+
+	name_size = ft_strlen(file_name);
+	ext_size = ft_strlen(valid_ext);
+	temp = ft_substr(file_name, (name_size - ext_size), name_size);
+	if (ft_strcmp(temp, valid_ext) == 0)
+		return (1);
+	return (0);
+}
+
+int ft_check_valid_char(char *line)
 {
 	int i;
 
-	i = ft_strlen(map_name);
-	if (map_name[i - 4] == '.' && map_name[i - 3] == 'c'
-		&& map_name[i - 2] == 'u' && map_name[i - 1] == 'b')
-		return (1);
-	return (-1);
+	i = 0;	
+	while (line[i] != '\0')
+	{
+		if (line[i] != '0' && line[i] != '1' && line[i] != '2' &&
+			line[i] != ' ' && line[i] != 'N' && line[i] != 'S' &&
+			line[i] != 'W' && line[i] != 'E')
+			return (ft_put_error("invalid character in the map"));
+		i++;
+	}
+	return (1);
 }
 
 void	ft_reset_input(t_input *mapfile)
@@ -39,9 +58,12 @@ void	ft_reset_input(t_input *mapfile)
 	mapfile->ea_texture = NULL;
 	mapfile->we_texture = NULL;
 	mapfile->sprite = NULL;
+	mapfile->map = NULL;
+	mapfile->start_pos_x = -1;
+	mapfile->start_pos_y = -1;
 }
 
-int		ft_check_final_elements(t_input *mapfile)
+int		ft_check_complete_elements(t_input *mapfile)
 {
 	if (mapfile->ceiling.red == -1 || mapfile->ceiling.green == -1 ||
 		mapfile->ceiling.blue == -1 || mapfile->floor.red == -1 ||
@@ -50,9 +72,9 @@ int		ft_check_final_elements(t_input *mapfile)
 		mapfile->no_texture == NULL || mapfile->so_texture == NULL ||
 		mapfile->ea_texture == NULL || mapfile->we_texture == NULL ||
 		mapfile->sprite == NULL)
-		return (ft_put_error("some elements are missing. Check again"));
-	else
 		return (0);
+	else
+		return (1);
 }
 
 int		ft_array_size(char **array)
@@ -61,11 +83,7 @@ int		ft_array_size(char **array)
 
 	i = 0;
 	while (array[i])
-	{
-		// printf("helo %d %s\n", i, array[i]);
 		i++;
-	}
-	// printf("helo %d \n", i);
 	return (i);
 }
 
@@ -85,10 +103,8 @@ int			ft_read_file_map(char *file_name, t_input *mapfile)
 {
 	int		ret;
 	int		fd;
-	int		i;
-	int		result;
 	char	*line;
-	char	**line_split;
+	char	**line_split; 
 
 	ret = 1;
 	fd = open(file_name, O_RDONLY);
@@ -99,37 +115,115 @@ int			ft_read_file_map(char *file_name, t_input *mapfile)
 		ret = get_next_line(fd, &line);
 		if (ret < 0)
 			return (ft_put_error("file not found"));
-		line_split = ft_split(line,' ');
-		result = ft_check_resolution(line_split, &mapfile->resolution);
-		printf("%d %d\n",mapfile->resolution.width,mapfile->resolution.height); //borrar
-		result = ft_check_ceiling(line_split, &mapfile->ceiling);
-		printf("%d %d %d\n",mapfile->ceiling.red,mapfile->ceiling.green, mapfile->ceiling.blue); //borrar
-		result = ft_check_floor(line_split, &mapfile->floor);
-		printf("%d %d %d\n",mapfile->floor.red,mapfile->floor.green, mapfile->floor.blue); //borrar
-		result = ft_check_north_texture(line_split, &mapfile->no_texture);
-		printf("%s\n", mapfile->no_texture); //borrar
-		result = ft_check_south_texture(line_split, &mapfile->so_texture); // revisar, no se puso &mapfile
-		printf("%s\n", mapfile->so_texture); //borrar
-		result = ft_check_east_texture(line_split, &mapfile->ea_texture); // revisar, no se puso &mapfile
-		printf("%s\n", mapfile->ea_texture); //borrar
-		result = ft_check_west_texture(line_split, &mapfile->we_texture); // revisar, no se puso &mapfile
-		printf("%s\n", mapfile->we_texture); //borrar
-		result = ft_check_sprite_texture(line_split, &mapfile->sprite); // revisar, no se puso &mapfile
-		printf("%s\n", mapfile->sprite); //borrar
+		if (ft_check_complete_elements(mapfile))
+		{
+			if (ft_isemptyline(line) && mapfile->map == NULL)
+				continue ;
+			ft_fill_map(line, mapfile);
+			print_map(mapfile->map);
+		}
+		else
+		{
+			line_split = ft_split(line, ' ');
+			ft_fill_elements(line_split, mapfile);
+		}
+		printfs(mapfile);
+
 /*
         i = 0;
-        while (i < ft_count_words(line, ' '))
+        while (i < ft_count_words(line, ' ')) 
         {
 			ft_putstr(line_split[i]);
       		ft_putstr(",");
 			i++;
 		}
 */
-		ft_putstr("\n");
 		free(line);
+		printf("\n");
 	}
 	return (0);
 }
+
+int		ft_fill_elements(char **line_split, t_input *mapfile)
+{
+	int		result;	
+
+	result = ft_check_resolution(line_split, &mapfile->resolution);
+	result = ft_check_ceiling(line_split, &mapfile->ceiling);
+	result = ft_check_floor(line_split, &mapfile->floor);
+	result = ft_check_north_texture(line_split, &mapfile->no_texture);
+	result = ft_check_south_texture(line_split, &mapfile->so_texture); 
+	result = ft_check_east_texture(line_split, &mapfile->ea_texture); 
+	result = ft_check_west_texture(line_split, &mapfile->we_texture); 
+	result = ft_check_sprite_texture(line_split, &mapfile->sprite);
+	return (result);		
+}
+
+// int             ft_fill_map(char *line, t_input *mapfile)
+// {
+// 	int i;
+
+// 	i = 0;
+// 	if (ft_check_valid_char(line))
+// 	{
+// 		printf("pollo malo %s\n",line);
+
+// 		*mapfile->map = ft_strdup(line);
+
+// 		printf("pollooooooo %s\n",line);
+// 		mapfile->map++;
+// 		printf("hambreeee %s\n",line);
+// 	}
+// 	return (0);
+// }
+
+
+void printfs(t_input *mapfile)
+{
+	printf("%d %d\n",mapfile->resolution.width,mapfile->resolution.height); //borrar
+	printf("%d %d %d\n",mapfile->ceiling.red,mapfile->ceiling.green, mapfile->ceiling.blue); //borrar
+	printf("%d %d %d\n",mapfile->floor.red,mapfile->floor.green, mapfile->floor.blue); //borrar
+	printf("%s\n", mapfile->no_texture); //borrar
+	printf("%s\n", mapfile->so_texture); //borrar
+	printf("%s\n", mapfile->ea_texture); //borrar
+	printf("%s\n", mapfile->we_texture); //borrar
+	printf("%s\n", mapfile->sprite); //borrar
+}
+
+void print_map(char **map)
+{
+	int i = 0;
+	while (map[i] != NULL)
+	{
+
+		printf("mapa %s\n",map[i]);
+		i++;
+	}
+}
+
+
+
+
+
+// 	}
+
+
+
+
+// }
+
+
+// 		if (line[i][j] == 'N' || line[i][j] == 'S' || line[i][j] == 'E' ||
+// 			line[i][j] == 'W')
+// 		{
+// 			if (map->start_pos_x == -1 && map->start_pos_y == -1)
+
+
+	// 	if (line[i][j] != 1)
+	// 		return (ft_put_error("invalid character in the map"));
+
+	// }
+
 
 int		ft_check_resolution(char **line, t_screen *resolution)
 {
@@ -141,11 +235,9 @@ int		ft_check_resolution(char **line, t_screen *resolution)
 	// 	printf("helo %d %s\n", i, line[i]);
 	// 	i++;
 	// }
-	if (line[0] && (ft_strncmp(line[0],"R", 1) == 0))
+	if (line[0] && (ft_strcmp(line[0], "R") == 0))
 	{
 		if (resolution->width >= 0 || resolution->height >= 0)
-			// printf(" WIDTH IS %d\n", resolution->width);
-			// printf(" HEIGHT IS %d\n", resolution->height);
 			return (ft_put_error("argument(s) for RES already exist(s)"));
 		if (ft_array_size(line) != 3)
 			return (ft_put_error("wrong number of arguments for RES"));
@@ -173,16 +265,7 @@ int		ft_check_resolution(char **line, t_screen *resolution)
 
 int		ft_check_ceiling(char **line, t_color *ceiling)
 {
-/*
-	int i;
-	i = 0;
-	while(line[i])
-	{
-		printf("helo %d %s\n", i, line[i]);
-		i++;
-	}
-*/
-	if (line[0] && (ft_strncmp(line[0],"C", 1) == 0))
+	if (line[0] && (ft_strcmp(line[0], "C") == 0))
 	{
 		if (ceiling->red >= 0 || ceiling->green >= 0 || ceiling->blue >= 0)
 			return (ft_put_error("argument(s) already for ceiling exist(s)"));
@@ -209,7 +292,7 @@ int		ft_check_ceiling(char **line, t_color *ceiling)
 
 int		ft_check_floor(char **line, t_color *floor)
 {
-	if (line[0] && (ft_strncmp(line[0],"F", 1) == 0))
+	if (line[0] && (ft_strcmp(line[0], "F") == 0))
 	{
 		if (floor->red >= 0 || floor->green >= 0 || floor->blue >= 0)
 			return (ft_put_error("argument(s) already for floor exist(s)"));
@@ -236,7 +319,7 @@ int		ft_check_floor(char **line, t_color *floor)
 
 int		ft_check_north_texture(char **line, char **north_path)
 {
-	if (line[0] && (ft_strncmp(line[0],"NO", 2) == 0))
+	if (line[0] && (ft_strcmp(line[0], "NO") == 0))
 	{
 		if (*north_path != NULL)
 			return (ft_put_error("argument(s) already for NO exist(s)"));
@@ -244,7 +327,8 @@ int		ft_check_north_texture(char **line, char **north_path)
 			return (ft_put_error("more arguments than expected for NO text."));
 		if (!line[1])
 			return (ft_put_error("invalid arguments for NO texture"));
-		*north_path = line[1];
+		if (ft_check_path(line[1]))
+			*north_path = line[1];
 		printf("north texture %s\n", *north_path); // borrar
 	}
 	return (0);
@@ -252,7 +336,7 @@ int		ft_check_north_texture(char **line, char **north_path)
 
 int		ft_check_south_texture(char **line, char **south_path)
 {
-	if (line[0] && (ft_strcmp(line[0],"SO") == 0))
+	if (line[0] && (ft_strcmp(line[0], "SO") == 0))
 	{
 		if (*south_path != NULL)
 			return (ft_put_error("argument(s) already for SO exist(s)"));
@@ -260,7 +344,8 @@ int		ft_check_south_texture(char **line, char **south_path)
 			return (ft_put_error("more arguments than expected for SO text."));
 		if (!line[1])
 			return (ft_put_error("invalid arguments for SO texture"));
-		*south_path = line[1];
+		if (ft_check_path(line[1]))
+			*south_path = line[1];
 		printf("south texture %s\n", *south_path); // borrar
 	}
 	return (0);
@@ -268,7 +353,7 @@ int		ft_check_south_texture(char **line, char **south_path)
 
 int		ft_check_west_texture(char **line, char **west_path)
 {
-	if (line[0] && (ft_strncmp(line[0],"WE", 2) == 0))
+	if (line[0] && (ft_strcmp(line[0], "WE") == 0))
 	{
 		if (*west_path != NULL)
 			return (ft_put_error("argument(s) already for WE exist(s)"));
@@ -276,7 +361,8 @@ int		ft_check_west_texture(char **line, char **west_path)
 			return (ft_put_error("more arguments than expected for WE text."));
 		if (!line[1])
 			return (ft_put_error("invalid arguments WE texture"));
-		*west_path = line[1];
+		if (ft_check_path(line[1]))
+			*west_path = line[1];
 		printf("west texture %s\n", *west_path); // borrar
 	}
 	return (0);
@@ -284,7 +370,7 @@ int		ft_check_west_texture(char **line, char **west_path)
 
 int		ft_check_east_texture(char **line, char **east_path)
 {
-	if (line[0] && (ft_strncmp(line[0],"EA", 2) == 0))
+	if (line[0] && (ft_strcmp(line[0], "EA") == 0))
 	{
 		if (*east_path != NULL)
 			return (ft_put_error("argument(s) already for EA exist(s)"));
@@ -292,7 +378,8 @@ int		ft_check_east_texture(char **line, char **east_path)
 			return (ft_put_error("more arguments than expected for EA text."));
 		if (!line[1])
 			return (ft_put_error("invalid arguments for EA texture"));
-		*east_path = line[1];
+		if (ft_check_path(line[1]))
+			*east_path = line[1];
 		printf("east texture %s\n", *east_path); // borrar
 	}
 	return (0);
@@ -300,7 +387,7 @@ int		ft_check_east_texture(char **line, char **east_path)
 
 int		ft_check_sprite_texture(char **line, char **sprite_path)
 {
-	if (line[0] && (ft_strcmp(line[0],"S") == 0))
+	if (line[0] && (ft_strcmp(line[0], "S") == 0))
 	{
 		if (*sprite_path != NULL)
 			return (ft_put_error("argument(s) already for sprite exist(s)"));
@@ -308,11 +395,47 @@ int		ft_check_sprite_texture(char **line, char **sprite_path)
 			return (ft_put_error("more arguments than expected for texture"));
 		if (!line[1])
 			return (ft_put_error("invalid arguments for sprite texture"));
-		*sprite_path = line[1];
+		if (ft_check_path(line[1]))
+			*sprite_path = line[1];
 		printf("sprite texture %s\n", *sprite_path); // borrar
 	}
 	return (0);
 }
+
+
+int		ft_check_path(char *str)
+{
+	int		ret;
+	int		i;
+
+	i = 0;
+	if (str[i] != '.')
+		return (ft_put_error("invalid path"));
+	if (!ft_check_extension(str, XPM) && !ft_check_extension(str, PNG))
+		return (ft_put_error("invalid extension for texture"));
+	ret = open(str, O_RDONLY);
+	printf("valor: %d\n",ret );
+	if (ret < 0)
+		return (ft_put_error("file does not exist."));
+	close(ret);
+	return (1);
+}
+
+/*
+int		ft_check_map_array()
+{
+
+
+}
+
+
+int ft_read_map(char **map_array)
+{
+
+
+
+}
+*/
 
 int			main(int argc, char **argv)
 {
@@ -320,17 +443,6 @@ int			main(int argc, char **argv)
 	int		error;
 	t_input	file_map;
 	int		result;
-
-	int	i;
-
-	i = 0;
-	while (argv[i])
-	{
-		printf("helo %d %s\n", i, argv[i]);
-		i++;
-	}
-
-
 
 
 	error = 0;
@@ -340,15 +452,15 @@ int			main(int argc, char **argv)
 		return (ft_put_error("too many arguments"));
 	if (argc >= 2)
 	{
-		if (ft_check_file_type(argv[1]) == -1)
+		
+		if (!ft_check_extension(argv[1], CUB))
 		{
 			ft_put_error("wrong extension in map file");
 			error++;
 		}
 		if (argc == 3)
 		{
-			screenshot = ft_strcmp(argv[2], "--save");
-			if (screenshot == 0)
+			if (ft_strcmp(argv[2], "--save") == 0)
 				screenshot = 1;
 			else
 			{
@@ -359,24 +471,23 @@ int			main(int argc, char **argv)
 	}
 	if (error > 0)
 		return (0);
-	// file_map = ft_read_file_map(argv[1]);
 	ft_reset_input(&file_map);
 	result = ft_read_file_map(argv[1], &file_map);
 	if (result == -1)
 		return (-1);
-	ft_check_final_elements(&file_map);
+	if (!ft_check_complete_elements(&file_map))
+		return (ft_put_error("Scene map incomplete. Complete to continue"));
 	// if (file_map == NULL)
 	// 	return (-1);
+
 	return (0);
+
+	
 }
 /*
 $ gcc parsing.c ft_split.c gnl/get_next_line.c cub3d_utils.c
 
 solo puede existir un elemento de cada tipo:  una sola R, una sola C, F, etc..
-south texture y sprite lo estan leyendo dos veces
+
 para los colores se podria usar unsigned char, ya que su rango es de 0 - 255
-22Jjul
-- como hacer para imprimir line[1] cuando la funcion tiene doble *? Quiero saber que tiene el contenido de line int ft_check_north_texture(char **line, char **north_path)
-esto antes de entrar al condicional if
-- validar tambien si me hace falta un elemento genere error, como hacerlo?
 */

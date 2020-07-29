@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   get_next_line_utils.c                              :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dsalaman <marvin@codam.nl>                   +#+                     */
+/*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/01/15 13:30:07 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/02/12 10:58:15 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/07/24 16:24:54 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,16 @@ char		*ft_substr(char *s, unsigned int start, size_t len)
 	return (string);
 }
 
-int			ft_strlen(char const *s)
+size_t		ft_strlen(const char *s)
 {
-	int		count;
+	size_t len;
 
-	count = 0;
-	while (s[count] != '\0')
-		count++;
-	return (count);
+	len = 0;
+	while (s[len] != '\0')
+	{
+		len++;
+	}
+	return (len);
 }
 
 char		*ft_strdup(const char *s1)

@@ -6,7 +6,7 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/13 14:38:08 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/07/20 19:50:37 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/07/28 18:52:29 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,44 +39,34 @@ void	ft_putstr_fd(char *s, int fd)
 
 int		ft_put_error(char *error)
 {
-	ft_putstr_fd("\nError: ", 1);
+	ft_putstr_fd("\nError:\n", 1);
 	ft_putstr_fd(error, 1);
 	ft_putstr_fd("\n", 1);
 	return(-1);
 }
 
-int			ft_strlen(char const *s)
-{
-	int		count;
 
-	count = 0;
-	while (s[count] != '\0')
-		count++;
-	return (count);
-}
 
-// size_t		ft_strlen(const char *s)
+// int			ft_strlen(char const *s)
 // {
-// 	size_t len;
+// 	int		count;
 
-// 	len = 0;
-// 	while (s[len] != '\0')
-// 	{
-// 		len++;
-// 	}
-// 	return (len);
+// 	count = 0;
+// 	while (s[count] != '\0')
+// 		count++;
+// 	return (count);
 // }
 
-int		ft_strncmp(const char *s1, const char *s2, size_t n)
+size_t		ft_strlen(const char *s)
 {
-	size_t i;
+	size_t len;
 
-	i = 0;
-	if (n == 0)
-		return (0);
-	while ((i < n - 1) && s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
-		i++;
-	return ((int)((unsigned const char)s1[i] - (unsigned const char)s2[i]));
+	len = 0;
+	while (s[len] != '\0')
+	{
+		len++;
+	}
+	return (len);
 }
 
 char		*ft_strdup(const char *s1)
@@ -175,7 +165,23 @@ char		*ft_strjoin(char *s1, char *s2)
 int 		ft_iswhitespace(char c)
 {
 	return (c == '\t' || c == '\n' || c == ' ' || c == '\v' || c == '\f'
-		|| c == '\r'  );
+		|| c == '\r');
+}
+
+int ft_isemptyline(char *str)
+{
+	int i;
+
+	i = 0;
+	if (str[i] == '\0')
+		return (1);
+	while (str[i] != '\0')
+	{
+		if (!ft_iswhitespace(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
 int				ft_atoi(const char *str)
@@ -187,7 +193,7 @@ int				ft_atoi(const char *str)
 	i = 0;
 	result = 0;
 	sign = 1;
-	while ((str[i] >= 9 && str[i] <= 13) || str[i] == ' ')
+	while (ft_iswhitespace(str[i]))
 		i++;
 	if (str[i] == '-')
 		sign *= -1;
@@ -205,7 +211,6 @@ int				ft_atoi(const char *str)
 	return (sign * result);
 }
 
-
 int		ft_isnumber(char *str)
 {
 	int i;
@@ -220,5 +225,15 @@ int		ft_isnumber(char *str)
 		i++;
 	}
 	return (1);
+}
+
+int		ft_strcmp(const char *s1, const char *s2)
+{
+	size_t i;
+
+	i = 0;
+	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
+		i++;
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
 

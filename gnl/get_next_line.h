@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   get_next_line.h                                    :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dsalaman <marvin@codam.nl>                   +#+                     */
+/*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/01/14 16:10:20 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/02/12 10:59:39 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/07/24 16:28:14 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@
 # include <stdlib.h>
 
 int		get_next_line(int fd, char **line);
-int		ft_strlen(char const *s);
 char	*ft_substr(char *s, unsigned int start, size_t len);
 char	*ft_strdup(const char *s1);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strjoin(char *s1, char *s2);
+size_t	ft_strlen(const char *s);
 
 #endif
