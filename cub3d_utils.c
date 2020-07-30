@@ -165,6 +165,11 @@ int					ft_iswhitespace(char c)
 		|| c == '\r');
 }
 
+int					ft_istab(char c)
+{
+	return (c == '\t' || c == '\v' || c == '\f' || c == '\r');
+}
+
 int					ft_isemptyline(char *str)
 {
 	int 			i;

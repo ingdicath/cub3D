@@ -87,6 +87,7 @@ void			ft_putstr(char *str);
 void			ft_putchar(char c);
 int				ft_atoi(const char *str);
 int				ft_isnumber(char *str);
+int				ft_istab(char c);
 
 /*
 ** ---------- Parsing functions ---------------
@@ -110,7 +111,7 @@ int				ft_check_extension(char *file_name, char *valid_ext);
 int				ft_check_valid_char(char *line);
 int				ft_fill_elements(char **line_split, t_input *mapfile);
 int				ft_fill_map(char *line, t_input *mapfile);
-char			*ft_join_lines(char *file_name, t_input *mapfile);//REVISAR
+char			*ft_join_lines(char *line, char *new_line);//REVISAR
 
 void			printfs(t_input *mapfile);//BORRAR
 void			print_map(char **map);//BORRAR

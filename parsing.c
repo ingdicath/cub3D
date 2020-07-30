@@ -106,17 +106,12 @@ int			ft_read_file_map(char *file_name, t_input *mapfile)
 	char	*line;
 	char	*join_lines;//new
 	char	**line_split;
-	int		length;//new
 
-	length = 0;//new
 	ret = 1;
 	fd = open(file_name, O_RDONLY);
 	if (fd < 0)
 		return (ft_put_error("cannot open .cub map file"));
-	length = ft_strlen(line);//new
-	join_line = malloc(sizeof)(char) * (length + 1);//new
-
-
+	
 	while (ret > 0)
 	{
 		ret = get_next_line(fd, &line);
@@ -126,7 +121,7 @@ int			ft_read_file_map(char *file_name, t_input *mapfile)
 		{
 			if (ft_isemptyline(line) && mapfile->map == NULL)
 				continue ;
-			// ft_join_lines(file_name, mapfile);///// REVISAR FUNCION
+			join_lines = ft_join_lines(line, join_lines);///// REVISAR FUNCION
 			ft_fill_map(line, mapfile);///
 			print_map(mapfile->map);
 		}
@@ -168,18 +163,19 @@ int			ft_fill_elements(char **line_split, t_input *mapfile)
 	return (result);
 }
 
-char		*ft_join_lines(char *line)
+char		*ft_join_lines(char *line, char *new_line)
 {
 	int		ret;
 	int		fd;
-	char	*new_line;
 	int		length;
 
-	length = 0;
+	length = ft_strlen(line);//new
+	// new_line = malloc((sizeof(char) * (length + 1)));//new
+	fd = 0;
 	ret = 1;
 	while (ret > 0)
 	{
-		new_line = malloc(sizeof(char) * (length+ 1));
+		new_line = malloc(sizeof(char) * (length + 1));
 		if (new_line == 0)
 		{
 			free(new_line);
@@ -191,16 +187,16 @@ char		*ft_join_lines(char *line)
 			free(new_line);
 			return (NULL);
 		}
-		return (line);
+		ft_strjoin(line, new_line);
 	}
-
+	return (line);
 }
 
 
 int			ft_fill_map(char *line, t_input *mapfile)
 {
 	int		i;
-	int		join_lines;
+	// int		join_lines;
 
 	i = 0;
 	if (ft_check_valid_char(line))
@@ -490,8 +486,10 @@ int			main(int argc, char **argv)
 }
 /*
 $ gcc parsing.c ft_split.c gnl/get_next_line.c cub3d_utils.c -fsanitize=address
+gcc -Wall -Werror -Wextra parsing.c ft_split.c gnl/get_next_line.c cub3d_utils.c -fsanitize=address
 
 solo puede existir un elemento de cada tipo:  una sola R, una sola C, F, etc..
 
 para los colores se podria usar unsigned char, ya que su rango es de 0 - 255
+se podria poner una condicion para que solo acepte espacios
 */
