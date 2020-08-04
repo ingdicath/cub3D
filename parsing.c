@@ -6,7 +6,7 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/22 13:15:55 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/07/28 21:40:14 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/07/31 17:31:25 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,38 @@ int ft_check_valid_char(char *line)
 		if (line[i] != '0' && line[i] != '1' && line[i] != '2' &&
 			line[i] != ' ' && line[i] != 'N' && line[i] != 'S' &&
 			line[i] != 'W' && line[i] != 'E')
-			return (ft_put_error("invalid character in the map"));
+			return (0);
 		i++;
 	}
+	return (1);
+}
+
+int ft_check_unique_orientation(t_map *map)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (map->data[i] != NULL)
+	{
+		j = 0;
+		while (map->data[i][j] != '\0')
+		{
+			if (map->data[i][j] == 'N' || map->data[i][j] == 'S' || map->data[i][j] == 'W' ||
+				map->data[i][j] == 'E')
+			{
+				if (map->orientation != '\0')
+					return (0);
+				map->orientation = map->data[i][j];
+				map->start_pos.row = i;
+				map->start_pos.column = j;
+			}
+			j++;
+		}
+		i++;
+	}
+	if (map->orientation == '\0')
+		return (0);		
 	return (1);
 }
 
@@ -58,9 +87,10 @@ void	ft_reset_input(t_input *mapfile)
 	mapfile->ea_texture = NULL;
 	mapfile->we_texture = NULL;
 	mapfile->sprite = NULL;
-	mapfile->map = NULL;
-	mapfile->start_pos_x = -1;
-	mapfile->start_pos_y = -1;
+	mapfile->map.data = NULL;
+	mapfile->map.orientation = '\0';
+	mapfile->map.start_pos.row = -1;
+	mapfile->map.start_pos.column = -1;
 }
 
 int		ft_check_complete_elements(t_input *mapfile)
@@ -104,7 +134,6 @@ int			ft_read_file_map(char *file_name, t_input *mapfile)
 	int		ret;
 	int		fd;
 	char	*line;
-	char	*join_lines;//new
 	char	**line_split;
 
 	ret = 1;
@@ -119,17 +148,22 @@ int			ft_read_file_map(char *file_name, t_input *mapfile)
 			return (ft_put_error("file not found"));
 		if (ft_check_complete_elements(mapfile))
 		{
-			if (ft_isemptyline(line) && mapfile->map == NULL)
+			if (ft_isemptyline(line) && mapfile->map.data == NULL)
 				continue ;
-			join_lines = ft_join_lines(line, join_lines);///// REVISAR FUNCION
-			ft_fill_map(line, mapfile);///
-			print_map(mapfile->map);
+			if (!ft_check_valid_char(line))
+				return (ft_put_error("invalid character in the map"));
+			mapfile->map.data = ft_join_lines(mapfile->map.data, line);
+			print_map(mapfile->map.data);//borrar
 		}
 		else
 		{
 			line_split = ft_split(line, ' ');
 			ft_fill_elements(line_split, mapfile);
 		}
+		
+
+
+
 		printfs(mapfile);
 
 /*
@@ -163,51 +197,27 @@ int			ft_fill_elements(char **line_split, t_input *mapfile)
 	return (result);
 }
 
-char		*ft_join_lines(char *line, char *new_line)
+char		**ft_join_lines(char **matrix, char *new_line)
 {
-	int		ret;
-	int		fd;
-	int		length;
-
-	length = ft_strlen(line);//new
-	// new_line = malloc((sizeof(char) * (length + 1)));//new
-	fd = 0;
-	ret = 1;
-	while (ret > 0)
+	int rows;
+	char **new_matrix;
+	
+	rows = 0;
+	while (matrix != NULL && matrix[rows])
+		rows++;
+	new_matrix = (char **)malloc(sizeof(char *) * (rows + 2));
+	if (!new_matrix)
+		return (NULL);
+	rows = 0;
+	while (matrix != NULL && matrix[rows])
 	{
-		new_line = malloc(sizeof(char) * (length + 1));
-		if (new_line == 0)
-		{
-			free(new_line);
-			return (NULL);
-		}
-		ret = read(fd, new_line, length);
-		if (ret < 0)
-		{
-			free(new_line);
-			return (NULL);
-		}
-		ft_strjoin(line, new_line);
+		new_matrix[rows] = matrix[rows];
+		rows++;
 	}
-	return (line);
-}
-
-
-int			ft_fill_map(char *line, t_input *mapfile)
-{
-	int		i;
-	// int		join_lines;
-
-	i = 0;
-	if (ft_check_valid_char(line))
-	{
-		printf("pollo malo %s\n",line);//borrar
-		*mapfile->map = ft_strdup(line);
-		printf("pollooooooo %s\n",line);//borrar
-		mapfile->map++;
-		printf("hambreeee %s\n",line);//borrar
-	}
-	return (0);
+	new_matrix[rows] = ft_strdup(new_line);
+	rows++;
+	new_matrix[rows] = NULL;
+	return (new_matrix);
 }
 
 void printfs(t_input *mapfile)
@@ -227,7 +237,6 @@ void print_map(char **map)
 	int i = 0;
 	while (map[i] != NULL)
 	{
-
 		printf("mapa %s\n",map[i]);
 		i++;
 	}
@@ -453,8 +462,7 @@ int			main(int argc, char **argv)
 	if (argc > 3)
 		return (ft_put_error("too many arguments"));
 	if (argc >= 2)
-	{
-		
+	{	
 		if (!ft_check_extension(argv[1], CUB))
 		{
 			ft_put_error("wrong extension in map file");
@@ -479,9 +487,14 @@ int			main(int argc, char **argv)
 		return (-1);
 	if (!ft_check_complete_elements(&file_map))
 		return (ft_put_error("Scene map incomplete. Complete to continue"));
+	if (!ft_check_unique_orientation(&file_map.map))
+		return (ft_put_error("check orientation in the map"));
 	// if (file_map == NULL)
 	// 	return (-1);
-
+	// while(1)
+	// {
+		
+	// }
 	return (0);
 }
 /*

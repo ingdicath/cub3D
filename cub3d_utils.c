@@ -6,7 +6,7 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/29 12:55:18 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/07/29 12:55:49 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/07/31 14:27:46 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,11 +165,6 @@ int					ft_iswhitespace(char c)
 		|| c == '\r');
 }
 
-int					ft_istab(char c)
-{
-	return (c == '\t' || c == '\v' || c == '\f' || c == '\r');
-}
-
 int					ft_isemptyline(char *str)
 {
 	int 			i;
@@ -218,7 +213,7 @@ int					ft_isnumber(char *str)
 	int 			i;
 
 	i = 0;
-	if (str[i] == '-')
+	if (str[i] == '-' || str[i] == '+')
 		i++;
 	while (str[i] != '\0')
 	{

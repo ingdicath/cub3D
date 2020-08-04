@@ -6,7 +6,7 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/29 11:20:00 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/07/29 11:37:18 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/07/31 15:20:57 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,19 @@ typedef struct	s_screen
 	int			height;
 }				t_screen;
 
+typedef struct 	s_pos
+{
+	int 		row;
+	int 		column;
+}				t_pos;
+
+typedef struct	s_map
+{
+	char		**data;
+	char		orientation;
+	t_pos		start_pos;
+}				t_map;
+
 typedef struct	s_input
 {
 	char		*no_texture;
@@ -50,21 +63,14 @@ typedef struct	s_input
 	t_color		ceiling;
 	t_color		floor;
 	t_screen	resolution;
-	char		**map;
-	int			start_pos_x;
-	int			start_pos_y;
+	t_map		map;
 }				t_input;
 
 /*
 ** Verificar como trabajar el mapa
 */
 
-typedef struct	s_map
-{
-	char		**map_array;
-	int			map_width;
-	int			map_height;
-}				t_map;
+
 
 /*
 ** ---------- Auxiliary functions ----------
@@ -87,7 +93,6 @@ void			ft_putstr(char *str);
 void			ft_putchar(char c);
 int				ft_atoi(const char *str);
 int				ft_isnumber(char *str);
-int				ft_istab(char c);
 
 /*
 ** ---------- Parsing functions ---------------
@@ -110,8 +115,8 @@ int				ft_check_path(char *str);
 int				ft_check_extension(char *file_name, char *valid_ext);
 int				ft_check_valid_char(char *line);
 int				ft_fill_elements(char **line_split, t_input *mapfile);
-int				ft_fill_map(char *line, t_input *mapfile);
-char			*ft_join_lines(char *line, char *new_line);//REVISAR
+char			**ft_join_lines(char **matrix, char *new_line);
+int				ft_check_unique_orientation(t_map *map);
 
 void			printfs(t_input *mapfile);//BORRAR
 void			print_map(char **map);//BORRAR
