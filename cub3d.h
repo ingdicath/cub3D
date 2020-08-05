@@ -19,6 +19,15 @@
 # define CUB ".cub"
 # define XPM ".xpm"
 # define PNG ".png"
+# define ESC 53
+# define LEFT 123
+# define RIGHT 124
+# define UP 126
+# define DOWN 125
+# define W_UP 13
+# define A_LEFT 0
+# define S_DOWN 1
+# define D_RIGHT 2
 
 # include <stdlib.h>
 # include <unistd.h>
@@ -66,6 +75,26 @@ typedef struct	s_input
 	t_map		map;
 }				t_input;
 
+
+
+/*
+** Verificar como trabajar el mapa
+*/
+
+
+
+
+typedef struct s_ray
+{
+	double		pos_x;
+	double		pos_y;
+	double		dir_x;
+	double		dir_y;
+	double		plane_x;
+	double		plane_y;
+	double		time;
+	double		oldTime;
+}				t_ray;
 /*
 ** Verificar como trabajar el mapa
 */

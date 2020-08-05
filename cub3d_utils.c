@@ -213,7 +213,7 @@ int					ft_isnumber(char *str)
 	int 			i;
 
 	i = 0;
-	if (str[i] == '-' || str[i] == '+')
+	if (str[i] == '-')
 		i++;
 	while (str[i] != '\0')
 	{

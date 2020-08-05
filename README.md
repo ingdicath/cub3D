@@ -68,5 +68,15 @@ https://es.wikipedia.org/wiki/Matriz_de_rotaci%C3%B3n
 ## USEFUL LINKS
 
 - [Wolfenstein 3D's map renderer](https://www.youtube.com/watch?v=eOCQfxRQ2pY)
+- [mlx tutorial](https://harm-smits.github.io/42docs/libs/minilibx.html)
+
+compile in this way
 
 
+```
+gcc main.c -Wall -Wextra -Werror -Lmlx -lmlx -framework OpenGL -framework AppKit
+
+```
+- It must have to do make into the mlx folder in order to get libmlx.dylib library, and put it in the root of the project
+
+- [Key codes](https://eastmanreference.com/complete-list-of-applescript-key-codes)
