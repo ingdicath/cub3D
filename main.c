@@ -1,4 +1,4 @@
-#include <mlx.h>
+#include "mlx.h"
 
 // OPERATION #1: open a new window
 // int main(void)

@@ -64,3 +64,9 @@ I found however that it's much easier to work with vectors and a camera instead:
 - Matriz de rotacion
 https://es.wikipedia.org/wiki/Matriz_de_rotaci%C3%B3n
 
+
+## USEFUL LINKS
+
+- [Wolfenstein 3D's map renderer](https://www.youtube.com/watch?v=eOCQfxRQ2pY)
+
+
