@@ -1,4 +1,4 @@
-#include <mlx.h>
+#include "mlx.h"
 
 
 /* DRAWING A FIGURE*/
@@ -90,7 +90,7 @@ int main (void)
 /* HOOKING INTO EVENTS - using mlx_hook no funciona . 
 Esto se supone es para cerrar una ventana cuando se presiona una tecla */ 
 
-
+/*
 typedef struct s_vars
 {
 	void		*mlx;
@@ -114,7 +114,7 @@ int main (void)
     mlx_hook(vars.win, 2, 1L<<0, close, &vars);
     mlx_loop(vars.mlx);
 }
-
+*/
 
 /* ---------------------------------------------------------------------------- */
 
@@ -140,7 +140,7 @@ int main (void)
 /* READING AN IMAGE */ 
 
 // Put xpm and png at the same time
-/*
+
 int main (void)
 {
 	void		*mlx;
@@ -163,7 +163,7 @@ int main (void)
     mlx_put_image_to_window(mlx, mlx_win, img, 350, 250);
     mlx_loop(mlx);
 }
-*/
+
 
 // compile gcc main.c -Wall -Wextra -Werror -Lmlx -lmlx -framework OpenGL -framework AppKit
 // It must have to do make into the mlx folder in order to get libmlx.dylib library, 

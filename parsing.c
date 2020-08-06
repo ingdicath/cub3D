@@ -6,7 +6,7 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/22 13:15:55 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/07/31 17:31:25 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/06 14:18:53 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int			ft_check_extension(char *file_name, char *valid_ext)
 	return (0);
 }
 
-int ft_check_valid_char(char *line)
+int		ft_check_valid_char(char *line)
 {
 	int i;
 
@@ -43,7 +43,7 @@ int ft_check_valid_char(char *line)
 	return (1);
 }
 
-int ft_check_unique_orientation(t_map *map)
+int		ft_check_unique_orientation(t_map *map)
 {
 	int i;
 	int j;
@@ -54,8 +54,8 @@ int ft_check_unique_orientation(t_map *map)
 		j = 0;
 		while (map->data[i][j] != '\0')
 		{
-			if (map->data[i][j] == 'N' || map->data[i][j] == 'S' || map->data[i][j] == 'W' ||
-				map->data[i][j] == 'E')
+			if (map->data[i][j] == 'N' || map->data[i][j] == 'S' ||
+				map->data[i][j] == 'W' || map->data[i][j] == 'E')
 			{
 				if (map->orientation != '\0')
 					return (0);
@@ -68,7 +68,7 @@ int ft_check_unique_orientation(t_map *map)
 		i++;
 	}
 	if (map->orientation == '\0')
-		return (0);		
+		return (0);
 	return (1);
 }
 
@@ -140,7 +140,6 @@ int			ft_read_file_map(char *file_name, t_input *mapfile)
 	fd = open(file_name, O_RDONLY);
 	if (fd < 0)
 		return (ft_put_error("cannot open .cub map file"));
-	
 	while (ret > 0)
 	{
 		ret = get_next_line(fd, &line);
@@ -160,11 +159,7 @@ int			ft_read_file_map(char *file_name, t_input *mapfile)
 			line_split = ft_split(line, ' ');
 			ft_fill_elements(line_split, mapfile);
 		}
-		
-
-
-
-		printfs(mapfile);
+		printfs(mapfile);//borrar
 
 /*
         i = 0;
@@ -199,9 +194,9 @@ int			ft_fill_elements(char **line_split, t_input *mapfile)
 
 char		**ft_join_lines(char **matrix, char *new_line)
 {
-	int rows;
-	char **new_matrix;
-	
+	int		rows;
+	char	**new_matrix;
+
 	rows = 0;
 	while (matrix != NULL && matrix[rows])
 		rows++;
@@ -241,18 +236,6 @@ void print_map(char **map)
 		i++;
 	}
 }
-
-// 		if (line[i][j] == 'N' || line[i][j] == 'S' || line[i][j] == 'E' ||
-// 			line[i][j] == 'W')
-// 		{
-// 			if (map->start_pos_x == -1 && map->start_pos_y == -1)
-
-
-	// 	if (line[i][j] != 1)
-	// 		return (ft_put_error("invalid character in the map"));
-
-	// }
-
 
 int		ft_check_resolution(char **line, t_screen *resolution)
 {
@@ -462,7 +445,7 @@ int			main(int argc, char **argv)
 	if (argc > 3)
 		return (ft_put_error("too many arguments"));
 	if (argc >= 2)
-	{	
+	{
 		if (!ft_check_extension(argv[1], CUB))
 		{
 			ft_put_error("wrong extension in map file");

@@ -6,7 +6,7 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/29 11:20:00 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/07/31 15:20:57 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/06 14:54:40 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,20 @@
 /*
 ** ---------- Extensions ----------
 */
-# define CUB ".cub"
-# define XPM ".xpm"
-# define PNG ".png"
-# define ESC 53
-# define LEFT 123
-# define RIGHT 124
-# define UP 126
-# define DOWN 125
-# define W_UP 13
-# define A_LEFT 0
-# define S_DOWN 1
-# define D_RIGHT 2
+# define CUB 	".cub"
+# define XPM 	".xpm"
+# define PNG 	".png"
+/*
+** ---------- Movements ----------
+*/
+# define KEY_A 	0
+# define KEY_S 	1
+# define KEY_D 	2
+# define KEY_W 	13
+# define ESC 	53
+# define LEFT 	123
+# define RIGHT 	124
+
 
 # include <stdlib.h>
 # include <unistd.h>
@@ -36,6 +38,9 @@
 # include "mlx/mlx.h"
 # include "gnl/get_next_line.h"
 
+/*
+** ---------- Parsing structures ---------------
+*/
 typedef struct	s_color
 {
 	int			red;
@@ -75,32 +80,38 @@ typedef struct	s_input
 	t_map		map;
 }				t_input;
 
-
-
 /*
-** Verificar como trabajar el mapa
+** ---------- Raycasting structures ---------------
 */
 
-
-
-
-typedef struct s_ray
+typedef struct  s_mlx
 {
-	double		pos_x;
-	double		pos_y;
-	double		dir_x;
-	double		dir_y;
+	void		*mlx;
+    void 		*win; 
+    void        *img;
+    char        *address;
+    int         bits_per_pixel;
+    int         line_length;
+    int         endian;
+}               t_mlx;
+
+typedef struct s_game
+{
+	double		start_posx;
+	double		start_posy;
+	double		vector_dirx;
+	double		vector_diry;
 	double		plane_x;
 	double		plane_y;
 	double		time;
-	double		oldTime;
-}				t_ray;
-/*
-** Verificar como trabajar el mapa
-*/
+	double		old_time;
+}				t_game;
 
-
-
+typedef struct s_create
+{
+	t_mlx		mlx;
+	t_game		game;
+}			t_create;
 /*
 ** ---------- Auxiliary functions ----------
 */
