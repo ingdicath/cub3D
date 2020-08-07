@@ -6,7 +6,7 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/22 13:15:55 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/06 14:18:53 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/07 11:36:34 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -432,6 +432,39 @@ int		ft_check_path(char *str)
 	return (1);
 }
 
+// int 	ft_check_args(int argc, char **argv)
+// {
+// 	int		screenshot;
+// 	int		error;
+
+// 	error = 0;
+// 	if (argc < 2)
+// 		return (ft_put_error("at least one argument was expected"));
+// 	if (argc > 3)
+// 		return (ft_put_error("too many arguments"));
+// 	if (argc >= 2)
+// 	{
+// 		if (!ft_check_extension(argv[1], CUB))
+// 		{
+// 			ft_put_error("wrong extension in map file");
+// 			error++;
+// 		}
+// 		if (argc == 3)
+// 		{
+// 			if (ft_strcmp(argv[2], "--save") == 0)
+// 				screenshot = 1;
+// 			else
+// 			{
+// 				ft_put_error("wrong argument for screenshot");
+// 				error++;
+// 			}
+// 		}
+// 	}
+// 	if (error > 0)
+// 		return (0);
+// }
+
+
 int			main(int argc, char **argv)
 {
 	int		screenshot;
@@ -464,6 +497,7 @@ int			main(int argc, char **argv)
 	}
 	if (error > 0)
 		return (0);
+	// ft_check_args(argc, argv);
 	ft_reset_input(&file_map);
 	result = ft_read_file_map(argv[1], &file_map);
 	if (result == -1)

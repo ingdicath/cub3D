@@ -6,13 +6,12 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/29 11:20:00 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/06 14:54:40 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/07 17:01:16 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
-
 /*
 ** ---------- Extensions ----------
 */
@@ -22,13 +21,16 @@
 /*
 ** ---------- Movements ----------
 */
-# define KEY_A 	0
-# define KEY_S 	1
-# define KEY_D 	2
-# define KEY_W 	13
-# define ESC 	53
-# define LEFT 	123
-# define RIGHT 	124
+# define KEY_A 0
+# define KEY_S 1
+# define KEY_D 2
+# define KEY_W 13
+# define ESC 53
+# define LEFT 123
+# define RIGHT 124
+# define KEY_PRESS 2
+# define KEY_RELEASE 3
+# define DESTROY_NOTIFY 17
 
 
 # include <stdlib.h>
@@ -74,6 +76,7 @@ typedef struct	s_input
 	char		*ea_texture;
 	char		*we_texture;
 	char		*sprite;
+	int			screenshot;
 	t_color		ceiling;
 	t_color		floor;
 	t_screen	resolution;
@@ -87,13 +90,27 @@ typedef struct	s_input
 typedef struct  s_mlx
 {
 	void		*mlx;
-    void 		*win; 
-    void        *img;
-    char        *address;
-    int         bits_per_pixel;
-    int         line_length;
-    int         endian;
-}               t_mlx;
+	void		*window; 
+	void		*image;
+	char		*address;
+	int			bits_per_pixel;
+	int			line_length;
+	int			endian;
+	int 		width_texture;
+	int 		heigth_texture;
+}				t_mlx;
+
+typedef struct s_texture
+{
+	void		*texture;
+	void		*window; 
+	char		*address;
+	int			bits_per_pixel;
+	int			line_length;
+	int			endian;
+	int 		width_texture;
+	int 		heigth_texture;
+}				t_texture;
 
 typedef struct s_game
 {
@@ -107,10 +124,21 @@ typedef struct s_game
 	double		old_time;
 }				t_game;
 
+typedef struct s_moves   // o mejor llamarlo p
+{
+	int			move_up;
+	int			move_down;
+	int			move_right;
+	int			move_left;
+	int			rotate_right;
+	int			rotate_left;
+}				t_moves;
+
 typedef struct s_create
 {
 	t_mlx		mlx;
 	t_game		game;
+	t_screen	screen;
 }			t_create;
 /*
 ** ---------- Auxiliary functions ----------
@@ -157,6 +185,7 @@ int				ft_check_valid_char(char *line);
 int				ft_fill_elements(char **line_split, t_input *mapfile);
 char			**ft_join_lines(char **matrix, char *new_line);
 int				ft_check_unique_orientation(t_map *map);
+// int				ft_check_args(argc, argv);
 
 void			printfs(t_input *mapfile);//BORRAR
 void			print_map(char **map);//BORRAR
