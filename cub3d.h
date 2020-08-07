@@ -33,6 +33,15 @@
 # define DESTROY_NOTIFY 17
 
 
+/*
+** ---------- Masks ----------
+*/
+
+
+# define RELEASE_MASK 2
+# define SubstructureNotifyMask 524288
+
+
 # include <stdlib.h>
 # include <unistd.h>
 # include <string.h>
@@ -87,7 +96,7 @@ typedef struct	s_input
 ** ---------- Raycasting structures ---------------
 */
 
-typedef struct  s_mlx
+typedef struct  s_board // Maze // Window // Board
 {
 	void		*mlx;
 	void		*window; 
@@ -96,11 +105,11 @@ typedef struct  s_mlx
 	int			bits_per_pixel;
 	int			line_length;
 	int			endian;
-	int 		width_texture;
-	int 		heigth_texture;
-}				t_mlx;
+	int 		width_texture; // validar
+	int 		heigth_texture; // validar
+}				t_board;
 
-typedef struct s_texture
+typedef struct s_texture //validar
 {
 	void		*texture;
 	void		*window; 
@@ -108,11 +117,11 @@ typedef struct s_texture
 	int			bits_per_pixel;
 	int			line_length;
 	int			endian;
-	int 		width_texture;
-	int 		heigth_texture;
+	int 		width_texture; // validar
+	int 		heigth_texture; // validar
 }				t_texture;
 
-typedef struct s_game
+typedef struct s_player     // player
 {
 	double		start_posx;
 	double		start_posy;
@@ -122,9 +131,9 @@ typedef struct s_game
 	double		plane_y;
 	double		time;
 	double		old_time;
-}				t_game;
+}				t_player;
 
-typedef struct s_moves   // o mejor llamarlo p
+typedef struct s_movements   // o mejor llamarlo acciones // movements
 {
 	int			move_up;
 	int			move_down;
@@ -132,14 +141,14 @@ typedef struct s_moves   // o mejor llamarlo p
 	int			move_left;
 	int			rotate_right;
 	int			rotate_left;
-}				t_moves;
+}				t_movements;
 
-typedef struct s_create
+typedef struct s_game // Game
 {
-	t_mlx		mlx;
-	t_game		game;
+	t_board		board;
+	t_player	player;
 	t_screen	screen;
-}			t_create;
+}			t_game;
 /*
 ** ---------- Auxiliary functions ----------
 */

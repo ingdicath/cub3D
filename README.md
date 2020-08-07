@@ -80,3 +80,4 @@ gcc main.c -Wall -Wextra -Werror -Lmlx -lmlx -framework OpenGL -framework AppKit
 - It must have to do make into the mlx folder in order to get libmlx.dylib library, and put it in the root of the project
 
 - [Key codes](https://eastmanreference.com/complete-list-of-applescript-key-codes)
+- https://bit-calculator.com/es/desplazamiento-de-bit

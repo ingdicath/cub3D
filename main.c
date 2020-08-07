@@ -1,5 +1,5 @@
-#include "mlx.h"
-
+#include <mlx.h>
+#include <stdio.h>
 
 /* DRAWING A FIGURE*/
 
@@ -140,7 +140,8 @@ int main (void)
 /* READING AN IMAGE */ 
 
 // Put xpm and png at the same time
-
+void  *
+mlx_init();
 int main (void)
 {
 	void		*mlx;
@@ -152,15 +153,18 @@ int main (void)
 	int 		img_width;
 	int 		img_height;
 
-	img_width = 100;
+	
+   printf("hola\n");
+   img_width = 100;
     img_height = 100;
-
     mlx = mlx_init();
 	mlx_win = mlx_new_window(mlx, 800, 600, "Hello Pajarito");
+    
+
 	img0 = mlx_xpm_file_to_image(mlx, path0, &img_width, &img_height);
-    img = mlx_png_file_to_image(mlx, path, &img_width, &img_height);
+ //   img = mlx_png_file_to_image(mlx, path, &img_width, &img_height);
     mlx_put_image_to_window(mlx, mlx_win, img0, 100, 100);
-    mlx_put_image_to_window(mlx, mlx_win, img, 350, 250);
+ //    mlx_put_image_to_window(mlx, mlx_win, img, 350, 250);
     mlx_loop(mlx);
 }
 
