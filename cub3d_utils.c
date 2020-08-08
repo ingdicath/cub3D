@@ -43,7 +43,7 @@ int		ft_put_error(char *error)
 	ft_putstr_fd("\nError:\n", 1);
 	ft_putstr_fd(error, 1);
 	ft_putstr_fd("\n", 1);
-	return (-1);
+	return (0);
 }
 
 /*

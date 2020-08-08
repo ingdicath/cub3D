@@ -1,4 +1,4 @@
-#include <mlx.h>
+#include "mlx.h"
 #include <stdio.h>
 
 /* DRAWING A FIGURE*/
@@ -140,8 +140,7 @@ int main (void)
 /* READING AN IMAGE */ 
 
 // Put xpm and png at the same time
-void  *
-mlx_init();
+
 int main (void)
 {
 	void		*mlx;
@@ -154,7 +153,7 @@ int main (void)
 	int 		img_height;
 
 	
-   printf("hola\n");
+   printf("valor %ld\n", 1L<<17);
    img_width = 100;
     img_height = 100;
     mlx = mlx_init();

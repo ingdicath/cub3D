@@ -72,36 +72,36 @@ int		ft_check_unique_orientation(t_map *map)
 	return (1);
 }
 
-void	ft_reset_input(t_input *mapfile)
+void	ft_reset_input(t_game_file *game_file)
 {
-	mapfile->ceiling.red = -1;
-	mapfile->ceiling.green = -1;
-	mapfile->ceiling.blue = -1;
-	mapfile->floor.red = -1;
-	mapfile->floor.green = -1;
-	mapfile->floor.blue = -1;
-	mapfile->resolution.width = -1;
-	mapfile->resolution.height = -1;
-	mapfile->no_texture = NULL;
-	mapfile->so_texture = NULL;
-	mapfile->ea_texture = NULL;
-	mapfile->we_texture = NULL;
-	mapfile->sprite = NULL;
-	mapfile->map.data = NULL;
-	mapfile->map.orientation = '\0';
-	mapfile->map.start_pos.row = -1;
-	mapfile->map.start_pos.column = -1;
+	game_file->ceiling.red = -1;
+	game_file->ceiling.green = -1;
+	game_file->ceiling.blue = -1;
+	game_file->floor.red = -1;
+	game_file->floor.green = -1;
+	game_file->floor.blue = -1;
+	game_file->resolution.width = -1;
+	game_file->resolution.height = -1;
+	game_file->no_path = NULL;
+	game_file->so_path = NULL;
+	game_file->ea_path = NULL;
+	game_file->we_path = NULL;
+	game_file->sprite_path = NULL;
+	game_file->map.data = NULL;
+	game_file->map.orientation = '\0';
+	game_file->map.start_pos.row = -1;
+	game_file->map.start_pos.column = -1;
 }
 
-int		ft_check_complete_elements(t_input *mapfile)
+int		ft_check_complete_elements(t_game_file *game_file)
 {
-	if (mapfile->ceiling.red == -1 || mapfile->ceiling.green == -1 ||
-		mapfile->ceiling.blue == -1 || mapfile->floor.red == -1 ||
-		mapfile->floor.green == -1 || mapfile->floor.blue == -1 ||
-		mapfile->resolution.width == -1 || mapfile->resolution.height == -1 ||
-		mapfile->no_texture == NULL || mapfile->so_texture == NULL ||
-		mapfile->ea_texture == NULL || mapfile->we_texture == NULL ||
-		mapfile->sprite == NULL)
+	if (game_file->ceiling.red == -1 || game_file->ceiling.green == -1 ||
+		game_file->ceiling.blue == -1 || game_file->floor.red == -1 ||
+		game_file->floor.green == -1 || game_file->floor.blue == -1 ||
+		game_file->resolution.width == -1 || game_file->resolution.height == -1 ||
+		game_file->no_path == NULL || game_file->so_path == NULL ||
+		game_file->ea_path == NULL || game_file->we_path == NULL ||
+		game_file->sprite_path == NULL)
 		return (0);
 	else
 		return (1);
@@ -129,7 +129,7 @@ int			ft_check_valid_color(char *color)
 	return (0);
 }
 
-int			ft_read_file_map(char *file_name, t_input *mapfile)
+int			ft_read_file(char *file_name, t_game_file *game_file)
 {
 	int		ret;
 	int		fd;
@@ -145,21 +145,25 @@ int			ft_read_file_map(char *file_name, t_input *mapfile)
 		ret = get_next_line(fd, &line);
 		if (ret < 0)
 			return (ft_put_error("file not found"));
-		if (ft_check_complete_elements(mapfile))
+		if (ft_check_complete_elements(game_file))
 		{
-			if (ft_isemptyline(line) && mapfile->map.data == NULL)
+			if (ft_isemptyline(line) && game_file->map.data == NULL)
 				continue ;
 			if (!ft_check_valid_char(line))
 				return (ft_put_error("invalid character in the map"));
-			mapfile->map.data = ft_join_lines(mapfile->map.data, line);
-			print_map(mapfile->map.data);//borrar
+			game_file->map.data = ft_join_lines(game_file->map.data, line);
+			//print_map(game_file->map.data);//borrar
 		}
 		else
 		{
 			line_split = ft_split(line, ' ');
-			ft_fill_elements(line_split, mapfile);
+			if (!ft_fill_elements(line_split, game_file))
+			{
+				free(line);
+				return (ft_put_error("check map elements"));
+			}
 		}
-		printfs(mapfile);//borrar
+		// printfs(game_file);//borrar
 
 /*
         i = 0;
@@ -170,25 +174,29 @@ int			ft_read_file_map(char *file_name, t_input *mapfile)
 			i++;
 		}
 */
+		
+		// AQUIIIIIIIIIIIII HAYYYYY UNN LEEEEEAAAAAAKKKKKKK, FALTA LIBERAR EN LOS RETURNS
 		free(line);
 		printf("\n");
 	}
 	close(fd);
-	return (0);
+	return (1);
 }
 
-int			ft_fill_elements(char **line_split, t_input *mapfile)
+int			ft_fill_elements(char **line_split, t_game_file *game_file)
 {
 	int		result;
 
-	result = ft_check_resolution(line_split, &mapfile->resolution);
-	result = ft_check_ceiling(line_split, &mapfile->ceiling);
-	result = ft_check_floor(line_split, &mapfile->floor);
-	result = ft_check_north_texture(line_split, &mapfile->no_texture);
-	result = ft_check_south_texture(line_split, &mapfile->so_texture);
-	result = ft_check_east_texture(line_split, &mapfile->ea_texture);
-	result = ft_check_west_texture(line_split, &mapfile->we_texture);
-	result = ft_check_sprite_texture(line_split, &mapfile->sprite);
+	result = 1;
+	result = ft_check_resolution(line_split, &game_file->resolution)
+	&& ft_check_ceiling(line_split, &game_file->ceiling)
+	&& ft_check_floor(line_split, &game_file->floor)
+	&& ft_check_north_path(line_split, &game_file->no_path)
+	&& ft_check_south_path(line_split, &game_file->so_path)
+	&& ft_check_east_path(line_split, &game_file->ea_path)
+	&& ft_check_west_path(line_split, &game_file->we_path)
+	&& ft_check_sprite_path(line_split, &game_file->sprite_path);
+	printf("result is: %d\n", result);
 	return (result);
 }
 
@@ -215,16 +223,17 @@ char		**ft_join_lines(char **matrix, char *new_line)
 	return (new_matrix);
 }
 
-void printfs(t_input *mapfile)
+void printfs(t_game_file *game_file)
 {
-	printf("%d %d\n",mapfile->resolution.width,mapfile->resolution.height); //borrar
-	printf("%d %d %d\n",mapfile->ceiling.red,mapfile->ceiling.green, mapfile->ceiling.blue); //borrar
-	printf("%d %d %d\n",mapfile->floor.red,mapfile->floor.green, mapfile->floor.blue); //borrar
-	printf("%s\n", mapfile->no_texture); //borrar
-	printf("%s\n", mapfile->so_texture); //borrar
-	printf("%s\n", mapfile->ea_texture); //borrar
-	printf("%s\n", mapfile->we_texture); //borrar
-	printf("%s\n", mapfile->sprite); //borrar
+	printf("%d %d\n",game_file->resolution.width,game_file->resolution.height); //borrar
+	printf("%d %d %d\n",game_file->ceiling.red,game_file->ceiling.green, game_file->ceiling.blue); //borrar
+	printf("%d %d %d\n",game_file->floor.red,game_file->floor.green, game_file->floor.blue); //borrar
+	printf("%s\n", game_file->no_path); //borrar
+	printf("%s\n", game_file->so_path); //borrar
+	printf("%s\n", game_file->ea_path); //borrar
+	printf("%s\n", game_file->we_path); //borrar
+	printf("%s\n", game_file->sprite_path); //borrar
+	print_map(game_file->map.data);
 }
 
 void print_map(char **map)
@@ -272,7 +281,7 @@ int		ft_check_resolution(char **line, t_screen *resolution)
 	}
 	printf("\n");
 */
-	return (0);
+	return (1);
 }
 
 int		ft_check_ceiling(char **line, t_color *ceiling)
@@ -299,7 +308,7 @@ int		ft_check_ceiling(char **line, t_color *ceiling)
 		if (ceiling->red > 255 || ceiling->green > 255 || ceiling->blue > 255)
 			return (ft_put_error("Color value(s) must be maximum 255"));
 	}
-	return (0);
+	return (1);
 }
 
 int		ft_check_floor(char **line, t_color *floor)
@@ -326,10 +335,10 @@ int		ft_check_floor(char **line, t_color *floor)
 		if (floor->red > 255 || floor->green > 255 || floor->blue > 255)
 			return (ft_put_error("Color value(s) must be maximum 255"));
 	}
-	return (0);
+	return (1);
 }
 
-int		ft_check_north_texture(char **line, char **north_path)
+int		ft_check_north_path(char **line, char **north_path)
 {
 	if (line[0] && (ft_strcmp(line[0], "NO") == 0))
 	{
@@ -343,10 +352,10 @@ int		ft_check_north_texture(char **line, char **north_path)
 			*north_path = line[1];
 		printf("north texture %s\n", *north_path); // borrar
 	}
-	return (0);
+	return (1);
 }
 
-int		ft_check_south_texture(char **line, char **south_path)
+int		ft_check_south_path(char **line, char **south_path)
 {
 	if (line[0] && (ft_strcmp(line[0], "SO") == 0))
 	{
@@ -360,10 +369,10 @@ int		ft_check_south_texture(char **line, char **south_path)
 			*south_path = line[1];
 		printf("south texture %s\n", *south_path); // borrar
 	}
-	return (0);
+	return (1);
 }
 
-int		ft_check_west_texture(char **line, char **west_path)
+int		ft_check_west_path(char **line, char **west_path)
 {
 	if (line[0] && (ft_strcmp(line[0], "WE") == 0))
 	{
@@ -377,10 +386,10 @@ int		ft_check_west_texture(char **line, char **west_path)
 			*west_path = line[1];
 		printf("west texture %s\n", *west_path); // borrar
 	}
-	return (0);
+	return (1);
 }
 
-int		ft_check_east_texture(char **line, char **east_path)
+int		ft_check_east_path(char **line, char **east_path)
 {
 	if (line[0] && (ft_strcmp(line[0], "EA") == 0))
 	{
@@ -394,10 +403,10 @@ int		ft_check_east_texture(char **line, char **east_path)
 			*east_path = line[1];
 		printf("east texture %s\n", *east_path); // borrar
 	}
-	return (0);
+	return (1);
 }
 
-int		ft_check_sprite_texture(char **line, char **sprite_path)
+int		ft_check_sprite_path(char **line, char **sprite_path)
 {
 	if (line[0] && (ft_strcmp(line[0], "S") == 0))
 	{
@@ -411,7 +420,7 @@ int		ft_check_sprite_texture(char **line, char **sprite_path)
 			*sprite_path = line[1];
 		printf("sprite texture %s\n", *sprite_path); // borrar
 	}
-	return (0);
+	return (1);
 }
 
 int		ft_check_path(char *str)
@@ -432,46 +441,11 @@ int		ft_check_path(char *str)
 	return (1);
 }
 
-// int 	ft_check_args(int argc, char **argv)
-// {
-// 	int		screenshot;
-// 	int		error;
-
-// 	error = 0;
-// 	if (argc < 2)
-// 		return (ft_put_error("at least one argument was expected"));
-// 	if (argc > 3)
-// 		return (ft_put_error("too many arguments"));
-// 	if (argc >= 2)
-// 	{
-// 		if (!ft_check_extension(argv[1], CUB))
-// 		{
-// 			ft_put_error("wrong extension in map file");
-// 			error++;
-// 		}
-// 		if (argc == 3)
-// 		{
-// 			if (ft_strcmp(argv[2], "--save") == 0)
-// 				screenshot = 1;
-// 			else
-// 			{
-// 				ft_put_error("wrong argument for screenshot");
-// 				error++;
-// 			}
-// 		}
-// 	}
-// 	if (error > 0)
-// 		return (0);
-// }
-
-
-int			main(int argc, char **argv)
+int 	ft_check_args(int argc, char **argv, int *screenshot)
 {
-	int		screenshot;
 	int		error;
-	t_input	file_map;
-	int		result;
 
+	*screenshot = 0;
 	error = 0;
 	if (argc < 2)
 		return (ft_put_error("at least one argument was expected"));
@@ -487,7 +461,7 @@ int			main(int argc, char **argv)
 		if (argc == 3)
 		{
 			if (ft_strcmp(argv[2], "--save") == 0)
-				screenshot = 1;
+				*screenshot = 1;
 			else
 			{
 				ft_put_error("wrong argument for screenshot");
@@ -497,25 +471,42 @@ int			main(int argc, char **argv)
 	}
 	if (error > 0)
 		return (0);
-	// ft_check_args(argc, argv);
-	ft_reset_input(&file_map);
-	result = ft_read_file_map(argv[1], &file_map);
-	if (result == -1)
-		return (-1);
-	if (!ft_check_complete_elements(&file_map))
+	return(1);
+}
+
+
+int			main(int argc, char **argv)
+{
+	int			screenshot;
+	t_game_file	game_file;
+
+		// chequeo de input
+	
+	if (!ft_check_args(argc, argv, &screenshot))
+		return(0);
+
+	ft_reset_input(&game_file);
+	
+	if (!ft_read_file(argv[1], &game_file))
+		return (0);
+	if (!ft_check_complete_elements(&game_file))
 		return (ft_put_error("Scene map incomplete. Complete to continue"));
-	if (!ft_check_unique_orientation(&file_map.map))
+	if (!ft_check_unique_orientation(&game_file.map))
 		return (ft_put_error("check orientation in the map"));
-	// if (file_map == NULL)
-	// 	return (-1);
-	// while(1)
-	// {
-		
-	// }
+	
+	printfs(&game_file);
+
+	if(screenshot)
+		ft_save_screen(game_file);
+	else
+		ft_start_game(game_file);
+
+
 	return (0);
 }
 /*
-$ gcc parsing.c ft_split.c gnl/get_next_line.c cub3d_utils.c -fsanitize=address
+$ gcc parsing.c ft_split.c gnl/get_next_line.c cub3d_utils.c start_game.c -fsanitize=address
+gcc parsing.c ft_split.c gnl/get_next_line.c cub3d_utils.c start_game.c -Lmlx -lmlx -framework OpenGL -framework AppKit
 gcc -Wall -Werror -Wextra parsing.c ft_split.c gnl/get_next_line.c cub3d_utils.c -fsanitize=address
 
 solo puede existir un elemento de cada tipo:  una sola R, una sola C, F, etc..
