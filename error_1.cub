@@ -5,10 +5,10 @@
 WE ./textures/Gold0.xpm
  
 NO                             ./textures/Stone.xpm
-SO ./textures/eagle.png
+SO ./textures/Bark.xpm
 
 
-S                 ./textures/barrel.png
+S                 ./textures/Stone.xpm
 
 
 

@@ -19,23 +19,6 @@
 # define XPM 	".xpm"
 # define PNG 	".png"
 # define BMP 	".bmp"
-/*
-** ---------- Movements ----------
-*/
-// *****************************************CAMBIAR A ENUuuuuuuuuuMS
-# define KEY_A 0
-# define KEY_S 1
-# define KEY_D 2
-# define KEY_W 13
-# define ESC 53
-# define LEFT 123
-# define RIGHT 124
-/*
-** ---------- Events ----------
-*/
-# define KEY_PRESS 2
-# define KEY_RELEASE 3
-# define DESTROY_NOTIFY 17
 
 # include <stdlib.h>
 # include <unistd.h>
@@ -48,10 +31,21 @@
 ** ---------- Parsing structures ---------------
 */
 
+typedef enum e_keys
+{
+	 KEY_A = 0, KEY_S = 1, KEY_D = 2, KEY_W = 13, ESC = 53, LEFT = 123, RIGHT = 124
+}			t_keys;
+
+typedef enum e_events
+{
+	PRESS = 2, RELEASE = 3, DESTROY = 17
+}			t_events;
+
 typedef enum e_masks
 {
 	PRESS_MASK = 1, RELEASE_MASK = 2, NOTIFY_MASK = 3
 }			t_masks;
+
 
 typedef struct	s_color
 {
@@ -66,17 +60,17 @@ typedef struct	s_screen
 	int			height;
 }				t_screen;
 
-typedef struct 	s_pos
+typedef struct 	s_position
 {
-	int 		row;
-	int 		column;
-}				t_pos;
+	double		row;
+	double 		column;
+}				t_position;
 
 typedef struct	s_map
 {
 	char		**data;
 	char		orientation;
-	t_pos		start_pos;
+	t_position	start_pos;
 }				t_map;
 
 typedef struct	s_game_file
@@ -96,37 +90,40 @@ typedef struct	s_game_file
 ** ---------- Raycasting structures ---------------
 */
 
+typedef struct s_texture //validar
+{
+	void		*image;
+	char		*address;
+	int			bits_per_pixel;
+	int			size_line;
+	int			endian;
+	int 		width; // validar
+	int 		height; // validar
+}				t_texture;
+
 typedef struct  s_board // Maze // Window // Board
 {
 	void		*mlx;
 	void		*window; 
-	void		*image;
-	char		*address;
-	int			bits_per_pixel;
-	int			line_length;
-	int			endian;
-	int 		width_texture; // validar
-	int 		heigth_texture; // validar
-}				t_board;
+	t_texture	win_data;
+	t_texture	north;
+	t_texture 	south;
+	t_texture   west;
+	t_texture 	east;
+	t_texture 	sprite;
 
-// typedef struct s_texture //validar
-// {
-// 	void		*texture;
-// 	void		*window; 
-// 	char		*address;
-// 	int			bits_per_pixel;
-// 	int			line_length;
-// 	int			endian;
-// 	int 		width_texture; // validar
-// 	int 		heigth_texture; // validar
-// }				t_texture;
+	// void		*image;
+	// char		*address;
+	// int			bits_per_pixel;
+	// int			line_length;
+	// int			endian;
+
+}				t_board;
 
 typedef struct s_player     // player
 {
-	double		start_posx;
-	double		start_posy;
-	double		vector_dirx;
-	double		vector_diry;
+	double		direction_x;
+	double		direction_y;
 	double		plane_x;
 	double		plane_y;
 	double		time;
@@ -143,11 +140,26 @@ typedef struct s_movements   // o mejor llamarlo acciones // movements
 	int			rotate_left;
 }				t_movements;
 
+typedef struct s_ray
+{
+	double 		camera_x;
+	double 		dir_x;
+	double 		dir_y;
+	double		deltadist_x;
+	double		deltadist_y;
+	double		sidedist_x;
+	double		sidedist_y;
+	int 	  	step_x;
+	int 		step_y;
+}				t_ray;
+
 typedef struct s_game // Game
 {
+	
 	t_board		board;
 	t_player	player;
-	t_screen	screen;	
+	t_map		map;
+	// t_screen	screen;	
 }			t_game;
 /*
 ** ---------- Auxiliary functions ----------
@@ -201,12 +213,16 @@ int 			ft_check_args(int argc, char **argv, int *screenshot);
 */
 
 int ft_close_game(t_game *game);
-int ft_movements(int keycode, t_game *game);
+int ft_play_game(int keycode, t_game *game, t_map map);
 int ft_key_press(int keycode, t_game *game);
 int ft_key_release(int keycode, t_game *game);
 int ft_start_game(t_game_file game_file);
 int ft_save_screen (t_game_file game_file);
 int ft_set_board(t_game_file file, t_game *game);
+int ft_set_all_textures(t_game_file file, t_board *board);
+int	ft_set_texture(void *mlx, char *path, t_texture *texture);
+void ft_initialize_player(t_player *player);
+int ft_set_orientation(char orientation, t_player *player);
 
 void			printfs(t_game_file *mapfile);//BORRAR
 void			print_map(char **map);//BORRAR

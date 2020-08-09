@@ -187,7 +187,6 @@ int			ft_fill_elements(char **line_split, t_game_file *game_file)
 {
 	int		result;
 
-	result = 1;
 	result = ft_check_resolution(line_split, &game_file->resolution)
 	&& ft_check_ceiling(line_split, &game_file->ceiling)
 	&& ft_check_floor(line_split, &game_file->floor)
