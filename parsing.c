@@ -98,10 +98,10 @@ int		ft_check_complete_elements(t_game_file *game_file)
 	if (game_file->ceiling.red == -1 || game_file->ceiling.green == -1 ||
 		game_file->ceiling.blue == -1 || game_file->floor.red == -1 ||
 		game_file->floor.green == -1 || game_file->floor.blue == -1 ||
-		game_file->resolution.width == -1 || game_file->resolution.height == -1 ||
-		game_file->no_path == NULL || game_file->so_path == NULL ||
-		game_file->ea_path == NULL || game_file->we_path == NULL ||
-		game_file->sprite_path == NULL)
+		game_file->resolution.width == -1 ||
+		game_file->resolution.height == -1 || game_file->no_path == NULL ||
+		game_file->so_path == NULL || game_file->ea_path == NULL ||
+		game_file->we_path == NULL || game_file->sprite_path == NULL)
 		return (0);
 	else
 		return (1);
@@ -164,7 +164,6 @@ int			ft_read_file(char *file_name, t_game_file *game_file)
 			}
 		}
 		// printfs(game_file);//borrar
-
 /*
         i = 0;
         while (i < ft_count_words(line, ' '))
@@ -174,8 +173,7 @@ int			ft_read_file(char *file_name, t_game_file *game_file)
 			i++;
 		}
 */
-		
-		// AQUIIIIIIIIIIIII HAYYYYY UNN LEEEEEAAAAAAKKKKKKK, FALTA LIBERAR EN LOS RETURNS
+		// AQUIIIIIIIIIIIII HAYYYYY UNN LEaKKKKKK, FALTA LIBERAR EN LOS RETURNS
 		free(line);
 		printf("\n");
 	}
@@ -222,7 +220,7 @@ char		**ft_join_lines(char **matrix, char *new_line)
 	return (new_matrix);
 }
 
-void printfs(t_game_file *game_file)
+void	printfs(t_game_file *game_file)
 {
 	printf("%d %d\n",game_file->resolution.width,game_file->resolution.height); //borrar
 	printf("%d %d %d\n",game_file->ceiling.red,game_file->ceiling.green, game_file->ceiling.blue); //borrar
@@ -235,7 +233,7 @@ void printfs(t_game_file *game_file)
 	print_map(game_file->map.data);
 }
 
-void print_map(char **map)
+void	print_map(char **map)
 {
 	int i = 0;
 	while (map[i] != NULL)
@@ -440,7 +438,7 @@ int		ft_check_path(char *str)
 	return (1);
 }
 
-int 	ft_check_args(int argc, char **argv, int *screenshot)
+int			ft_check_args(int argc, char **argv, int *screenshot)
 {
 	int		error;
 
@@ -470,37 +468,31 @@ int 	ft_check_args(int argc, char **argv, int *screenshot)
 	}
 	if (error > 0)
 		return (0);
-	return(1);
+	return (1);
 }
 
-
-int			main(int argc, char **argv)
+int				main(int argc, char **argv)
 {
 	int			screenshot;
 	t_game_file	game_file;
 
 		// chequeo de input
-	
 	if (!ft_check_args(argc, argv, &screenshot))
-		return(0);
-
+		return (0);
 	ft_reset_input(&game_file);
-	
 	if (!ft_read_file(argv[1], &game_file))
 		return (0);
 	if (!ft_check_complete_elements(&game_file))
 		return (ft_put_error("Scene map incomplete. Complete to continue"));
 	if (!ft_check_unique_orientation(&game_file.map))
 		return (ft_put_error("check orientation in the map"));
-	
-	printfs(&game_file);
 
-	if(screenshot)
+	printfs(&game_file); // borrar
+
+	if (screenshot)
 		ft_save_screen(game_file);
 	else
 		ft_start_game(game_file);
-
-
 	return (0);
 }
 /*

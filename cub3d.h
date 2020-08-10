@@ -12,25 +12,30 @@
 
 #ifndef CUB3D_H
 # define CUB3D_H
+
 /*
-** ---------- Extensions ------------------------
+** ----------- Extensions -----------------------------------------------------
 */
+
 # define CUB 	".cub"
 # define XPM 	".xpm"
 # define PNG 	".png"
 # define BMP 	".bmp"
+
 /*
-** ---------- Libraries -------------------------
+** ----------- Libraries ------------------------------------------------------
 */
+
 # include <stdlib.h>
 # include <unistd.h>
 # include <string.h>
 # include <fcntl.h>
+# include <math.h>
 # include "mlx/mlx.h"
 # include "gnl/get_next_line.h"
 
 /*
-** ---------- Actions structures ----------------
+** ----------- Actions structures ---------------------------------------------
 */
 
 typedef enum	e_keys
@@ -47,10 +52,10 @@ typedef enum	e_events
 typedef enum	e_masks
 {
 	PRESS_MASK = 1, RELEASE_MASK = 2, NOTIFY_MASK = 3
-}			t_masks;
+}				t_masks;
 
 /*
-** ---------- Parsing structures ---------------
+** ----------- Parsing structures ----------------------------------------------
 */
 
 typedef struct	s_color
@@ -93,7 +98,7 @@ typedef struct	s_game_file
 }				t_game_file;
 
 /*
-** ---------- Raycasting structures ---------------
+** ----------- Raycasting structures ------------------------------------------
 */
 
 typedef struct	s_texture //validar
@@ -110,7 +115,7 @@ typedef struct	s_texture //validar
 typedef struct	s_board
 {
 	void		*mlx;
-	void		*window; 
+	void		*window;
 	t_texture	win_data;
 	t_texture	north;
 	t_texture	south;
@@ -134,10 +139,10 @@ typedef struct	s_player
 	double		old_time;
 }				t_player;
 
-typedef struct s_movements
+typedef struct	s_movements
 {
-	int			move_up;
-	int			move_down;
+	int			move_front;
+	int			move_back;
 	int			move_right;
 	int			move_left;
 	int			rotate_right;
@@ -156,7 +161,7 @@ typedef struct	s_ray
 	int			step_x;
 	int			step_y;
 	int			map_x;
-	int			map_y;	
+	int			map_y;
 }				t_ray;
 
 typedef struct	s_game // Game
@@ -164,11 +169,11 @@ typedef struct	s_game // Game
 	t_board		board;
 	t_player	player;
 	t_map		map;
-	// t_screen	screen;	
-}			t_game;
+	// t_screen	screen;
+}				t_game;
 
 /*
-** ---------- Auxiliary functions ----------
+** ----------- Auxiliary functions --------------------------------------------
 */
 
 void			ft_putstr_fd(char *str, int fd);
@@ -190,7 +195,7 @@ int				ft_atoi(const char *str);
 int				ft_isnumber(char *str);
 
 /*
-** ---------- Parsing functions ---------------
+** ----------- Parsing functions ----------------------------------------------
 */
 
 void			ft_reset_input(t_game_file *mapfile);
@@ -215,7 +220,7 @@ int				ft_check_unique_orientation(t_map *map);
 int				ft_check_args(int argc, char **argv, int *screenshot);
 
 /*
-** ---------- Raycasting functions ---------------
+** ---------- Raycasting functions --------------------------------------------
 */
 
 int				ft_close_game(t_game *game);

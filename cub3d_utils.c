@@ -167,7 +167,7 @@ int					ft_iswhitespace(char c)
 
 int					ft_isemptyline(char *str)
 {
-	int 			i;
+	int				i;
 
 	i = 0;
 	if (str[i] == '\0')
@@ -210,7 +210,7 @@ int					ft_atoi(const char *str)
 
 int					ft_isnumber(char *str)
 {
-	int 			i;
+	int				i;
 
 	i = 0;
 	if (str[i] == '-')
@@ -226,7 +226,7 @@ int					ft_isnumber(char *str)
 
 int					ft_strcmp(const char *s1, const char *s2)
 {
-	size_t 			i;
+	size_t			i;
 
 	i = 0;
 	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
