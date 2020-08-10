@@ -158,6 +158,10 @@ typedef struct	s_ray
 	double		deltadist_y;
 	double		sidedist_x;
 	double		sidedist_y;
+	double		perpwalldist;
+	int			line_height;
+	int			draw_start;
+	int			draw_end;
 	int			step_x;
 	int			step_y;
 	int			map_x;
@@ -232,11 +236,11 @@ int				ft_save_screen (t_game_file game_file);
 int				ft_set_board(t_game_file file, t_game *game);
 int				ft_set_all_textures(t_game_file file, t_board *board);
 int				ft_set_texture(void *mlx, char *path, t_texture *texture);
-void			ft_initialize_player(t_player *player);
+void			ft_reset_player(t_player *player);
 int				ft_set_orientation(char orientation, t_player *player);
-int				ft_render_map(t_game *game, t_screen resolution);
-void			ft_set_initial_step_sidedist(t_game *game, t_ray *ray);
-void			ft_perform_dda(t_game *game, t_ray *ray);
+t_ray			ft_render_map(t_game *game, t_screen resolution);
+void			ft_step_side_dist_init(t_position start, t_ray *ray);
+void			ft_perform_dda(t_map map, t_ray *ray);
 
 /*
 ** ---------- DELETEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE ---------------

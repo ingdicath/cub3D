@@ -45,56 +45,54 @@ int	ft_play_game(int keycode, t_game *game, t_map map)
 
 /////////////////////////////////// today /////////////////////////////////////
 
-int				ft_render_map(t_game *game, t_screen resolution)
+t_ray				ft_render_map(t_game *game, t_screen resolution)
 {
 	int			x;
-	t_ray		*ray;
-	t_position	*pos;
+	t_ray		ray;
 
 	x = 0;
 	while (x < resolution.width)
 	{
-		ray->camera_x = 2 * x / (double)(resolution.width - 1);
-		ray->dir_x = game->player.direction_x +
-					game->player.plane_x * ray->camera_x;
-		ray->dir_y = game->player.direction_y +
-					game->player.plane_y * ray->camera_x;
-		ray->map_x = (int)pos->row;
-		ray->map_y = (int)pos->column;
-		ray->deltadist_x = fabs(1 / ray->dir_x);
-		ray->deltadist_y = fabs(1 / ray->dir_y);
+		ray.camera_x = 2 * x / (double)(resolution.width - 1);
+		
+		ray.dir_x = game->player.direction_x +
+					game->player.plane_x * ray.camera_x;
+		ray.dir_y = game->player.direction_y +
+					game->player.plane_y * ray.camera_x;
+		ray.map_x = (int)game->map.start_pos.row;
+		ray.map_y = (int)game->map.start_pos.column;
+		ray.deltadist_x = fabs(1 / ray.dir_x);
+		ray.deltadist_y = fabs(1 / ray.dir_y);
 		x++;
 	}
-	return (0);
+	return (ray);
 }
 
 /////////////////////////////////// today /////////////////////////////////////
 // Now, before the actual DDA can start, first stepX, stepY,
 // and the initial sideDistX and sideDistY still have to be calculated.
 
-void			ft_set_initial_step_sidedist(t_game *game, t_ray *ray)
+void			ft_step_side_dist_init(t_position start, t_ray *ray)
 {
-	t_position	*pos;
-
 	if (ray->dir_x < 0)
 	{
 		ray->step_x = -1;
-		ray->sidedist_x = (pos->row - ray->map_x) * ray->deltadist_x;
+		ray->sidedist_x = (start.row - ray->map_x) * ray->deltadist_x;
 	}
 	else
 	{
 		ray->step_x = 1;
-		ray->sidedist_x = (ray->map_x + 1.0 - pos->row) * ray->deltadist_x;
+		ray->sidedist_x = (ray->map_x + 1.0 - start.row) * ray->deltadist_x;
 	}
 	if (ray->dir_y < 0)
 	{
 		ray->step_y = -1;
-		ray->sidedist_y = (pos->column - ray->map_y) * ray->deltadist_y;
+		ray->sidedist_y = (start.column - ray->map_y) * ray->deltadist_y;
 	}
 	else
 	{
 		ray->step_y = 1;
-		ray->sidedist_y = (ray->map_y + 1.0 - pos->column) * ray->deltadist_y;
+		ray->sidedist_y = (ray->map_y + 1.0 - start.column) * ray->deltadist_y;
 	}
 }
 
@@ -103,14 +101,31 @@ void			ft_set_initial_step_sidedist(t_game *game, t_ray *ray)
 ** Creating the raycasting
  	int hit = 0; //was there a wall hit?
     int side; //was a NS or a EW wall hit?
+	Calculate distance projected on camera direction (Euclidean distance will give fisheye effect!)
+    perpWallDist: the length of this line is the value to compute now, the distance 
+    perpenducilar from the wall hit point to the camera plane instead of Euclidean
+    distance to the player point, to avoid making straight walls look rounded.
 */
 
-void	ft_perform_dda(t_game *game, t_ray *ray)
+ 
+
+void ft_perpendicular_wall_dist(int side, t_ray *ray, t_position start)
+{
+	if(side == 0)
+		ray->perpwalldist = (ray->map_x - start.row +
+			(1 - ray->step_x) / 2) / ray->dir_x;
+	else
+		ray->perpwalldist = (ray->map_y - start.column +
+			(1 - ray->step_y) / 2) / ray->dir_y;
+}
+
+void	ft_perform_dda(t_map map, t_ray *ray)
 {
 	int	hit;
 	int	side;
 
 	hit = 0;
+	side = 0;
 	while (hit == 0)
 	{
 		if (ray->sidedist_x < ray->sidedist_y)
@@ -125,10 +140,22 @@ void	ft_perform_dda(t_game *game, t_ray *ray)
 			ray->map_y += ray->step_y;
 			side = 1;
 		}
-		if (game->map.data[ray->map_x][ray->map_y] > 0) /// revisar esta linea
-			//(game->map.data[ray->map_x][ray->map_y] == '1')
+		if (map.data[ray->map_x][ray->map_y] > 0) /// revisar esta linea //(game->map.data[ray->map_x][ray->map_y] == '1') /// esto es el muro. porque es 1
 			hit = 1;
 	}
+	ft_perpendicular_wall_dist(side, ray, map.start_pos);
+}
+
+void ft_screen_line_pixels_stripe (t_ray *ray)
+{
+	//Calculate height of line to draw on screen
+      int lineHeight = (int)(h / perpWallDist);
+
+      //calculate lowest and highest pixel to fill in current stripe
+      int drawStart = -lineHeight / 2 + h / 2;
+      if(drawStart < 0)drawStart = 0;
+      int drawEnd = lineHeight / 2 + h / 2;
+      if(drawEnd >= h)drawEnd = h - 1;
 }
 
 /////////////////////////////////// today /////////////////////////////////////
@@ -236,7 +263,7 @@ void		ft_reset_movements(t_movements *movements)
 
 int			ft_set_orientation(char orientation, t_player *player)
 {
-	ft_initialize_player(player);
+	ft_reset_player(player);
 	if (orientation == 'N')
 		player->direction_y = 1;
 	else if (orientation == 'S')
@@ -264,9 +291,9 @@ int			ft_start_game(t_game_file file)
 		return (ft_put_error("set board failure"));
 	ft_set_all_textures(file, &game.board);
 	ft_set_orientation(game.map.orientation, &game.player);
-	ft_render_map(&game, file.resolution);  /// tengo que llamar la resoolution
-	// ft_set_initial_step_sidedist(&game, &ray);
-	// void			ft_set_initial_step_sidedist(t_game *game, t_ray *ray);
+	ray = ft_render_map(&game, file.resolution);
+	ft_step_side_dist_init(game.map.start_pos, &ray);
+	ft_perform_dda(game.map, &ray);
 
 // eto podria ir en el main, se trata de eventos para keyboard y usar mlx
 	mlx_hook(board->window, DESTROY, NOTIFY_MASK, &ft_close_game, &game);
