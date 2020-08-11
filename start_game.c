@@ -5,8 +5,8 @@
 /*                                                     +:+                    */
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   gamed: 2020/08/06 14:19:42 by dsalaman        #+#    #+#                 */
-/*   Updated: 2020/08/07 16:59:51 by dsalaman      ########   odam.nl         */
+/*   Created: 2020/08/06 14:19:42 by dsalaman      #+#    #+#                 */
+/*   Updated: 2020/08/11 17:12:17 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,17 @@
 
 /*
 ** aqui podria incluirse destroy window cuando screenshot no se necesita
-** en el if, se podria colocar NULL en vez de ! ??
 */
+
+void		ft_reset_movements(t_movements *movements)
+{
+	movements->move_front = 0;
+	movements->move_back = 0;
+	movements->move_right = 0;
+	movements->move_left = 0;
+	movements->rotate_right = 0;
+	movements->rotate_left = 0;
+}
 
 int	ft_close_game(t_game *game)
 {
@@ -30,141 +39,9 @@ int	ft_close_game(t_game *game)
 	exit(0);
 }
 
-int	ft_play_game(int keycode, t_game *game, t_map map)
-{
-	return (0);
-}
-
-/*
-** Creating the raycasting
-**
-** @param t_game *game: 		the game instance
-** @param t_screen: 			the resolution
-** @return int:					1 is ok
-*/
-
-/////////////////////////////////// today /////////////////////////////////////
-
-t_ray				ft_render_map(t_game *game, t_screen resolution)
-{
-	int			x;
-	t_ray		ray;
-
-	x = 0;
-	while (x < resolution.width)
-	{
-		ray.camera_x = 2 * x / (double)(resolution.width - 1);
-		
-		ray.dir_x = game->player.direction_x +
-					game->player.plane_x * ray.camera_x;
-		ray.dir_y = game->player.direction_y +
-					game->player.plane_y * ray.camera_x;
-		ray.map_x = (int)game->map.start_pos.row;
-		ray.map_y = (int)game->map.start_pos.column;
-		ray.deltadist_x = fabs(1 / ray.dir_x);
-		ray.deltadist_y = fabs(1 / ray.dir_y);
-		x++;
-	}
-	return (ray);
-}
-
-/////////////////////////////////// today /////////////////////////////////////
-// Now, before the actual DDA can start, first stepX, stepY,
-// and the initial sideDistX and sideDistY still have to be calculated.
-
-void			ft_step_side_dist_init(t_position start, t_ray *ray)
-{
-	if (ray->dir_x < 0)
-	{
-		ray->step_x = -1;
-		ray->sidedist_x = (start.row - ray->map_x) * ray->deltadist_x;
-	}
-	else
-	{
-		ray->step_x = 1;
-		ray->sidedist_x = (ray->map_x + 1.0 - start.row) * ray->deltadist_x;
-	}
-	if (ray->dir_y < 0)
-	{
-		ray->step_y = -1;
-		ray->sidedist_y = (start.column - ray->map_y) * ray->deltadist_y;
-	}
-	else
-	{
-		ray->step_y = 1;
-		ray->sidedist_y = (ray->map_y + 1.0 - start.column) * ray->deltadist_y;
-	}
-}
-
-/////////////////////////////////// today /////////////////////////////////////
-/*
-** Creating the raycasting
- 	int hit = 0; //was there a wall hit?
-    int side; //was a NS or a EW wall hit?
-	Calculate distance projected on camera direction (Euclidean distance will give fisheye effect!)
-    perpWallDist: the length of this line is the value to compute now, the distance 
-    perpenducilar from the wall hit point to the camera plane instead of Euclidean
-    distance to the player point, to avoid making straight walls look rounded.
-*/
-
- 
-
-void ft_perpendicular_wall_dist(int side, t_ray *ray, t_position start)
-{
-	if(side == 0)
-		ray->perpwalldist = (ray->map_x - start.row +
-			(1 - ray->step_x) / 2) / ray->dir_x;
-	else
-		ray->perpwalldist = (ray->map_y - start.column +
-			(1 - ray->step_y) / 2) / ray->dir_y;
-}
-
-void	ft_perform_dda(t_map map, t_ray *ray)
-{
-	int	hit;
-	int	side;
-
-	hit = 0;
-	side = 0;
-	while (hit == 0)
-	{
-		if (ray->sidedist_x < ray->sidedist_y)
-		{
-			ray->sidedist_x += ray->deltadist_x;
-			ray->map_x += ray->step_x;
-			side = 0;
-		}
-		else
-		{
-			ray->sidedist_y += ray->deltadist_y;
-			ray->map_y += ray->step_y;
-			side = 1;
-		}
-		if (map.data[ray->map_x][ray->map_y] > 0) /// revisar esta linea //(game->map.data[ray->map_x][ray->map_y] == '1') /// esto es el muro. porque es 1
-			hit = 1;
-	}
-	ft_perpendicular_wall_dist(side, ray, map.start_pos);
-}
-
-void ft_screen_line_pixels_stripe (t_ray *ray)
-{
-	//Calculate height of line to draw on screen
-      int lineHeight = (int)(h / perpWallDist);
-
-      //calculate lowest and highest pixel to fill in current stripe
-      int drawStart = -lineHeight / 2 + h / 2;
-      if(drawStart < 0)drawStart = 0;
-      int drawEnd = lineHeight / 2 + h / 2;
-      if(drawEnd >= h)drawEnd = h - 1;
-}
-
-/////////////////////////////////// today /////////////////////////////////////
-
 int	ft_key_press(int keycode, t_game *game)
 {
 	// if (keycode == KEY_W)
-
-
 	printf("auch%d\n ", keycode);
 	return (0);
 }
@@ -178,6 +55,247 @@ int	ft_key_release(int keycode, t_game *game)
 int	ft_save_screen(t_game_file game_file)
 {
 	return (0);
+}
+
+int	ft_play_game(int keycode, t_game *game, t_map map)
+{
+	return (0);
+}
+
+
+/*
+** - texture->step_size = How much to increase the texture coordinate
+**	 per screen pixel.
+** - texture->position = Starting texture coordinate.
+**
+*/
+// ////////////////////////////11 aug ////////////////////////////////////////
+
+void ft_draw_wall(t_ray *ray, t_position start, t_texture *texture)  // name of function render wall??
+{
+	int y;
+	int color;
+	t_screen resolution;
+
+	texture->step_size = 1.0 * texture->width / ray->line_height;
+	texture->position = (ray->draw_start - resolution.height / 2 +
+		ray->line_height / 2) * texture->step_size;
+	y = ray->draw_start;
+	while (y < ray->draw_end)
+	{
+		texture->coordinate.col = texture->position & (texture->height - 1);
+		texture->position += texture->step_size;
+		//color = (unsigned int)(texture->height * texture->coordinate.col + texture->coordinate.row);
+		// funcion que llama las texturas
+		if (ray->side == 1)
+			color = (color >> 1) & 8355711; //make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
+ 		//buffer[y][x] = color;
+		y++;
+	}
+}
+
+
+
+// ////////////////////////////11 aug ////////////////////////////////////////
+
+// void	ft_ray_buffer(t_ray *ray)
+// {
+
+// }
+
+
+/*
+** Draw the pixels of the stripe as a vertical line.
+** - ray->wall_x = where exactly the wall was hit. This is required to know 
+** 	 which x-coordinate of the texture we have to use.
+** - tex->coordinate.row = is the x-coordinate of the texture, and this is calculated 
+**	out of wall_x.
+*/
+
+//calculate value of wallX
+//////////////////////////////11 aug ////////////////////////////////////////
+
+
+void ft_wall_texture(t_ray *ray, t_position start, t_texture *tex)
+{
+	if (ray->side == 0)
+		ray->wall_x = start.col + ray->perpwalldist * ray->dir.col;
+	else
+		ray->wall_x = start.row + ray->perpwalldist * ray->dir.row;
+	ray->wall_x -= (int)ray->wall_x;
+	tex->coordinate.row = int(ray->wall_x * double(tex->width));
+	if (side == 0 && ray->dir.row > 0)
+		tex->coordinate.row = tex->width - tex->coordinate.row - 1;
+	if (side == 1 && ray->dir.row < 0)
+		tex->coordinate.row = tex->width - tex->coordinate.row - 1;
+}
+
+/*
+** Calculate height of line to draw on screen the raycasting.
+** Calculate lowest and highest pixel to fill in current stripe.
+*/
+
+void ft_screen_line_pixels_stripe(t_ray *ray, t_screen resolution)
+{
+	ray->line_height = (int)(resolution.height / ray->perpwalldist);
+	ray->draw_start = -ray->line_height / 2 + resolution.height / 2;
+	if (ray->draw_start < 0)
+		ray->draw_start = 0;
+	ray->draw_end = ray->line_height / 2 + resolution.height / 2;
+	if (ray->draw_end >= ray->line_height)
+	 	ray->draw_end = ray->line_height - 1;
+}
+
+/*
+** Creating the raycasting
+ 	int hit = 0; //was there a wall hit?
+    int side; //was a NS or a EW wall hit?
+	Calculate distance projected on camera direction (Euclidean distance will give fisheye effect!)
+    perpWallDist: the length of this line is the value to compute now, the distance 
+    perpenducilar from the wall hit point to the camera plane instead of Euclidean
+    distance to the player point, to avoid making straight walls look rounded.
+*/
+
+void ft_perp_wall_dist(t_ray *ray, t_position start)
+{
+	if(ray->side == 0)
+		ray->perpwalldist = (ray->map.row - start.row +
+			(1 - ray->step.row) / 2) / ray->dir.row;
+	else
+		ray->perpwalldist = (ray->map.col - start.col +
+			(1 - ray->step.col) / 2) / ray->dir.col;
+}
+
+void	ft_perform_dda(t_map map, t_ray *ray)
+{
+	int	hit;
+
+	hit = 0;
+	while (hit == 0)
+	{
+		if (ray->sidedist.row < ray->sidedist.col)
+		{
+			ray->sidedist.row += ray->deltadist.row;
+			ray->map.row += ray->step.row;
+			ray->side = 0;
+		}
+		else
+		{
+			ray->sidedist.col += ray->deltadist.col;
+			ray->map.col += ray->step.col;
+			ray->side = 1;
+		}
+		if (map.data[ray->map.row][ray->map.col] > 0) /// revisar esta linea //(game->map.data[ray->map_x][ray->map_y] == '1') /// esto es el muro. porque es 1
+			hit = 1;
+	}
+	ft_perp_wall_dist(ray, map.start_pos);
+}
+
+// Now, before the actual DDA can start, first stepX, stepY,
+// and the initial sideDistX and sideDistY still have to be calculated.
+
+void			ft_step_side_dist_init(t_position start, t_ray *ray)
+{
+	if (ray->dir.row < 0)
+	{
+		ray->step.row = -1;
+		ray->sidedist.row = (start.row - ray->map.row) * ray->deltadist.row;
+	}
+	else
+	{
+		ray->step.row = 1;
+		ray->sidedist.row = (ray->map.row + 1.0 - start.row) * ray->deltadist.row;
+	}
+	if (ray->dir.col < 0)
+	{
+		ray->step.col = -1;
+		ray->sidedist.col = (start.col - ray->map.col) * ray->deltadist.col;
+	}
+	else
+	{
+		ray->step.col = 1;
+		ray->sidedist.col = (ray->map.col + 1.0 - start.col) * ray->deltadist.col;
+	}
+}
+
+t_ray				ft_render_map(t_game *game, t_screen resolution)
+{
+	int			x;
+	t_ray		ray;
+
+	x = 0;
+	while (x < resolution.width)
+	{
+		ray.camera.row = 2 * x / (double)(resolution.width - 1);
+		
+		ray.dir.row = game->player.direction.row +
+					game->player.plane.row * ray.camera.row;
+		ray.dir.col = game->player.direction.col +
+					game->player.plane.col * ray.camera.row;
+		ray.map.row = (int)game->map.start_pos.row;
+		ray.map.col = (int)game->map.start_pos.col;
+		ray.deltadist.row = fabs(1 / ray.dir.row);
+		ray.deltadist.col = fabs(1 / ray.dir.col);
+		x++;
+	}
+	return (ray);
+}
+
+void		ft_reset_player(t_player *player)
+{
+	player->direction.row = 0;
+	player->direction.col = 0;
+	player->plane.row = 0;
+	player->plane.col = 0;
+	player->time = 0;
+	player->old_time = 0;
+}
+
+int			ft_set_orientation(char orientation, t_player *player)
+{
+	ft_reset_player(player);
+	if (orientation == 'N')
+		player->direction.col = 1;
+	else if (orientation == 'S')
+		player->direction.col = -1;
+	else if (orientation == 'W')
+		player->direction.row = -1;
+	else if (orientation == 'E')
+		player->direction.row = 1;
+	if (player->direction.col == 0)
+		player->plane.col = 0.66;
+	else
+		player->plane.row = 0.66;
+	return (1);
+}
+
+////////////////////////check como cargar las texturas, ver texture_wall in the tutorial
+int			ft_set_texture(void *mlx, char *path, t_texture *texture)
+{
+	texture->width = 64;
+	texture->height = 64;
+
+	texture->image = mlx_xpm_file_to_image(mlx, path,
+		&texture->width, &texture->height);
+	if (texture->image == NULL)
+		return (ft_put_error("invalid path for texture"));
+	texture->address = mlx_get_data_addr(texture->image,
+		&texture->bits_per_pixel, &texture->size_line, &texture->endian);
+	if (texture->address == NULL)
+		return (ft_put_error("image for texture failure"));
+	return (1);
+}
+
+int			ft_set_all_textures(t_game_file file, t_board *board)
+{
+	int		result;
+
+	result = ft_set_texture(board->mlx, file.no_path, &board->north)
+	&& ft_set_texture(board->mlx, file.so_path, &board->south)
+	&& ft_set_texture(board->mlx, file.we_path, &board->west)
+	&& ft_set_texture(board->mlx, file.ea_path, &board->east)
+	&& ft_set_texture(board->mlx, file.sprite_path, &board->east);
+	return (result);
 }
 
 // aqui podria incluirse destroy window cuando screenshot no se necesita
@@ -211,71 +329,6 @@ int				ft_set_board(t_game_file file, t_game *game)
 		&data->size_line, &data->endian);
 	if (data->address == NULL)
 		return (ft_put_error("mlx address image failure"));
-	return (1);
-}
-
-int			ft_set_all_textures(t_game_file file, t_board *board)
-{
-	int		result;
-
-	result = ft_set_texture(board->mlx, file.no_path, &board->north)
-	&& ft_set_texture(board->mlx, file.so_path, &board->south)
-	&& ft_set_texture(board->mlx, file.we_path, &board->west)
-	&& ft_set_texture(board->mlx, file.ea_path, &board->east)
-	&& ft_set_texture(board->mlx, file.sprite_path, &board->east);
-	return (result);
-}
-
-int			ft_set_texture(void *mlx, char *path, t_texture *texture)
-{
-	texture->image = mlx_xpm_file_to_image(mlx, path,
-		&texture->width, &texture->height);
-	if (texture->image == NULL)
-		return (ft_put_error("invalid path for texture"));
-	texture->address = mlx_get_data_addr(texture->image,
-		&texture->bits_per_pixel, &texture->size_line, &texture->endian);
-	if (texture->address == NULL)
-		return (ft_put_error("image for texture failure"));
-	return (1);
-}
-
-void		ft_reset_player(t_player *player)
-{
-	player->direction_x = 0;
-	player->direction_y = 0;
-	player->plane_x = 0;
-	player->plane_y = 0;
-	player->time = 0;
-	player->old_time = 0;
-}
-
-void		ft_reset_movements(t_movements *movements)
-{
-	movements->move_front = 0;
-	movements->move_back = 0;
-	movements->move_right = 0;
-	movements->move_left = 0;
-	movements->rotate_right = 0;
-	movements->rotate_left = 0;
-
-}
-
-
-int			ft_set_orientation(char orientation, t_player *player)
-{
-	ft_reset_player(player);
-	if (orientation == 'N')
-		player->direction_y = 1;
-	else if (orientation == 'S')
-		player->direction_y = -1;
-	else if (orientation == 'W')
-		player->direction_x = -1;
-	else if (orientation == 'E')
-		player->direction_x = 1;
-	if (player->direction_y == 0)
-		player->plane_y = 0.66;
-	else
-		player->plane_x = 0.66;
 	return (1);
 }
 

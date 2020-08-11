@@ -6,7 +6,7 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/22 13:15:55 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/07 11:36:34 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/11 11:48:42 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int		ft_check_unique_orientation(t_map *map)
 					return (0);
 				map->orientation = map->data[i][j];
 				map->start_pos.row = i;
-				map->start_pos.column = j;
+				map->start_pos.col = j;
 			}
 			j++;
 		}
@@ -90,7 +90,7 @@ void	ft_reset_input(t_game_file *game_file)
 	game_file->map.data = NULL;
 	game_file->map.orientation = '\0';
 	game_file->map.start_pos.row = -1;
-	game_file->map.start_pos.column = -1;
+	game_file->map.start_pos.col = -1;
 }
 
 int		ft_check_complete_elements(t_game_file *game_file)

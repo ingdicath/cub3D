@@ -6,7 +6,7 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/29 11:20:00 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/10 13:52:39 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/11 17:12:14 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ typedef struct	s_screen
 typedef struct	s_position
 {
 	double		row;
-	double		column;
+	double		col;
 }				t_position;
 
 typedef struct	s_map
@@ -108,8 +108,11 @@ typedef struct	s_texture //validar
 	int			bits_per_pixel;
 	int			size_line;
 	int			endian;
-	int			width; // validar
-	int			height; // validar
+	int			width;
+	int			height;
+	double 		step_size;
+	double		position; /// definido 11 aug, Starting texture coordinate
+	t_position	coordinate; //definido 11 aug,
 }				t_texture;
 
 typedef struct	s_board
@@ -131,12 +134,10 @@ typedef struct	s_board
 
 typedef struct	s_player
 {
-	double		direction_x;
-	double		direction_y;
-	double		plane_x;
-	double		plane_y;
 	double		time;
 	double		old_time;
+	t_position	direction;
+	t_position	plane;	
 }				t_player;
 
 typedef struct	s_movements
@@ -151,21 +152,18 @@ typedef struct	s_movements
 
 typedef struct	s_ray
 {
-	double		camera_x;
-	double		dir_x;
-	double		dir_y;
-	double		deltadist_x;
-	double		deltadist_y;
-	double		sidedist_x;
-	double		sidedist_y;
-	double		perpwalldist;
 	int			line_height;
 	int			draw_start;
 	int			draw_end;
-	int			step_x;
-	int			step_y;
-	int			map_x;
-	int			map_y;
+	int			side;
+	double		perpwalldist;
+	double		camera_x;
+	double		wall_x;
+	t_position	dir;
+	t_position	deltadist;
+	t_position	sidedist;
+	t_position	step;
+	t_position	map;
 }				t_ray;
 
 typedef struct	s_game // Game
@@ -241,6 +239,10 @@ int				ft_set_orientation(char orientation, t_player *player);
 t_ray			ft_render_map(t_game *game, t_screen resolution);
 void			ft_step_side_dist_init(t_position start, t_ray *ray);
 void			ft_perform_dda(t_map map, t_ray *ray);
+void			ft_perp_wall_dist(t_ray *ray, t_position start);
+void			ft_screen_line_pixels_stripe(t_ray *ray, t_screen resolution);
+void 			ft_wall_texture(t_ray *ray, t_position start, t_texture *tex);
+void 			ft_draw_wall(t_ray *ray, t_position start, t_texture *texture);
 
 /*
 ** ---------- DELETEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE ---------------
