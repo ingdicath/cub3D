@@ -60,8 +60,8 @@ int		ft_check_unique_orientation(t_map *map)
 				if (map->orientation != '\0')
 					return (0);
 				map->orientation = map->data[i][j];
-				map->start_pos.row = i;
-				map->start_pos.col = j;
+				map->start_pos.x = i;
+				map->start_pos.y = j;
 			}
 			j++;
 		}
@@ -89,8 +89,8 @@ void	ft_reset_input(t_game_file *game_file)
 	game_file->sprite_path = NULL;
 	game_file->map.data = NULL;
 	game_file->map.orientation = '\0';
-	game_file->map.start_pos.row = -1;
-	game_file->map.start_pos.col = -1;
+	game_file->map.start_pos.x = -1;
+	game_file->map.start_pos.y = -1;
 }
 
 int		ft_check_complete_elements(t_game_file *game_file)

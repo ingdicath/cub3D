@@ -55,6 +55,15 @@ typedef enum	e_masks
 }				t_masks;
 
 /*
+** ----------- Constants ---------------------------------------------
+*/
+
+typedef enum	e_sizes
+{
+	TEXTURE_WIDTH = 64, TEXTURE_HEIGHT = 64
+}				t_sizes;
+
+/*
 ** ----------- Parsing structures ----------------------------------------------
 */
 
@@ -73,8 +82,8 @@ typedef struct	s_screen
 
 typedef struct	s_position
 {
-	double		row;
-	double		col;
+	double		x;
+	double		y;
 }				t_position;
 
 typedef struct	s_map
@@ -110,15 +119,20 @@ typedef struct	s_texture //validar
 	int			endian;
 	int			width;
 	int			height;
-	double 		step_size;
-	double		position; /// definido 11 aug, Starting texture coordinate
-	t_position	coordinate; //definido 11 aug,
 }				t_texture;
+
+typedef struct 	s_wall
+{	
+	double		step;
+	double		start_pos;
+	t_position	pos;
+}				t_wall;
 
 typedef struct	s_board
 {
 	void		*mlx;
 	void		*window;
+	t_screen	resolution;
 	t_texture	win_data;
 	t_texture	north;
 	t_texture	south;
@@ -164,6 +178,7 @@ typedef struct	s_ray
 	t_position	sidedist;
 	t_position	step;
 	t_position	map;
+	t_wall		tex;
 }				t_ray;
 
 typedef struct	s_game // Game
@@ -226,7 +241,7 @@ int				ft_check_args(int argc, char **argv, int *screenshot);
 */
 
 int				ft_close_game(t_game *game);
-int				ft_play_game(int keycode, t_game *game, t_map map);
+int				ft_play_game(int keycode, t_game *game);
 int				ft_key_press(int keycode, t_game *game);
 int				ft_key_release(int keycode, t_game *game);
 int				ft_start_game(t_game_file game_file);
@@ -241,8 +256,9 @@ void			ft_step_side_dist_init(t_position start, t_ray *ray);
 void			ft_perform_dda(t_map map, t_ray *ray);
 void			ft_perp_wall_dist(t_ray *ray, t_position start);
 void			ft_screen_line_pixels_stripe(t_ray *ray, t_screen resolution);
-void 			ft_wall_texture(t_ray *ray, t_position start, t_texture *tex);
-void 			ft_draw_wall(t_ray *ray, t_position start, t_texture *texture);
+void 			ft_wall_texture(t_ray *ray, t_position start);
+void 			ft_texture_color(t_ray *ray, t_screen res, t_board board);
+int 			ft_choose_textures(t_board board, t_ray *ray);
 
 /*
 ** ---------- DELETEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE ---------------
