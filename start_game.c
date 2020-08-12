@@ -6,7 +6,7 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/06 14:19:42 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/11 17:12:17 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/12 15:32:09 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,14 @@ void		ft_reset_movements(t_movements *movements)
 	movements->move_back = 0;
 	movements->move_right = 0;
 	movements->move_left = 0;
-	movements->rotate_right = 0;
-	movements->rotate_left = 0;
+	movements->turn_right = 0;
+	movements->turn_left = 0;
 }
 
 int	ft_close_game(t_game *game)
 {
+	// deberia liberar un buffer con los datos almacenados
+
 	if (game->board.window)
 		mlx_destroy_window(game->board.mlx, game->board.window);
 	if (game->board.win_data.image)
@@ -41,13 +43,38 @@ int	ft_close_game(t_game *game)
 
 int	ft_key_press(int keycode, t_game *game)
 {
-	// if (keycode == KEY_W)
-	printf("auch%d\n ", keycode);
+	if (keycode == ESC)
+		ft_close_game(game); // create function
+	if (keycode == KEY_W)
+		game->player.move.move_front = 1;
+	if (keycode == KEY_S)
+		game->player.move.move_back = 1;
+	if (keycode == KEY_A)
+		game->player.move.move_left = 1;
+	if (keycode == KEY_D)
+		game->player.move.move_right = 1;
+	if (keycode == RIGHT)
+		game->player.move.turn_right = 1;
+	if (keycode == LEFT)
+		game->player.move.turn_left = 1;
+	printf("auch%d\n ", keycode); //borrar
 	return (0);
 }
 
 int	ft_key_release(int keycode, t_game *game)
 {
+	if (keycode == KEY_W)
+		game->player.move.move_front = 0;
+	if (keycode == KEY_S)
+		game->player.move.move_back = 0;
+	if (keycode == KEY_A)
+		game->player.move.move_left = 0;
+	if (keycode == KEY_D)
+		game->player.move.move_right = 0;
+	if (keycode == RIGHT)
+		game->player.move.turn_right = 0;
+	if (keycode == LEFT)
+		game->player.move.turn_left = 0;
 	printf("fiiiiu\n");
 	return (0);
 }
@@ -57,7 +84,7 @@ int	ft_save_screen(t_game_file game_file)
 	return (0);
 }
 
-int	ft_play_game(int keycode, t_game *game)
+int	ft_play_game(t_game *game)
 {
 	t_board	*board;
 	t_ray	ray;
@@ -172,8 +199,8 @@ void ft_screen_line_pixels_stripe(t_ray *ray, t_screen resolution)
 	if (ray->draw_start < 0)
 		ray->draw_start = 0;
 	ray->draw_end = ray->line_height / 2 + resolution.height / 2;
-	if (ray->draw_end >= ray->line_height)
-	 	ray->draw_end = ray->line_height - 1;
+	if (ray->draw_end >= resolution.height)
+	 	ray->draw_end = resolution.height - 1;
 }
 
 /*

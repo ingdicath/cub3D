@@ -6,7 +6,7 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/29 11:20:00 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/11 17:12:14 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/12 13:34:31 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,8 @@ typedef struct	s_player
 	double		time;
 	double		old_time;
 	t_position	direction;
-	t_position	plane;	
+	t_position	plane;
+	t_movements	move;
 }				t_player;
 
 typedef struct	s_movements
@@ -160,8 +161,8 @@ typedef struct	s_movements
 	int			move_back;
 	int			move_right;
 	int			move_left;
-	int			rotate_right;
-	int			rotate_left;
+	int			turn_right;
+	int			turn_left;
 }				t_movements;
 
 typedef struct	s_ray
@@ -241,7 +242,7 @@ int				ft_check_args(int argc, char **argv, int *screenshot);
 */
 
 int				ft_close_game(t_game *game);
-int				ft_play_game(int keycode, t_game *game);
+int				ft_play_game(t_game *game);
 int				ft_key_press(int keycode, t_game *game);
 int				ft_key_release(int keycode, t_game *game);
 int				ft_start_game(t_game_file game_file);
