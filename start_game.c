@@ -6,7 +6,7 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/06 14:19:42 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/12 15:32:09 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/13 16:55:06 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,27 @@
 ** aqui podria incluirse destroy window cuando screenshot no se necesita
 */
 
-void		ft_reset_movements(t_movements *movements)
+//////////////////////////// 12 aug /////////////////////////////////
+
+void		ft_reset_variables_game(t_board *board, t_moves *moves)
 {
-	movements->move_front = 0;
-	movements->move_back = 0;
-	movements->move_right = 0;
-	movements->move_left = 0;
-	movements->turn_right = 0;
-	movements->turn_left = 0;
+	board->mlx = NULL;
+	board->window = NULL;
+	board->win_data.image = NULL;
+	board->north.address = NULL;
+	board->south.address = NULL;
+	board->west.address = NULL;
+	board->east.address = NULL;
+	board->sprite.address = NULL;
+	moves->move_front = 0;
+	moves->move_back = 0;
+	moves->move_right = 0;
+	moves->move_left = 0;
+	moves->turn_right = 0;
+	moves->turn_left = 0;
+	board->buffer = (double *)malloc(sizeof(double) * board->resolution.width);
+	if (board->buffer == NULL)
+		//PUT FUNCTION que haga free y muestre ERROR CON VOID
 }
 
 int	ft_close_game(t_game *game)
@@ -126,6 +139,20 @@ int ft_choose_textures(t_board board, t_ray *ray)
 	return (color);
 }
 
+
+
+
+/////////////////////////13 ago//////////////////////
+
+void ft_put_pixel(t_texture texture, int x, int y, int color)
+{
+	char *path;
+
+	path = texture.address + (y * texture.size_line +
+		(x* (texture.bits_per_pixel / 8)));
+	color = *(unsigned int*)path;
+}
+
 /*
 ** - texture->step_size = How much to increase the texture coordinate
 **	 per screen pixel.
@@ -152,9 +179,9 @@ void ft_texture_color(t_ray *ray, t_screen res, t_board board)// name of functio
 		// funcion que llama las texturas
 		if (ray->side == 1)
 			color = (color >> 1) & 8355711; //make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
- 		//buffer[y][x] = color;
-		
-		y++;
+ 		
+ 		buffer[y][x] = color; // ???
+ 		y++;
 	}
 }
 
@@ -248,7 +275,7 @@ void	ft_perform_dda(t_map map, t_ray *ray)
 		if (map.data[(int)ray->map.x][(int)ray->map.y] == '1') /// revisar esta linea //(game->map.data[ray->map_x][ray->map_y] == '1') /// esto es el muro. porque es 1
 			hit = 1;
 	}
-	ft_perp_wall_dist(ray, map.start_pos);
+	// ft_perp_wall_dist(ray, map.start_pos);  //13 ago: se comenta porque esta funcion va mas abajo
 }
 
 // Now, before the actual DDA can start, first stepX, stepY,
@@ -278,7 +305,7 @@ void			ft_step_side_dist_init(t_position start, t_ray *ray)
 	}
 }
 
-t_ray				ft_render_map(t_game *game, t_screen resolution)
+t_ray			ft_render_map(t_game *game, t_screen res, t_position start)
 {
 	int			x;
 	t_ray		ray;
@@ -286,8 +313,7 @@ t_ray				ft_render_map(t_game *game, t_screen resolution)
 	x = 0;
 	while (x < resolution.width)
 	{
-		ray.camera_x = 2 * x / (double)(resolution.width - 1);
-		
+		ray.camera_x = 2 * x / (double)(res.width - 1);	
 		ray.dir.x = game->player.direction.x +
 					game->player.plane.x * ray.camera_x;
 		ray.dir.y = game->player.direction.y +
@@ -296,8 +322,30 @@ t_ray				ft_render_map(t_game *game, t_screen resolution)
 		ray.map.y = (int)game->map.start_pos.y;
 		ray.deltadist.x = fabs(1 / ray.dir.x);
 		ray.deltadist.y = fabs(1 / ray.dir.y);
+
+		ft_step_side_dist_init(start, &ray);  // revisar como se esta llamando la position
+		// void			ft_step_side_dist_init(t_position start, t_ray *ray)
+
+		ft_perform_dda(game->map, &ray);
+		// void	ft_perform_dda(t_map map, t_ray *ray)
+
+		ft_perp_wall_dist(&ray, game->map.start_pos);
+		// void ft_perp_wall_dist(t_ray *ray, t_position start)
+
+		ft_screen_line_pixels_stripe(&ray, res);
+		// void ft_screen_line_pixels_stripe(t_ray *ray, t_screen resolution)
+
+		ft_wall_texture(&ray, game->map.start_pos);
+		// void ft_wall_texture(t_ray *ray, t_position start)
+
+		ft_texture_color(&ray, res, game->board)
+		// void ft_texture_color(t_ray *ray, t_screen res, t_board board)
+
 		x++;
 	}
+	
+
+
 	return (ray);
 }
 
@@ -405,9 +453,10 @@ int			ft_start_game(t_game_file file)
 		return (ft_put_error("set board failure"));
 	ft_set_all_textures(file, &game.board);
 	ft_set_orientation(game.map.orientation, &game.player);
-	
+	ray = ft_render_map(&game, file.resolution);
 
-	// ray = ft_render_map(&game, file.resolution);
+
+
 	// ft_step_side_dist_init(game.map.start_pos, &ray);
 	// ft_perform_dda(game.map, &ray);
 	// ft_screen_line_pixels_stripe(&ray, file.resolution);
