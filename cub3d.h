@@ -128,43 +128,6 @@ typedef struct 	s_wall
 	t_position	pos;
 }				t_wall;
 
-typedef struct	s_board
-{
-	void		*mlx;
-	void		*window;
-	double		**buffer;  // Uint32 buffer[screenHeight][screenWidth]
-	t_screen	resolution;
-	t_texture	win_data;
-	t_texture	north;
-	t_texture	south;
-	t_texture	west;
-	t_texture	east;
-	t_texture	sprite;
-	// void		*image;
-	// char		*address;
-	// int			bits_per_pixel;
-	// int			line_length;
-	// int			endian;
-}				t_board;
-
-typedef struct	s_player
-{
-	double		time;
-	double		old_time;
-	t_position	direction;
-	t_position	plane;
-	t_movements	move;
-}				t_player;
-
-typedef struct	s_movements
-{
-	int			move_front;
-	int			move_back;
-	int			move_right;
-	int			move_left;
-	int			turn_right;
-	int			turn_left;
-}				t_movements;
 
 typedef struct	s_ray
 {
@@ -182,6 +145,48 @@ typedef struct	s_ray
 	t_position	map;
 	t_wall		tex;
 }				t_ray;
+
+typedef struct	s_board
+{
+	void		*mlx;
+	void		*window;
+	double		*buffer;  // Uint32 buffer[screenHeight][screenWidth]
+	t_screen	resolution;
+	t_texture	win_data;
+	t_texture	north;
+	t_texture	south;
+	t_texture	west;
+	t_texture	east;
+	t_texture	sprite;
+	t_ray		ray;
+	// void		*image;
+	// char		*address;
+	// int			bits_per_pixel;
+	// int			line_length;
+	// int			endian;
+}				t_board;
+
+typedef struct	s_movements
+{
+	int			move_front;
+	int			move_back;
+	int			move_right;
+	int			move_left;
+	int			turn_right;
+	int			turn_left;
+}				t_movements;
+
+typedef struct	s_player
+{
+	double		time;
+	double		old_time;
+	t_position	direction;
+	t_position	plane;
+	t_movements	move;
+}				t_player;
+
+
+
 
 typedef struct	s_game // Game
 {
@@ -248,21 +253,26 @@ int				ft_key_press(int keycode, t_game *game);
 int				ft_key_release(int keycode, t_game *game);
 int				ft_start_game(t_game_file game_file);
 int				ft_save_screen (t_game_file game_file);
-int				ft_set_board(t_game_file file, t_game *game);
+int				ft_set_board(t_board *board);
 int				ft_set_all_textures(t_game_file file, t_board *board);
 int				ft_set_texture(void *mlx, char *path, t_texture *texture);
 void			ft_reset_player(t_player *player);
 int				ft_set_orientation(char orientation, t_player *player);
 // t_ray			ft_render_map(t_game *game, t_screen resolution);
-t_ray			ft_render_map(t_game *game, t_screen res, t_position start);
+void			ft_render_map(t_game *game);
+// t_ray			ft_render_map(t_game *game, t_screen res, t_position start);
 void			ft_step_side_dist_init(t_position start, t_ray *ray);
 void			ft_perform_dda(t_map map, t_ray *ray);
 void			ft_perp_wall_dist(t_ray *ray, t_position start);
 void			ft_screen_line_pixels_stripe(t_ray *ray, t_screen resolution);
 void 			ft_wall_texture(t_ray *ray, t_position start);
-void 			ft_texture_color(t_ray *ray, t_screen res, t_board board);
-int 			ft_choose_textures(t_board board, t_ray *ray);
-void			ft_reset_variables_game(t_board *board, t_moves *moves);
+void 			ft_texture_color(t_ray *ray, t_board board, int x);
+t_texture 		ft_get_textures(t_board board, t_ray *ray);
+void			ft_reset_variables_game(t_board *board, t_movements *moves);
+void 			ft_put_pixel(t_texture *texture, int x, int y, int color);
+int 			ft_get_color(t_texture texture, t_ray ray);
+
+
 
 /*
 ** ---------- DELETEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE ---------------
