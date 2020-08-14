@@ -6,7 +6,7 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/29 11:20:00 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/13 13:37:33 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/14 18:09:02 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,14 @@
 # define XPM 	".xpm"
 # define PNG 	".png"
 # define BMP 	".bmp"
+
+/*
+** ----------- Speed & moves --------------------------------------------------
+*/
+
+# define ROTATE_SPEED 0.05
+# define MOVE 	0.02
+# define MOVE_SPEED  3.5
 
 /*
 ** ----------- Libraries ------------------------------------------------------
@@ -174,6 +182,7 @@ typedef struct	s_movements
 	int			move_left;
 	int			turn_right;
 	int			turn_left;
+	// int 		close;   verificar si va dentro de esta estructura
 }				t_movements;
 
 typedef struct	s_player
@@ -182,6 +191,7 @@ typedef struct	s_player
 	double		old_time;
 	t_position	direction;
 	t_position	plane;
+	t_position	current_pos; // agregado el 14de agosto
 	t_movements	move;
 }				t_player;
 
@@ -258,9 +268,7 @@ int				ft_set_all_textures(t_game_file file, t_board *board);
 int				ft_set_texture(void *mlx, char *path, t_texture *texture);
 void			ft_reset_player(t_player *player);
 int				ft_set_orientation(char orientation, t_player *player);
-// t_ray			ft_render_map(t_game *game, t_screen resolution);
 void			ft_render_map(t_game *game);
-// t_ray			ft_render_map(t_game *game, t_screen res, t_position start);
 void			ft_step_side_dist_init(t_position start, t_ray *ray);
 void			ft_perform_dda(t_map map, t_ray *ray);
 void			ft_perp_wall_dist(t_ray *ray, t_position start);
@@ -271,6 +279,7 @@ t_texture 		ft_get_textures(t_board board, t_ray *ray);
 void			ft_reset_variables_game(t_board *board, t_movements *moves);
 void 			ft_put_pixel(t_texture *texture, int x, int y, int color);
 int 			ft_get_color(t_texture texture, t_ray ray);
+void			ft_set_ray_position(t_game *game,  int x);
 
 
 

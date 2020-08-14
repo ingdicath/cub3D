@@ -6,7 +6,7 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/06 14:19:42 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/13 16:55:06 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/14 18:43:13 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,123 @@ int	ft_key_release(int keycode, t_game *game)
 		game->player.move.move_left = 0;
 	if (keycode == KEY_D)
 		game->player.move.move_right = 0;
-	if (keycode == RIGHT)
-		game->player.move.turn_right = 0;
 	if (keycode == LEFT)
 		game->player.move.turn_left = 0;
+	if (keycode == RIGHT)
+		game->player.move.turn_right = 0;
 	printf("fiiiiu\n");
 	return (0);
 }
+
+///////////////////////// 14 aug ////////////////////////////
+
+   //move forward if no wall in front of you
+void ft_move_front(t_game *game, t_position *start)
+{
+	t_position new_pos;
+
+	new_pos.x = start->x + game->player.direction.x * MOVE_SPEED;
+	new_pos.y = start->y + game->player.direction.y * MOVE_SPEED;
+
+	if (game->map.data[(int)new_pos.x][(int)start->y] == '0')
+		start->x += game->player.direction.x * MOVE_SPEED;
+	if (game->map.data[(int)start->x][(int)new_pos.y] == '0')
+		start->y += game->player.direction.y * MOVE_SPEED;
+}
+
+  //move backwards if no wall behind you
+void ft_move_back(t_game *game)
+{
+	t_position new_pos;
+
+	new_pos.x = start->x - game->player.direction.x * MOVE_SPEED;
+	new_pos.y = start->y - game->player.direction.y * MOVE_SPEED;
+	if (game->map.data[(int)new_pos.x][(int)start->y] == '0')
+		start->x -= game->player.direction.x * MOVE_SPEED;
+	if (game->map.data[(int)start->x][(int)new_pos.y] == '0')
+		start->y += game->player.direction.y * MOVE_SPEED;
+}
+
+void ft_move_right(t_game *game) // revisar sentido, el ejemplo tenia los ejes [y][x]
+{
+	t_position new_pos;
+
+	new_pos.x = start->x - game->player.direction.y * MOVE_SPEED;
+	new_pos.y = start->y + game->player.direction.x * MOVE_SPEED;
+	if (game->map.data[(int)new_pos.x][(int)start->y] == '0')
+		start->x -= game->player.direction.y * MOVE_SPEED;
+	if (game->map.data[(int)start->x][(int)new_pos.y] == '0')
+		start->y += game->player.direction.x * MOVE_SPEED;
+}
+
+void ft_move_left(t_game *game) // revisar sentido, el ejemplo tenia los ejes [y][x]
+{
+	t_position new_pos;
+
+	new_pos.x = start->x + game->player.direction.y * MOVE_SPEED;
+	new_pos.y = start->y - game->player.direction.x * MOVE_SPEED;
+	if (game->map.data[(int)new_pos.x][(int)start->y] == '0')
+		start->x += game->player.direction.y * MOVE_SPEED;
+	if (game->map.data[(int)start->x][(int)new_pos.y] == '0')
+		start->y -= game->player.direction.x * MOVE_SPEED;
+}
+//rotate to the right
+//both camera direction and camera plane must be rotated
+void ft_turn_right(t_game *game)
+{
+	double old_dir_x;
+	double old_plane_x;
+
+	old_dir_x = game->player.direction.x;
+	old_plane_x = game->player.plane.x;
+	game->player.direction.x = game->player.direction.x * cos(-ROTATE_SPEED)
+		- game->player.direction.y * sin(-ROTATE_SPEED);
+	game->player.direction.y = old_dir_x * sin(-ROTATE_SPEED) +
+		game->player.direction.y * cos(-ROTATE_SPEED);
+	game->player.plane.x = game->player.plane.x * cos(-ROTATE_SPEED)
+		- game->player.plane.y * sin(-ROTATE_SPEED);
+	game->player.plane.y = old_plane_x * sin(-ROTATE_SPEED) +
+		game->player.plane.y * cos(-ROTATE_SPEED);
+}
+
+void ft_turn_left(t_game *game)  // revisar si deja compilar con valores negativos COS y SIN
+{
+	double old_dir_x;
+	double old_plane_x;
+
+	old_dir_x = game->player.direction.x;
+	old_plane_x = game->player.plane.x;
+	game->player.direction.x = game->player.direction.x * cos(ROTATE_SPEED)
+		- game->player.direction.y * sin(ROTATE_SPEED);
+	game->player.direction.y = old_dir_x * sin(ROTATE_SPEED) +
+		game->player.direction.y * cos(ROTATE_SPEED);
+	game->player.plane.x = game->player.plane.x * cos(ROTATE_SPEED)
+		- game->player.plane.y * sin(-ROTATE_SPEED);
+	game->player.plane.y = old_plane_x * sin(ROTATE_SPEED) +
+		game->player.plane.y * cos(ROTATE_SPEED);
+}
+
+
+int ft_manage_movements(t_game *game)
+{
+	if (game->player.move.move_front == 1)
+		ft_move_front(game);
+	if (game->player.move.move_back == 1)
+		ft_move_back(game);
+	if (game->player.move.move_left == 1)
+		ft_move_left(game);
+	if (game->player.move.move_right == 1)
+		ft_move_right(game);
+	if (game->player.move.turn_left == 1)
+		ft_turn_left(game);
+	if (game->player.move.turn_right == 1)
+		ft_turn_right(game);
+
+	return (0);
+
+}
+
+
 
 int	ft_save_screen(t_game_file game_file)
 {
@@ -100,20 +210,9 @@ int	ft_save_screen(t_game_file game_file)
 
 int	ft_play_game(t_game *game)
 {
-	// t_board	*board;
-	// t_ray	ray;
-	// board = &game->board;
-
 	ft_render_map(game);
-	// t_ray			ft_render_map(t_game *game, t_screen res, t_position start)
-
-	mlx_put_image_to_window(game->board.mlx, game->board.window, game->board.win_data.image, 0, 0);
-	// ray = ft_render_map(game, board->resolution);
-	// ft_step_side_dist_init(game->map.start_pos, &ray);
-	// ft_perform_dda(game->map, &ray);
-	// ft_screen_line_pixels_stripe(&ray, board->resolution);
-	// ft_wall_texture(&ray, game->map.start_pos);
-	// ft_texture_color(&ray, board->resolution, *board);
+	mlx_put_image_to_window(game->board.mlx, game->board.window, 
+		game->board.win_data.image, 0, 0);
 	return (0);
 }
 
@@ -152,21 +251,15 @@ int ft_get_color(t_texture texture, t_ray ray)
 	return (color);
 }
 
-
-
 /////////////////////////13 ago//////////////////////
 
 void ft_put_pixel(t_texture *texture, int x, int y, int color)
 {
 	char *dst;
 
-	
 	dst = texture->address + (y * texture->size_line +
 		x * (texture->bits_per_pixel / 8));
-	
-
 	*(unsigned int*)dst = color;
-	
 }
 
 /*
@@ -322,45 +415,51 @@ void			ft_step_side_dist_init(t_position start, t_ray *ray)
 	}
 }
 
-void			ft_render_map(t_game *game)
+//////////////////////////////// 14 ago /////////////////////////////
+void	ft_set_ray_position(t_game *game,  int x)
 {
-	int			x;
 	t_ray		ray;
 
 	ray = game->board.ray;
+	ray.camera_x = 2 * x / (double)(game->board.resolution.width - 1);	
+	ray.dir.x = game->player.direction.x +
+				game->player.plane.x * ray.camera_x;
+	ray.dir.y = game->player.direction.y +
+				game->player.plane.y * ray.camera_x;
+	ray.map.x = (int)game->map.start_pos.x;
+	ray.map.y = (int)game->map.start_pos.y;
+	ray.deltadist.x = fabs(1 / ray.dir.x);
+	ray.deltadist.y = fabs(1 / ray.dir.y);
+}
+
+void			ft_render_map(t_game *game)
+{
+	int			x;
+	// t_ray		ray;
+
+	// ray = game->board.ray;
 	x = 0;
 	while (x < game->board.resolution.width)
 	{
-		ray.camera_x = 2 * x / (double)(game->board.resolution.width - 1);	
-		ray.dir.x = game->player.direction.x +
-					game->player.plane.x * ray.camera_x;
-		ray.dir.y = game->player.direction.y +
-					game->player.plane.y * ray.camera_x;
-		ray.map.x = (int)game->map.start_pos.x;
-		ray.map.y = (int)game->map.start_pos.y;
-		ray.deltadist.x = fabs(1 / ray.dir.x);
-		ray.deltadist.y = fabs(1 / ray.dir.y);
-
-		ft_step_side_dist_init(game->map.start_pos, &ray);  // revisar como se esta llamando la position
-		// void			ft_step_side_dist_init(t_position start, t_ray *ray)
-
+		// ray.camera_x = 2 * x / (double)(game->board.resolution.width - 1);	
+		// ray.dir.x = game->player.direction.x +
+		// 			game->player.plane.x * ray.camera_x;
+		// ray.dir.y = game->player.direction.y +
+		// 			game->player.plane.y * ray.camera_x;
+		// ray.map.x = (int)game->map.start_pos.x;
+		// ray.map.y = (int)game->map.start_pos.y;
+		// ray.deltadist.x = fabs(1 / ray.dir.x);
+		// ray.deltadist.y = fabs(1 / ray.dir.y);
+		ft_set_ray_position(t_game *game); ////////////////////// 14 aug
+		ft_step_side_dist_init(game->map.start_pos, &ray);  
 		ft_perform_dda(game->map, &ray);
-		// void	ft_perform_dda(t_map map, t_ray *ray)
-
 		ft_perp_wall_dist(&ray, game->map.start_pos);
-		// void ft_perp_wall_dist(t_ray *ray, t_position start)
-
 		ft_screen_line_pixels_stripe(&ray, game->board.resolution);
-		// void ft_screen_line_pixels_stripe(t_ray *ray, t_screen resolution)
-
 		ft_wall_texture(&ray, game->map.start_pos);
-		// void ft_wall_texture(t_ray *ray, t_position start)
-
 		ft_texture_color(&ray, game->board, x);
-		// void ft_texture_color(t_ray *ray, t_screen res, t_board board)
-
 		x++;
 	}
+	 //timing for input and FPS counter
 
 }
 
@@ -470,14 +569,12 @@ int			ft_start_game(t_game_file file)
 	ft_set_all_textures(file, &game.board);
 	ft_set_orientation(game.map.orientation, &game.player);
 
-	
 	// ft_step_side_dist_init(game.map.start_pos, &ray);
 	// ft_perform_dda(game.map, &ray);
 	// ft_screen_line_pixels_stripe(&ray, file.resolution);
 	// ft_wall_texture(&ray, file.map.start_pos);
 	// ft_texture_color(&ray, file.resolution, *board);
 
-// eto podria ir en el main, se trata de eventos para keyboard y usar mlx
 	mlx_hook(game.board.window, DESTROY, NOTIFY_MASK, &ft_close_game, &game);
 	mlx_hook(game.board.window, PRESS, PRESS_MASK, &ft_key_press, &game);
 	mlx_hook(game.board.window, RELEASE, RELEASE_MASK, &ft_key_release, &game);
