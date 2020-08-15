@@ -497,7 +497,7 @@ int				main(int argc, char **argv)
 }
 /*
 $ gcc parsing.c ft_split.c gnl/get_next_line.c cub3d_utils.c start_game.c -fsanitize=address
-gcc parsing.c ft_split.c gnl/get_next_line.c cub3d_utils.c start_game.c -Lmlx -lmlx -framework OpenGL -framework AppKit
+gcc parsing.c ft_split.c gnl/get_next_line.c cub3d_utils.c start_game.c -Lmlx -lmlx -framework OpenGL -framework AppKit -fsanitize=address
 gcc -Wall -Werror -Wextra parsing.c ft_split.c gnl/get_next_line.c cub3d_utils.c -fsanitize=address
 
 solo puede existir un elemento de cada tipo:  una sola R, una sola C, F, etc..
