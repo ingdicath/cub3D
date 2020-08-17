@@ -6,7 +6,7 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/29 11:20:00 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/14 18:09:02 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/17 14:21:44 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,27 @@
 ** ----------- Extensions -----------------------------------------------------
 */
 
-# define CUB 	".cub"
-# define XPM 	".xpm"
-# define PNG 	".png"
-# define BMP 	".bmp"
+# define CUB ".cub"
+# define XPM ".xpm"
+# define PNG ".png"
+# define BMP ".bmp"
 
 /*
 ** ----------- Speed & moves --------------------------------------------------
 */
 
 # define ROTATE_SPEED 0.05
-# define MOVE 	0.02
-# define MOVE_SPEED  3.5
+# define MOVE 0.02
+# define MOVE_SPEED 3.5
+
+/*
+** ----------- Colors ---------------------------------------------------------
+** To build rgb format system: red in the bit 16 =  1 << 16;
+** green in the bit 8 =  1 << 8, blue is in the bit 1.
+*/
+
+# define RED_BIT 65536
+# define GREEN_BIT 256
 
 /*
 ** ----------- Libraries ------------------------------------------------------
@@ -129,7 +138,7 @@ typedef struct	s_texture //validar
 	int			height;
 }				t_texture;
 
-typedef struct 	s_wall
+typedef struct	s_wall
 {	
 	double		step;
 	double		start_pos;
@@ -159,6 +168,8 @@ typedef struct	s_board
 	void		*mlx;
 	void		*window;
 	double		*buffer;  // Uint32 buffer[screenHeight][screenWidth]
+	int			ceiling;
+	int			floor;
 	t_screen	resolution;
 	t_texture	win_data;
 	t_texture	north;
@@ -273,24 +284,23 @@ void			ft_step_side_dist_init(t_position current, t_ray *ray);
 void			ft_perform_dda(t_map map, t_ray *ray);
 void			ft_perp_wall_dist(t_ray *ray, t_position current);
 void			ft_screen_line_pixels_stripe(t_ray *ray, t_screen resolution);
-void 			ft_wall_texture(t_ray *ray, t_position current);
-void 			ft_texture_color(t_ray *ray, t_board board, int x);
-t_texture 		ft_get_textures(t_board board, t_ray *ray);
-void		ft_reset_variables_game(t_board *board, t_player *player);
-void 			ft_put_pixel(t_texture *texture, int x, int y, int color);
-int 			ft_get_color(t_texture texture, t_ray ray);
-void ft_set_ray_position(t_game *game,  int x);
-void ft_move_front(t_map map, t_player *player);
-void ft_move_back(t_map map, t_player *player);
-void ft_move_right(t_map map, t_player *player);
-void ft_move_left(t_map map, t_player *player);
-void ft_turn_right(t_player *player);
-void ft_turn_left(t_player *player);
-int ft_manage_movements(t_map map, t_player *player);
-
-
-
-
+void			ft_wall_texture(t_ray *ray, t_position current);
+void			ft_texture_color(t_ray *ray, t_board board, int x);
+t_texture		ft_get_textures(t_board board, t_ray *ray);
+void			ft_reset_variables_game(t_board *board, t_player *player);
+void			ft_put_pixel(t_texture *texture, int x, int y, int color);
+int				ft_get_color(t_texture texture, t_ray ray);
+void			ft_set_ray_position(t_game *game,  int x);
+void			ft_move_front(t_map map, t_player *player);
+void			ft_move_back(t_map map, t_player *player);
+void			ft_move_right(t_map map, t_player *player);
+void			ft_move_left(t_map map, t_player *player);
+void			ft_turn_right(t_player *player);
+void			ft_turn_left(t_player *player);
+int				ft_manage_movements(t_map map, t_player *player);
+int				ft_rgb_calculator(int r, int g, int b);
+void			ft_get_floor_ceiling_color(t_game_file file, t_board *board);
+void			ft_draw_floor_ceiling_color(t_board board, t_ray ray);
 
 
 /*

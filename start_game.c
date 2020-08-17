@@ -1,23 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/* asdffasdfasdfasd                                                       ::::::::            */
-/*   start_game.c                                       :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: edgarruiz <edgarruiz@student.codam.nl>       +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2020/08/14 19:00:22 by edgarruiz      #+#    #+#                */
-/*   Updated: 2020/08/16 17:22:50 by edgarruiz     ########   odam.nl         */
-/*                                                                            */
-/* ************************************************************************** */
-/* ************************************************************************** */
-/*                                                                            */
 /*                                                        ::::::::            */
 /*   start_game.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/06 14:19:42 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/14 18:43:13 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/17 14:24:27 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +16,6 @@
 /*
 ** aqui podria incluirse destroy window cuando screenshot no se necesita
 */
-
-//////////////////////////// 12 aug /////////////////////////////////
 
 void		ft_reset_variables_game(t_board *board, t_player *player)
 {
@@ -65,6 +52,102 @@ int	ft_close_game(t_game *game)
 	//free(game);
 	exit(0);
 }
+
+/////////////////////////// 17 aug ////////////////////////////////
+
+int ft_rgb_calculator(int r, int g, int b)
+{
+	return (r * RED_BIT + g * GREEN_BIT + b);
+}
+
+void ft_get_floor_ceiling_color(t_game_file file, t_board *board)
+{
+	board->floor = ft_rgb_calculator(file.floor.red, file.floor.green,
+		file.floor.blue);
+	board->ceiling = ft_rgb_calculator(file.ceiling.red, file.ceiling.green,
+		file.ceiling.blue);
+}
+
+/// opcion 1
+
+void ft_draw_floor_ceiling_color(t_board board)
+{
+	int x;
+	int y;
+
+	y =  board.resolution.height / 2 + 1;
+	while(y < board.resolution.height)
+	{
+		x = 0;
+		while (x < board.resolution.width)
+		{
+			ft_put_pixel(board.mlx, x, y, board.floor);
+			ft_put_pixel(board.mlx, x, (board.resolution.height - y - 1),
+				board.ceiling);
+			x++;
+		}
+		y++;
+	}
+}
+
+
+////////////////////////////////////// opcion 2 cada una por separado
+void ft_draw_ceiling_color(t_board board, t_ray ray)
+{
+	int x;
+	int y;
+
+	x = 0;
+	y = 0;
+	while(y < ray.draw_start)
+	{
+		ft_put_pixel(board.mlx, x, y, board.ceiling);
+		y++;
+	}
+}
+
+void ft_draw_floor_color(t_board board, t_ray ray)
+{
+	int x;
+	int y;
+
+	x = 0;
+	y = ray.draw_end;
+	while(y < board.resolution.height)
+	{
+		ft_put_pixel(board.mlx, x, y, board.floor);
+		y++;
+	}
+}
+
+////////////////////////////////////// opcion 3 juntas las dos /////////
+void ft_draw_floor_ceiling_color(t_board board, t_ray ray)
+{
+	int x;
+	int y;
+
+	x = 0;
+	if (board.ceiling)
+	{
+		y = 0;
+		while(y < ray.draw_start)
+		{
+			ft_put_pixel(board.mlx, x, y, board.ceiling);
+			y++;
+		}
+	}
+	if (board.floor)
+	{
+		y = ray.draw_end;
+		while(y < board.resolution.height)
+		{
+			ft_put_pixel(board.mlx, x, y, board.floor);
+			y++;
+		}
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////
 
 int	ft_key_press(int keycode, t_game *game)
 {
@@ -104,12 +187,9 @@ int	ft_key_release(int keycode, t_game *game)
 	return (0);
 }
 
-///////////////////////// 14 aug ////////////////////////////
-
-   //move forward if no wall in front of you
+//move forward if no wall in front of you
 void ft_move_front(t_map map, t_player *player)
 {
-	
 	printf("llo que quieras\n" );
 	t_position new_pos;
 
@@ -122,15 +202,13 @@ void ft_move_front(t_map map, t_player *player)
 		player->current_pos.y = new_pos.y;
 }
 
-  //move backwards if no wall behind you
+//move backwards if no wall behind you
 void ft_move_back(t_map map, t_player *player)
 {
-	
 	t_position new_pos;
 
 	new_pos.x = player->current_pos.x - player->direction.x * MOVE_SPEED;
 	new_pos.y = player->current_pos.y - player->direction.y * MOVE_SPEED;
-
 	if (map.data[(int)new_pos.x][(int)player->current_pos.y] == '0')
 		player->current_pos.x = new_pos.x;
 	if (map.data[(int)player->current_pos.x][(int)new_pos.y] == '0')
@@ -139,12 +217,9 @@ void ft_move_back(t_map map, t_player *player)
 
 void ft_move_right(t_map map, t_player *player)
 {
-	
 	t_position new_pos;
-
 	new_pos.x = player->current_pos.x + player->plane.x * MOVE_SPEED;
 	new_pos.y = player->current_pos.y + player->plane.y * MOVE_SPEED;
-
 	if (map.data[(int)new_pos.x][(int)player->current_pos.y] == '0')
 		player->current_pos.x = new_pos.x;
 	if (map.data[(int)player->current_pos.x][(int)new_pos.y] == '0')
@@ -154,10 +229,8 @@ void ft_move_right(t_map map, t_player *player)
 void ft_move_left(t_map map, t_player *player) // tarea factorizar
 {
 	t_position new_pos;
-
 	new_pos.x = player->current_pos.x - player->plane.x * MOVE_SPEED;
 	new_pos.y = player->current_pos.y - player->plane.y * MOVE_SPEED;
-
 	if (map.data[(int)new_pos.x][(int)player->current_pos.y] == '0')
 		player->current_pos.x = new_pos.x;
 	if (map.data[(int)player->current_pos.x][(int)new_pos.y] == '0')
@@ -199,7 +272,6 @@ void ft_turn_left(t_player *player)
 		player->plane.y * cos(ROTATE_SPEED);
 }
 
-
 int ft_manage_movements(t_map map, t_player *player) //revisar si esta bien definida la posicion
 {
 	if (player->move.move_front == 1)
@@ -215,54 +287,40 @@ int ft_manage_movements(t_map map, t_player *player) //revisar si esta bien defi
 	if (player->move.turn_right == 1)
 		ft_turn_right(player);
 	return (0);
-
 }
-
-
 
 int	ft_save_screen(t_game_file game_file)
 {
 	return (0);
 }
 
-
-
 t_texture ft_get_textures(t_board board, t_ray *ray)
 {
-	
 	t_texture 	texture;
 	if (ray->side == 0)
 	{
 		if (ray->dir.x < 0){
-
 		//printf("choosed texture West address %p.width %d, texture height %d, bpp %d , size %d \n"  ,board.west.address, board.west.width, board.west.height, board.west.bits_per_pixel, board.west.size_line);
-	
 			texture = board.west;
 		}
 		else{
 		//printf("choosed  texture Est address %p. width %d, texture height %d, bpp %d , size %d \n"  ,board.east.address, board.east.width, board.east.height, board.east.bits_per_pixel, board.east.size_line);
-
-	
 			texture = board.east;
 		}
 	}
 	else
 	{
 		if (ray->dir.y < 0){
-	
 	//printf("choosed texture North address %p. width %d, texture height %d, bpp %d , size %d \n" ,board.north.address, board.north.width, board.north.height, board.north.bits_per_pixel, board.north.size_line);
-	
 			texture = board.south;
 		}
 		else{
 	//printf("choosed texture south address %p. width %d, texture height %d, bpp %d , size %d \n"  ,board.south.address, board.south.width, board.south.height, board.south.bits_per_pixel, board.south.size_line);
-	
 		  	texture = board.north;
 		}
 	}
 	return texture;
 }
-
 
 int ft_get_color(t_texture texture, t_ray ray)
 {
@@ -271,19 +329,14 @@ int ft_get_color(t_texture texture, t_ray ray)
 	
 	dst = texture.address + ((int)ray.tex.pos.y * texture.size_line +
 		((int)ray.tex.pos.x * (texture.bits_per_pixel / 8)));
-
 	color = *(unsigned int*)dst;
 	return (color);
 }
 
-/////////////////////////13 ago//////////////////////
-
 void ft_put_pixel(t_texture *texture, int x, int y, int color)
 {
 	char *dst;
-
 	//printf("address %p y %d size %d  bits_per_pixel %d\n", texture->address, y, texture-> size_line, texture->bits_per_pixel);
-
 	dst = texture->address + (y * texture->size_line +
 		x * (texture->bits_per_pixel / 8));
 	*(unsigned int*)dst = color;
@@ -305,13 +358,11 @@ void ft_texture_color(t_ray *ray, t_board board, int x)// name of function rende
 	ray->tex.step = 1.0 * TEXTURE_HEIGHT / ray->line_height;
 	ray->tex.start_pos = (ray->draw_start - board.resolution.height / 2 +
 		ray->line_height / 2) * ray->tex.step;
-	
 	y = ray->draw_start;
 
-		printf("draw_start:%d ray->draw_end:%d, X:%d\n", ray->draw_start,ray->draw_end, x);
+	printf("draw_start:%d ray->draw_end:%d, X:%d\n", ray->draw_start,ray->draw_end, x);
 	while (y < ray->draw_end)
 	{
-		
 		ray->tex.pos.y = (int)ray->tex.start_pos & (TEXTURE_HEIGHT - 1);
 		ray->tex.start_pos += ray->tex.step;
 		// color = (unsigned int)(texture->height * texture->pos.y + texture->pos.x);
@@ -320,12 +371,9 @@ void ft_texture_color(t_ray *ray, t_board board, int x)// name of function rende
 		color = ft_get_color(texture,  *ray);
 		// funcion que llama las texturas
 
-
-
 		if (ray->side == 1)
 			color = (color >> 1) & 8355711; //make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
  		ft_put_pixel(&board.win_data, x, y, color);
- 		
  		// buffer[y][x] = color; // ???
  		y++;
 	}
@@ -340,12 +388,9 @@ void ft_texture_color(t_ray *ray, t_board board, int x)// name of function rende
 */
 
 //calculate value of wallX
-//////////////////////////////11 aug ////////////////////////////////////////
-
 
 void ft_wall_texture(t_ray *ray, t_position current)
 {
-
 	if (ray->side == 0)
 		ray->wall_x = current.y + ray->perpwalldist * ray->dir.y;
 	else
@@ -365,8 +410,6 @@ void ft_wall_texture(t_ray *ray, t_position current)
 void ft_screen_line_pixels_stripe(t_ray *ray, t_screen resolution)
 {
 	ray->line_height = (int)(resolution.height / ray->perpwalldist);
-	
-
 	ray->draw_start =  -ray->line_height / 2 + resolution.height / 2;
 
 	//(resolution.height / 2) - (ray->line_height / 2) ;
@@ -395,10 +438,9 @@ void ft_perp_wall_dist(t_ray *ray, t_position current)
 	else
 		ray->perpwalldist = (ray->map.y - current.y +
 			(1 - ray->step.y) / 2) / ray->dir.y;
-
 	ray->perpwalldist = (ray->perpwalldist < 1)  ? 1 : ray->perpwalldist;
 
-	printf("Line he%f\n",  ray->perpwalldist);
+	printf("Line he%f\n",  ray->perpwalldist); //borrar
 }
 
 void	ft_perform_dda(t_map map, t_ray *ray)
@@ -406,7 +448,6 @@ void	ft_perform_dda(t_map map, t_ray *ray)
 	int	hit;
 
 	hit = 0;
-	
 	while (hit == 0)
 	{
 		// printf("Hit %d\n", hit);
@@ -427,7 +468,7 @@ void	ft_perform_dda(t_map map, t_ray *ray)
 		}
 		int x = (int)ray->map.x;
 		int y = (int)ray->map.y;
-		printf("checking map  %d %d %c\n", x , y , map.data[x][y] );
+		printf("checking map  %d %d %c\n", x , y , map.data[x][y]); //borrar
 
 		if (map.data[x][y] == '1') {
 		/// revisar esta linea //(game->map.data[ray->map_x][ray->map_y] == '1') /// esto es el muro. porque es 1
@@ -444,7 +485,6 @@ void			ft_step_side_dist_init(t_position current, t_ray *ray)
 {
  	// printf("ray->dir.x %f\n", ray->dir.x );
  	// printf("ray->dir.y %f\n", ray->dir.y );
-
 	if (ray->dir.x < 0)
 	{
 		ray->step.x = -1;
@@ -481,67 +521,46 @@ void	ft_set_ray_position(t_game *game,  int x)
 	ray = &game->board.ray ;
 
 	// printf("loading player  %f %f\n", game->player.direction.x  ,game->player.direction.y);
-
-	
-
 	ray->camera_x = 2 * x / (double)(game->board.resolution.width - 1) ;	
-	
 	ray->dir.x = game->player.direction.x +
-				game->player.plane.x * ray->camera_x;
+			game->player.plane.x * ray->camera_x;
 	ray->dir.y = game->player.direction.y +
-				game->player.plane.y * ray->camera_x;
-	
+			game->player.plane.y * ray->camera_x;
 	ray->map.x = (int)game->player.current_pos.x;
 	ray->map.y = (int)game->player.current_pos.y;
 	 
-	 printf("Ray dir pos  %f %f\n", ray->dir.x  , ray->dir.y);
-	 printf("Ray map pos  %f %f\n", ray->map.x  , ray->map.y);
+	 printf("Ray dir pos  %f %f\n", ray->dir.x  , ray->dir.y); //borrar
+	 printf("Ray map pos  %f %f\n", ray->map.x  , ray->map.y); //borrar
 	
 	ray->deltadist.x = fabs(1 / ray->dir.x);
 	ray->deltadist.y = fabs(1 / ray->dir.y);
-
-
-
 	 //printf("loading delta  %f %f\n", ray->deltadist.x  , ray->deltadist.y);
 }
 
 void			ft_render_map(t_game *game)
 {
 	int			x;
-	// t_ray		ray;
 
-	// ray = game->board.ray;
-
-
-	printf("resoultion W%d, H%d\n", game->board.resolution.width, game->board.resolution.height);
+	printf("resoultion W%d, H%d\n", game->board.resolution.width, game->board.resolution.height); //borrar
 
 	x = 0;
 	while (x < game->board.resolution.width)
 	{
-		// ray.camera_x = 2 * x / (double)(game->board.resolution.width - 1);	
-		// ray.dir.x = game->player.direction.x +
-		// 			game->player.plane.x * ray.camera_x;
-		// ray.dir.y = game->player.direction.y +
-		// 			game->player.plane.y * ray.camera_x;
-		// ray.map.x = (int)game->map.start_pos.x;
-		// ray.map.y = (int)game->map.start_pos.y;
-		// ray.deltadist.x = fabs(1 / ray.dir.x);
-		// ray.deltadist.y = fabs(1 / ray.dir.y);
 		ft_set_ray_position(game, x); ////////////////////// OK
 		ft_step_side_dist_init(game->player.current_pos, &game->board.ray);  //OK 
 		ft_perform_dda(game->map, &game->board.ray); // OK
 		ft_perp_wall_dist(&game->board.ray, game->player.current_pos); // OK
 		ft_screen_line_pixels_stripe(&game->board.ray, game->board.resolution); // OK
 		ft_wall_texture(&game->board.ray, game->player.current_pos); // REVISAR SI CAMBIA CONSTANTE POR TEXTURA
-		ft_texture_color(&game->board.ray, game->board, x); 
+		ft_texture_color(&game->board.ray, game->board, x);
+		ft_draw_floor_ceiling_color(&game->board, &game->board.ray); /// revisar si esta bien puesto
+		// void ft_draw_floor_ceiling_color(t_board board, t_ray ray)
 		x++;
 	}
 	mlx_put_image_to_window(game->board.mlx, game->board.window, 
 		game->board.win_data.image, 0, 0);	
 	 //timing for input and FPS counter
-	printf("Poniendo imagen %p %d\n",game->board.win_data.address, game->board.win_data.size_line );
-	
-
+	printf("Poniendo imagen %p %d\n",game->board.win_data.address, game->board.win_data.size_line ); //borrar
 }
 
 void		ft_reset_player(t_player *player)
@@ -569,7 +588,6 @@ int			ft_set_orientation(t_map map, t_player *player)
 		player->direction.y = -1;
 		player->plane.x = 0.66; 
 	}
-
 	else if (map.orientation == 'W')
 	{
 		player->direction.x = -1;
@@ -590,15 +608,13 @@ int			ft_set_orientation(t_map map, t_player *player)
 ////////////////////////check como cargar las texturas, ver texture_wall in the tutorial
 int			ft_set_texture(void *mlx, char *path, t_texture *texture)
 {
-
-	printf("%s\n", path );
+	printf("%s\n", path ); //borrar
 	texture->image = mlx_xpm_file_to_image(mlx, path,
 		&texture->width, &texture->height);
 	if (texture->image == NULL)
 		return (ft_put_error("invalid path for texture"));
 	texture->address = mlx_get_data_addr(texture->image,
 		&texture->bits_per_pixel, &texture->size_line, &texture->endian);
-
 	if (texture->address == NULL)
 		return (ft_put_error("image for texture failure"));
 	return (1);
@@ -614,10 +630,10 @@ int			ft_set_all_textures(t_game_file file, t_board *board)
 	&& ft_set_texture(board->mlx, file.ea_path, &board->east)
 	&& ft_set_texture(board->mlx, file.sprite_path, &board->sprite);
 
-	printf("texture North address %p. width %d, texture height %d, bpp %d , size %d \n" ,board->north.address, board->north.width, board->north.height, board->north.bits_per_pixel, board->north.size_line);
-	printf("texture south address %p. width %d, texture height %d, bpp %d , size %d \n"  ,board->south.address, board->south.width, board->south.height, board->south.bits_per_pixel, board->south.size_line);
-	printf("texture West address %p.width %d, texture height %d, bpp %d , size %d \n"  ,board->west.address, board->west.width, board->west.height, board->west.bits_per_pixel, board->west.size_line);
-	printf("texture Est address %p. width %d, texture height %d, bpp %d , size %d \n"  ,board->east.address, board->east.width, board->east.height, board->east.bits_per_pixel, board->east.size_line);
+	printf("texture North address %p. width %d, texture height %d, bpp %d , size %d \n" ,board->north.address, board->north.width, board->north.height, board->north.bits_per_pixel, board->north.size_line); //borrar
+	printf("texture south address %p. width %d, texture height %d, bpp %d , size %d \n"  ,board->south.address, board->south.width, board->south.height, board->south.bits_per_pixel, board->south.size_line); //borrar
+	printf("texture West address %p.width %d, texture height %d, bpp %d , size %d \n"  ,board->west.address, board->west.width, board->west.height, board->west.bits_per_pixel, board->west.size_line); //borrar
+	printf("texture Est address %p. width %d, texture height %d, bpp %d , size %d \n"  ,board->east.address, board->east.width, board->east.height, board->east.bits_per_pixel, board->east.size_line); //borrar
 
 	return (result);
 }
@@ -637,7 +653,7 @@ int				ft_set_board(t_board *board)
 {
 	t_texture	*data;
 
-	printf("init resolution w:%d h:%d\n", board->resolution.width, board->resolution.height);
+	printf("init resolution w:%d h:%d\n", board->resolution.width, board->resolution.height); //borrar
 
 	data = &board->win_data;
 	board->mlx = mlx_init();
@@ -655,7 +671,6 @@ int				ft_set_board(t_board *board)
 		&data->size_line, &data->endian);
 	if (data->address == NULL)
 		return (ft_put_error("mlx address image failure"));
-
 	return (1);
 }
 
@@ -665,14 +680,12 @@ int ft_is_moving(t_movements move)
 		|| move.move_right || move.turn_right || move.turn_left);
 }
 
-
 int	ft_play_game(t_game *game)
 {
 	if (ft_is_moving(game->player.move))
 	{
         ft_manage_movements(game->map, &game->player);
 		ft_render_map(game);
-		
 	}
 	return (0);
 }
@@ -683,19 +696,11 @@ int			ft_start_game(t_game_file file)
 	game.map = file.map;
 	game.board.resolution = file.resolution;
 	ft_reset_variables_game(&game.board, &game.player);
-
 	if (!ft_set_board(&game.board))
 		return (ft_put_error("set board failure")); //OK
 	ft_set_all_textures(file, &game.board); // OK
 	ft_set_orientation(game.map, &game.player);  // OK
-	
 	ft_render_map(&game);
-	// ft_step_side_dist_init(game.map.start_pos, &ray);
-	// ft_perform_dda(game.map, &ray);
-	// ft_screen_line_pixels_stripe(&ray, file.resolution);
-	// ft_wall_texture(&ray, file.map.start_pos);
-	// ft_texture_color(&ray, file.resolution, *board);
-
 	mlx_hook(game.board.window, DESTROY, NOTIFY_MASK, &ft_close_game, &game);
 	mlx_hook(game.board.window, PRESS, PRESS_MASK, &ft_key_press, &game);
 	mlx_hook(game.board.window, RELEASE, RELEASE_MASK, &ft_key_release, &game);
