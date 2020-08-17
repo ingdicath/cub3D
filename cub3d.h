@@ -276,17 +276,17 @@ void			ft_screen_line_pixels_stripe(t_ray *ray, t_screen resolution);
 void 			ft_wall_texture(t_ray *ray, t_position current);
 void 			ft_texture_color(t_ray *ray, t_board board, int x);
 t_texture 		ft_get_textures(t_board board, t_ray *ray);
-void			ft_reset_variables_game(t_board *board, t_movements *moves);
+void		ft_reset_variables_game(t_board *board, t_player *player);
 void 			ft_put_pixel(t_texture *texture, int x, int y, int color);
 int 			ft_get_color(t_texture texture, t_ray ray);
 void ft_set_ray_position(t_game *game,  int x);
-void ft_move_front(t_game *game, t_position *start);
-void ft_move_back(t_game *game, t_position *start);
-void ft_move_right(t_game *game, t_position *start);
-void ft_move_left(t_game *game, t_position *start);
-void ft_turn_right(t_game *game);
-void ft_turn_left(t_game *game);
-int ft_manage_movements(t_game *game, t_position *start);
+void ft_move_front(t_map map, t_player *player);
+void ft_move_back(t_map map, t_player *player);
+void ft_move_right(t_map map, t_player *player);
+void ft_move_left(t_map map, t_player *player);
+void ft_turn_right(t_player *player);
+void ft_turn_left(t_player *player);
+int ft_manage_movements(t_map map, t_player *player);
 
 
 

@@ -2,17 +2,18 @@
           
   R  800 600
 
-WE ./textures/Gold0.xpm
- 
-NO                             ./textures/Stone.xpm
-SO ./textures/Bark.xpm
-
-
-S                 ./textures/Stone.xpm
+WE ./textures/red.xpm
+NO ./textures/green.xpm
+SO ./textures/blue.xpm
+EA ./textures/yellow.xpm
 
 
 
-EA ./textures/Bark.xpm
+S  ./textures/Gold0.xpm
+
+
+
+
 
 F     220,   100,   244
 
@@ -26,12 +27,12 @@ C                      249,                    225,             10
 
 111111111
 100202001
-1000N0001
+100000001
 100000001
 1002020211111
 1000000000001
+1000000S00001
 1011111100001
-101    100001
 101    100001
 111    111111
 
