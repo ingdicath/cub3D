@@ -139,12 +139,11 @@ typedef struct	s_texture //validar
 }				t_texture;
 
 typedef struct	s_wall
-{	
+{
 	double		step;
 	double		start_pos;
 	t_position	pos;
 }				t_wall;
-
 
 typedef struct	s_ray
 {
@@ -205,9 +204,6 @@ typedef struct	s_player
 	t_position	current_pos; // agregado el 14de agosto
 	t_movements	move;
 }				t_player;
-
-
-
 
 typedef struct	s_game // Game
 {
@@ -290,7 +286,7 @@ t_texture		ft_get_textures(t_board board, t_ray *ray);
 void			ft_reset_variables_game(t_board *board, t_player *player);
 void			ft_put_pixel(t_texture *texture, int x, int y, int color);
 int				ft_get_color(t_texture texture, t_ray ray);
-void			ft_set_ray_position(t_game *game,  int x);
+void			ft_set_ray_position(t_game *game, int x);
 void			ft_move_front(t_map map, t_player *player);
 void			ft_move_back(t_map map, t_player *player);
 void			ft_move_right(t_map map, t_player *player);
@@ -300,8 +296,7 @@ void			ft_turn_left(t_player *player);
 int				ft_manage_movements(t_map map, t_player *player);
 int				ft_rgb_calculator(int r, int g, int b);
 void			ft_get_floor_ceiling_color(t_game_file file, t_board *board);
-void			ft_draw_floor_ceiling_color(t_board board, t_ray ray);
-
+void			ft_draw_floor_ceiling_color(t_board *board, t_ray *ray);
 
 /*
 ** ---------- DELETEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE ---------------
