@@ -490,7 +490,7 @@ int				main(int argc, char **argv)
 	printfs(&game_file); // borrar
 
 	if (screenshot)
-		ft_save_screen(game_file);
+		return (1);//ft_save_screen(game_file);
 	else
 		ft_start_game(game_file);
 	return (0);
