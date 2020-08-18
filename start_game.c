@@ -6,12 +6,89 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/06 14:19:42 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/17 14:24:27 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/18 21:25:52 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include <stdio.h>
+
+/*
+** Flags
+** 	- O_WRONLY: Open for writing only.
+** 	- O_CREAT: the file shall be created if it does not exist.
+** 	- O_TRUNC: truncating the file length to 0 if it does exist.
+**
+** mode_t: The Mode Bits for Access Permission
+** It can set up with octal or with symbolic constants:
+** 	1) 0777: Permissions read, write or execute, it should be in octal.
+**	2) S_IRWXU: This is equivalent to ‘(S_IRUSR | S_IWUSR | S_IXUSR)’
+*/
+
+void ft_set_file_header(int fd, t_game *game, t_bitmap *bitmap)
+{
+	char header[14];
+
+	ft_bzero(header, 14);
+	header[0] = 'B';
+	header[1] = 'M';
+	bitmap->file_header.size = game->board.resolution.width *
+		game->board.resolution.height *
+		(game->board.win_data.bits_per_pixel / 8) + 54;
+	bitmap->file_header.pixel_data_offset = sizeof(t_bitmap);
+	bitmap->info_header.dib_header_size = sizeof(t_info_header);
+	bitmap->info_header.image_width = game->board.resolution.width;
+	bitmap->info_header.image_height = game->board.resolution.height;
+	bitmap->info_header.planes = 1;
+	bitmap->info_header.bits_per_pixel = game->board.win_data.bits_per_pixel;
+	bitmap->info_header.compression = 0;
+	bitmap->info_header.image_size = bitmap->file_header.size - 54;
+	bitmap->info_header.x_pixels_per_meter = 0;
+	bitmap->info_header.y_pixels_per_meter = 0;
+	bitmap->info_header.num_colors = 0;
+}
+
+int ft_put_pixel_bitmap(t_game *game, t_bitmap *bitmap)
+{
+	int x;
+	int y;
+	
+	x = 0;
+	y = game->board.resolution.y -1;
+}
+
+
+void ft_save_screenshot(t_game *game, t_bitmap *bitmap)
+{
+	int fd;
+	int ret;
+	int *buffer_pixel;
+	t_bitmap bmp;
+
+
+	fd = open(SCREENSHOT, O_CREAT | O_WRONLY | O_TRUNC, S_IRUSR| S_IWUSR); //preguntar si es full permission o solo lectura y escritura o es 755?
+	if (fd < 0)
+		ft_put_error("File screenshot cannot open");
+	// while ((game->board.resolution.x * 3 + bitmap->padding) % 4 != 0) // revvisar estos valores
+	// 	bitmap->padding++;
+	ft_set_file_header(fd, game, bitmap);
+	ret = write(fd, bitmap, sizeof(t_bitmap));
+	if (ret < 0)
+		ft_put_error("screenshot bitmap error");
+	buffer_pixel = ft_put_pixel_bitmap(game, bitmap);
+	if (buffer_pixel == NULL)
+		ft_put_error("screenshot bitmap error put pixel");
+	ret = write(fd, bitmap, sizeof(t_bitmap));
+
+	close(fd);
+}
+
+
+
+
+
+
+
 
 /*
 ** aqui podria incluirse destroy window cuando screenshot no se necesita
@@ -33,6 +110,7 @@ void		ft_reset_variables_game(t_board *board, t_player *player)
 	player->move.move_left = 0;
 	player->move.turn_right = 0;
 	player->move.turn_left = 0;
+	bitmap->padding = 0;
 	// board->buffer = (double *)malloc(sizeof(double) * board->resolution.width);
 	// if (board->buffer == NULL)
 	// 	ft_putstr("Error, there is no buffer");
@@ -53,8 +131,6 @@ int	ft_close_game(t_game *game)
 	exit(0);
 }
 
-/////////////////////////// 17 aug ////////////////////////////////
-
 int ft_rgb_calculator(int r, int g, int b)
 {
 	return (r * RED_BIT + g * GREEN_BIT + b);
@@ -67,60 +143,6 @@ void ft_set_floor_ceiling_color(t_game_file file, t_board *board)
 	board->ceiling = ft_rgb_calculator(file.ceiling.red, file.ceiling.green,
 		file.ceiling.blue);
 }
-
-/// opcion 1
-/*
-void ft_draw_floor_ceiling_color(t_board board)
-{
-	int x;
-	int y;
-
-	y =  board.resolution.height / 2 + 1;
-	while(y < board.resolution.height)
-	{
-		x = 0;
-		while (x < board.resolution.width)
-		{
-			ft_put_pixel(board.mlx, x, y, board.floor);
-			ft_put_pixel(board.mlx, x, (board.resolution.height - y - 1),
-				board.ceiling);
-			x++;
-		}
-		y++;
-	}
-}
-
-
-////////////////////////////////////// opcion 2 cada una por separado
-void ft_draw_ceiling_color(t_board board, t_ray ray)
-{
-	int x;
-	int y;
-
-	x = 0;
-	y = 0;
-	while(y < ray.draw_start)
-	{
-		ft_put_pixel(board.mlx, x, y, board.ceiling);
-		y++;
-	}
-}
-
-void ft_draw_floor_color(t_board board, t_ray ray)
-{
-	int x;
-	int y;
-
-	x = 0;
-	y = ray.draw_end;
-	while(y < board.resolution.height)
-	{
-		ft_put_pixel(board.mlx, x, y, board.floor);
-		y++;
-	}
-}
-*/
-////////////////////////////////////// opcion 3 juntas las dos /////////
 
 void ft_draw_floor_ceiling_color(t_board *board, int x)
 {
@@ -140,8 +162,6 @@ void ft_draw_floor_ceiling_color(t_board *board, int x)
 		y++;
 	}
 }
-
-/////////////////////////////////////////////////////////////////////////////////
 
 int	ft_key_press(int keycode, t_game *game)
 {
@@ -187,8 +207,8 @@ void			ft_move_front(t_map map, t_player *player, t_ray ray)
 	// //printf("llo que quieras\n");
 	t_position	new_pos;
 
-	new_pos.x = player->current_pos.x + player->direction.x * MOVE_SPEED;
-	new_pos.y = player->current_pos.y + player->direction.y * MOVE_SPEED;
+	new_pos.x = player->current_pos.x + player->orientation.x * MOVE_SPEED;
+	new_pos.y = player->current_pos.y + player->orientation.y * MOVE_SPEED;
 
 	if (map.data[(int)new_pos.x][(int)player->current_pos.y] == '0') // Aca se revisa si el movimiento se sale del mapa 
 		player->current_pos.x = new_pos.x;
@@ -201,8 +221,8 @@ void			ft_move_back(t_map map, t_player *player, t_ray ray)
 {
 	t_position	new_pos;
 
-	new_pos.x = player->current_pos.x - player->direction.x * MOVE_SPEED;
-	new_pos.y = player->current_pos.y - player->direction.y * MOVE_SPEED;
+	new_pos.x = player->current_pos.x - player->orientation.x * MOVE_SPEED;
+	new_pos.y = player->current_pos.y - player->orientation.y * MOVE_SPEED;
 	if (map.data[(int)new_pos.x][(int)player->current_pos.y] == '0')
 		player->current_pos.x = new_pos.x;
 	if (map.data[(int)player->current_pos.x][(int)new_pos.y] == '0')
@@ -237,12 +257,12 @@ void		ft_turn_right(t_player *player)
 	double	old_dir_x;
 	double	old_plane_x;
 
-	old_dir_x = player->direction.x;
+	old_dir_x = player->orientation.x;
 	old_plane_x = player->plane.x;
-	player->direction.x = player->direction.x * cos(-ROTATE_SPEED)
-		- player->direction.y * sin(-ROTATE_SPEED);
-	player->direction.y = old_dir_x * sin(-ROTATE_SPEED) +
-		player->direction.y * cos(-ROTATE_SPEED);
+	player->orientation.x = player->orientation.x * cos(-ROTATE_SPEED)
+		- player->orientation.y * sin(-ROTATE_SPEED);
+	player->orientation.y = old_dir_x * sin(-ROTATE_SPEED) +
+		player->orientation.y * cos(-ROTATE_SPEED);
 	player->plane.x = player->plane.x * cos(-ROTATE_SPEED)
 		- player->plane.y * sin(-ROTATE_SPEED);
 	player->plane.y = old_plane_x * sin(-ROTATE_SPEED) +
@@ -254,12 +274,12 @@ void		ft_turn_left(t_player *player)
 	double	old_dir_x;
 	double	old_plane_x;
 
-	old_dir_x = player->direction.x;
+	old_dir_x = player->orientation.x;
 	old_plane_x = player->plane.x;
-	player->direction.x = player->direction.x * cos(ROTATE_SPEED)
-		- player->direction.y * sin(ROTATE_SPEED);
-	player->direction.y = old_dir_x * sin(ROTATE_SPEED) +
-		player->direction.y * cos(ROTATE_SPEED);
+	player->orientation.x = player->orientation.x * cos(ROTATE_SPEED)
+		- player->orientation.y * sin(ROTATE_SPEED);
+	player->orientation.y = old_dir_x * sin(ROTATE_SPEED) +
+		player->orientation.y * cos(ROTATE_SPEED);
 	player->plane.x = player->plane.x * cos(ROTATE_SPEED)
 		- player->plane.y * sin(ROTATE_SPEED);
 	player->plane.y = old_plane_x * sin(ROTATE_SPEED) +
@@ -282,11 +302,6 @@ int		ft_manage_movements(t_map map, t_player *player, t_ray ray) //revisar si es
 		ft_turn_right(player);
 	return (0);
 }
-
-// int	ft_save_screen(t_game_file game_file)
-// {
-// 	return (0);
-// }
 
 t_texture		ft_get_textures(t_board board, t_ray *ray)
 {
@@ -515,9 +530,9 @@ void	ft_set_ray_position(t_game *game, int x)
 	// //printf("loading player  %f %f\n", game->player.direction.x  ,game->player.direction.y);
 	ray->camera_x = 2 * x / (double)game->board.resolution.width - 1;
 	
-	ray->dir.x = game->player.direction.x +
+	ray->dir.x = game->player.orientation.x +
 			game->player.plane.x * ray->camera_x;
-	ray->dir.y = game->player.direction.y +
+	ray->dir.y = game->player.orientation.y +
 			game->player.plane.y * ray->camera_x;
 	
 	ray->map.x = (int)game->player.current_pos.x; // map x revisar valor entero
@@ -557,8 +572,8 @@ void			ft_render_map(t_game *game)
 
 void		ft_reset_player(t_player *player)
 {
-	player->direction.x = 0;
-	player->direction.y = 0;
+	player->orientation.x = 0;
+	player->orientation.y = 0;
 	player->plane.x = 0;
 	player->plane.y = 0;
 	player->time = 0;
@@ -571,22 +586,22 @@ int			ft_set_orientation(t_map map, t_player *player)
 	player->current_pos = map.start_pos;
 	if (map.orientation == 'N')
 	{
-		player->direction.y = -1;
+		player->orientation.y = -1;
 		player->plane.x = 0.66;
 	}
 	else if (map.orientation == 'S')
 	{
-		player->direction.y = 1;
+		player->orientation.y = 1;
 		player->plane.x = 0.66;
 	}
 	else if (map.orientation == 'W')
 	{
-		player->direction.x = -1;
+		player->orientation.x = -1;
 		player->plane.y = -0.66;
 	}
 	else if (map.orientation == 'E')
 	{
-		player->direction.x = 1;
+		player->orientation.x = 1;
 		player->plane.y = 0.66;
 	}
 

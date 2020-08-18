@@ -6,7 +6,7 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/29 11:20:00 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/17 14:21:44 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/18 22:36:06 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 # define CUB3D_H
 
 /*
-** ----------- Extensions -----------------------------------------------------
+** ----------- Extensions & BMP name file -------------------------------------
 */
 
 # define CUB ".cub"
 # define XPM ".xpm"
 # define PNG ".png"
-# define BMP ".bmp"
+# define SCREENSHOT "cub3d_screenshot.bmp"
 
 /*
 ** ----------- Speed & moves --------------------------------------------------
@@ -176,11 +176,6 @@ typedef struct	s_board
 	t_texture	east;
 	t_texture	sprite;
 	t_ray		ray;
-	// void		*image;
-	// char		*address;
-	// int			bits_per_pixel;
-	// int			line_length;
-	// int			endian;
 }				t_board;
 
 typedef struct	s_movements
@@ -198,9 +193,9 @@ typedef struct	s_player
 {
 	double		time;
 	double		old_time;
-	t_position	direction;
+	t_position	orientation;
 	t_position	plane;
-	t_position	current_pos; // agregado el 14de agosto
+	t_position	current_pos;
 	t_movements	move;
 }				t_player;
 
@@ -209,8 +204,44 @@ typedef struct	s_game // Game
 	t_board		board;
 	t_player	player;
 	t_map		map;
-	// t_screen	screen;
 }				t_game;
+
+/*
+** ----------- BMP ------------------------------------------------------------
+*/
+
+// typedef struct		s_file_header
+// {
+// 	unsigned char	signature[2];
+// 	unsigned char	size[4];
+// 	unsigned int	reserved_1;
+// 	unsigned int	reserved_2;
+// 	unsigned int	pixel_data_offset;
+// }					t_file_header;
+
+// typedef struct		s_info_header
+// {
+// 	unsigned int	dib_header_size;
+// 	int				image_width;
+// 	int				image_height;
+// 	unsigned int	planes;
+// 	unsigned int	bits_per_pixel;
+// 	unsigned int	compression;
+// 	unsigned int	image_size;
+// 	int				x_pixels_per_meter;
+// 	int				y_pixels_per_meter;
+// 	unsigned int	num_colors;
+// 	unsigned int	important_colors;
+// }					t_info_header;
+
+// typedef struct	s_bitmap
+// {
+// 	t_file_header	file_header;
+// 	t_info_header	info_header;
+
+// }				t_bitmap;
+
+
 
 /*
 ** ----------- Auxiliary functions --------------------------------------------
@@ -233,6 +264,7 @@ void			ft_putstr(char *str);
 void			ft_putchar(char c);
 int				ft_atoi(const char *str);
 int				ft_isnumber(char *str);
+void			ft_bzero(void *s, size_t n);
 
 /*
 ** ----------- Parsing functions ----------------------------------------------

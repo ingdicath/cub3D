@@ -6,7 +6,7 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/29 12:55:18 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/07/31 14:27:46 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/18 18:07:10 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,4 +232,18 @@ int					ft_strcmp(const char *s1, const char *s2)
 	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
 		i++;
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+}
+
+void				ft_bzero(void *s, size_t n)
+{
+	unsigned char	*dest;
+	size_t			i;
+
+	dest = s;
+	i = 0;
+	while (i < n)
+	{
+		dest[i] = '\0';
+		i++;
+	}
 }

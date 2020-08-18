@@ -81,3 +81,9 @@ gcc main.c -Wall -Wextra -Werror -Lmlx -lmlx -framework OpenGL -framework AppKit
 
 - [Key codes](https://eastmanreference.com/complete-list-of-applescript-key-codes)
 - https://bit-calculator.com/es/desplazamiento-de-bit
+- [Permissions bits for open function](https://www.gnu.org/software/libc/manual/html_node/Permission-Bits.html)
+- [BMP file format](https://en.wikipedia.org/wiki/BMP_file_format)
+- [Example to create BMP file](https://stackoverflow.com/questions/11004868/creating-a-bmp-file-bitmap-in-c)
+- [Tutorial 1 BMP](https://engineering.purdue.edu/ece264/17au/hw/HW15)
+- [Tutorial 2 MEDIUM BMP, the best option](https://medium.com/sysf/bits-to-bitmaps-a-simple-walkthrough-of-bmp-image-format-765dc6857393)
+- [Tutorial 3 BMP](https://web.archive.org/web/20080912171714/http://www.fortunecity.com/skyscraper/windows/364/bmpffrmt.html)
