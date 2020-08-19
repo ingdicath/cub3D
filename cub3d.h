@@ -79,6 +79,13 @@ typedef enum	e_sizes
 	TEXTURE_WIDTH = 64, TEXTURE_HEIGHT = 64
 }				t_sizes;
 
+typedef enum	e_bmp
+{
+	HEADER_SIZE = 14, PLANE = 1, FINAL_IMAGE_SIZE = 54, BITS_PER_PIXEL = 32,
+	BMP_PIXELS = 24, ONE_BYTE = 1, TWO_BYTES = 2, FOUR_BYTES = 4
+}				t_bmp;
+
+
 /*
 ** ----------- Parsing structures ----------------------------------------------
 */
@@ -165,9 +172,10 @@ typedef struct	s_board
 {
 	void		*mlx;
 	void		*window;
-	double		*buffer;  // Uint32 buffer[screenHeight][screenWidth]
+	double		*buffer;  // Uint32 buffer[screenHeight][screenWidth], no se ha usado todavia
 	int			ceiling;
 	int			floor;
+	int			screenshot;
 	t_screen	resolution;
 	t_texture	win_data;
 	t_texture	north;
@@ -201,6 +209,7 @@ typedef struct	s_player
 
 typedef struct	s_game // Game
 {
+	int			screenshot;
 	t_board		board;
 	t_player	player;
 	t_map		map;
@@ -210,36 +219,36 @@ typedef struct	s_game // Game
 ** ----------- BMP ------------------------------------------------------------
 */
 
-// typedef struct		s_file_header
-// {
-// 	unsigned char	signature[2];
-// 	unsigned char	size[4];
-// 	unsigned int	reserved_1;
-// 	unsigned int	reserved_2;
-// 	unsigned int	pixel_data_offset;
-// }					t_file_header;
+typedef struct		s_file_header
+{
+	char	*signature;
+	unsigned int	size;
+	unsigned int	reserved_1;
+	unsigned int	reserved_2;
+	unsigned int	pixel_data_offset;
+}					t_file_header;
 
-// typedef struct		s_info_header
-// {
-// 	unsigned int	dib_header_size;
-// 	int				image_width;
-// 	int				image_height;
-// 	unsigned int	planes;
-// 	unsigned int	bits_per_pixel;
-// 	unsigned int	compression;
-// 	unsigned int	image_size;
-// 	int				x_pixels_per_meter;
-// 	int				y_pixels_per_meter;
-// 	unsigned int	num_colors;
-// 	unsigned int	important_colors;
-// }					t_info_header;
+typedef struct		s_info_header
+{
+	unsigned int	dib_header_size;
+	int				image_width;
+	int				image_height;
+	unsigned int	planes;
+	unsigned int	bits_per_pixel;
+	unsigned int	compression;
+	unsigned int	image_size;
+	int				x_pixels_per_meter;
+	int				y_pixels_per_meter;
+	unsigned int	num_colors;
+	unsigned int	important_colors;
+}					t_info_header;
 
-// typedef struct	s_bitmap
-// {
-// 	t_file_header	file_header;
-// 	t_info_header	info_header;
+typedef struct	s_bitmap
+{
+	t_file_header	file_header;
+	t_info_header	info_header;
 
-// }				t_bitmap;
+}				t_bitmap;
 
 
 
@@ -290,6 +299,7 @@ int				ft_fill_elements(char **line_split, t_game_file *mapfile);
 char			**ft_join_lines(char **matrix, char *new_line);
 int				ft_check_unique_orientation(t_map *map);
 int				ft_check_args(int argc, char **argv, int *screenshot);
+// int			ft_check_args(int argc, char **argv, t_game *game);
 
 /*
 ** ---------- Raycasting functions --------------------------------------------
@@ -300,7 +310,7 @@ int				ft_play_game(t_game *game);
 int				ft_key_press(int keycode, t_game *game);
 int				ft_key_release(int keycode, t_game *game);
 int				ft_start_game(t_game_file game_file);
-// int				ft_save_screen (t_game_file game_file);
+// int ft_start_game(t_game_file file, t_board *board);
 int				ft_set_board(t_board *board);
 int				ft_set_all_textures(t_game_file file, t_board *board);
 int				ft_set_texture(void *mlx, char *path, t_texture *texture);
@@ -318,16 +328,20 @@ void			ft_reset_variables_game(t_board *board, t_player *player);
 void			ft_put_pixel(t_texture *texture, int x, int y, int color);
 int				ft_get_color(t_texture texture, t_ray ray);
 void			ft_set_ray_position(t_game *game, int x);
-void			ft_move_front(t_map map, t_player *player, t_ray ray);
-void			ft_move_back(t_map map, t_player *player, t_ray ray);
+void			ft_move_front(t_map map, t_player *player);
+void			ft_move_back(t_map map, t_player *player);
 void			ft_move_right(t_map map, t_player *player);
 void			ft_move_left(t_map map, t_player *player);
 void			ft_turn_right(t_player *player);
 void			ft_turn_left(t_player *player);
-int				ft_manage_movements(t_map map, t_player *player, t_ray ray);
+int				ft_manage_movements(t_map map, t_player *player);
 int				ft_rgb_calculator(int r, int g, int b);
 void			ft_set_floor_ceiling_color(t_game_file file, t_board *board);
 void			ft_draw_floor_ceiling_color(t_board *board, int x);
+void	ft_set_header_bitmap(int fd, t_board *board);
+void	ft_put_pixel_bitmap(int fd, t_board *board);
+void	ft_save_screenshot(t_board *board);
+
 
 /*
 ** ---------- DELETEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE ---------------
