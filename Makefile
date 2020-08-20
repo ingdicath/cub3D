@@ -6,7 +6,7 @@
 #    By: dsalaman <dsalaman@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/07/07 08:57:54 by dsalaman      #+#    #+#                  #
-#    Updated: 2020/07/09 13:54:04 by dsalaman      ########   odam.nl          #
+#    Updated: 2020/08/20 18:37:34 by dsalaman      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,15 +20,16 @@ FLAGS= -Wall -Wextra -Werror
 
 MLX_FLAGS = -lmlx -framework OpenGL -framework AppKit
 
-GNL = gnl
-
+#GNL = gnl
 MLX = mlx
+#LIBGNL = libgnl.a
+LIB_FT = libft
 
-LIBGNL = libgnl.a
+LIBFT = libft.a
 
 LIBMLX = libmlx.dylib
 
-BPM = cub3d_screenshot.bmp
+BMP = cub3d_screenshot.bmp
 
 SRC = ft_split.c parsing.c start_game.c cub3d_utils.c
 
@@ -40,13 +41,20 @@ $(LIBMLX):
 	@make -C $(MLX)
 	@cp $(MLX)/$(LIBMLX) .
 
-$(LIBGNL):
-	@make -C $(GNL)
-	@cp $(GNL)/$(LIBGNL) .
+$(LIBFT):
+	@make -C $(LIB_FT)
+	@cp $(LIB_FT)/$(LIBFT) .
+#$(LIBGNL):
+	#@make -C $(GNL)
+	#@cp $(GNL)/$(LIBGNL) .
 
-$(NAME): $(OBJECTS) $(LIBMLX) $(LIBGNL)
+$(NAME): $(OBJECTS) $(LIBMLX) $(LIBFT)
 	@ar rcs $(LIB) $(OBJECTS)
-	@gcc -I $(MLX) -L $(MLX) $(MLX_FLAGS) $(LIB) $(LIBGNL) -o $(NAME)
+	@gcc -I $(MLX) -L $(MLX) $(MLX_FLAGS) $(LIB) $(LIBFT) -o $(NAME)
+
+#$(NAME): $(OBJECTS) $(LIBMLX) $(LIBGNL)
+#	@ar rcs $(LIB) $(OBJECTS)
+#	@gcc -I $(MLX) -L $(MLX) $(MLX_FLAGS) $(LIB) $(LIBGNL) -o $(NAME)
 
 	#libgnl.a
 %.o: %.c $(HEADERS)
@@ -56,13 +64,13 @@ $(NAME): $(OBJECTS) $(LIBMLX) $(LIBGNL)
 clean:
 	@rm -f $(OBJECTS) $(LIBMLX) $(BMP)
 	@make clean -C $(MLX)
-	@make clean -C $(GNL)
+	@make clean -C $(LIB_FT)
 	@rm -f .DS_Store
 	@echo "Objects file were removed - clean."
 
 fclean: clean
 	@rm -f $(NAME)$(LIB)
-	@make fclean -C $(GNL)
+	@make fclean -C $(LIB_FT)	
 	@echo "Objects file were removed - fclean."
 
 re: fclean all

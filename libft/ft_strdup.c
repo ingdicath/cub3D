@@ -6,9 +6,11 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/20 13:38:05 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/20 13:45:41 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/20 16:46:10 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
 
 char		*ft_strdup(const char *s1)
 {

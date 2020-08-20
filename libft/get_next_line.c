@@ -3,14 +3,14 @@
 /*                                                        ::::::::            */
 /*   get_next_line.c                                    :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dsalaman <marvin@codam.nl>                   +#+                     */
+/*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/01/15 14:57:45 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/02/12 10:50:34 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/20 16:54:33 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "libft.h"
 
 static int		ft_read_buffer(int fd, char **remainder)
 {

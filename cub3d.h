@@ -6,14 +6,12 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/29 11:20:00 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/18 22:36:06 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/20 16:50:31 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 32 //get get_next_line
 
 /*
 ** ----------- Extensions & BMP name file -------------------------------------

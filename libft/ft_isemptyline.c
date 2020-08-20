@@ -6,15 +6,15 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/20 13:59:48 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/20 14:55:32 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/20 16:40:01 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int					ft_isemptyline(char *str)
+int		ft_isemptyline(char *str)
 {
-	int				i;
+	int	i;
 
 	i = 0;
 	if (str[i] == '\0')

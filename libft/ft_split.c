@@ -6,11 +6,11 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/20 13:47:09 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/20 13:48:06 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/20 16:44:24 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "libft.h"
 
 static void		ft_clean_memory(char **str, size_t index)
 {

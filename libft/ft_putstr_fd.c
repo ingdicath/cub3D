@@ -6,9 +6,11 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/20 13:35:52 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/20 13:45:29 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/20 16:42:16 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
 
 void	ft_putstr_fd(char *str, int fd)
 {

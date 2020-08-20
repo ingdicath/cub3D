@@ -6,9 +6,11 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/20 13:39:45 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/20 13:45:44 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/20 16:46:23 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
 
 char		*ft_strjoin(char *s1, char *s2)
 {
