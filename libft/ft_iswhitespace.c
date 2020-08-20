@@ -6,11 +6,13 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/20 13:59:12 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/20 13:59:25 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/20 14:56:54 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-int					ft_iswhitespace(char c)
+#include "libft.h"
+
+int	ft_iswhitespace(char c)
 {
 	return (c == '\t' || c == '\n' || c == ' ' || c == '\v' || c == '\f'
 		|| c == '\r');
