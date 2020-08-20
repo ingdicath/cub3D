@@ -27,7 +27,7 @@
 */
 
 # define ROTATE_SPEED 0.2
-# define MOVE_SPEED 0.9
+# define MOVE_SPEED 0.5
 
 /*
 ** ----------- Colors ---------------------------------------------------------
@@ -71,20 +71,22 @@ typedef enum	e_masks
 }				t_masks;
 
 /*
-** ----------- Constants ---------------------------------------------
+** ----------- Constants ------------------------------------------------------
 */
 
 typedef enum	e_sizes
 {
-	TEXTURE_WIDTH = 64, TEXTURE_HEIGHT = 64
+	TEXTURE_WIDTH = 64, TEXTURE_HEIGHT = 64, ONE_BYTE = 1, TWO_BYTES = 2,
+	FOUR_BYTES = 4
 }				t_sizes;
 
 typedef enum	e_bmp
 {
-	HEADER_SIZE = 14, PLANE = 1, FINAL_IMAGE_SIZE = 54, BITS_PER_PIXEL = 32,
-	BMP_PIXELS = 24, ONE_BYTE = 1, TWO_BYTES = 2, FOUR_BYTES = 4
+	RESERVED_1 = 2, RESERVED_2 = 2, FILE_HEADER = 14, INFO_HEADER = 40,
+	PLANE = 1, FINAL_IMAGE_SIZE = 54, BITS_PER_PIXEL = 32,
+	BMP_PIXELS = 24, COMPRESSION = 4, IMAGE_SIZE = 4, X_PPM = 4, Y_PPM = 4,
+	TOTAL_COLORS = 4, IMPORTANT_COLORS = 4
 }				t_bmp;
-
 
 /*
 ** ----------- Parsing structures ----------------------------------------------
@@ -309,8 +311,8 @@ int				ft_close_game(t_game *game);
 int				ft_play_game(t_game *game);
 int				ft_key_press(int keycode, t_game *game);
 int				ft_key_release(int keycode, t_game *game);
+int ft_initialize(t_game_file file, t_game	*game);
 int				ft_start_game(t_game_file game_file);
-// int ft_start_game(t_game_file file, t_board *board);
 int				ft_set_board(t_board *board);
 int				ft_set_all_textures(t_game_file file, t_board *board);
 int				ft_set_texture(void *mlx, char *path, t_texture *texture);
@@ -340,7 +342,7 @@ void			ft_set_floor_ceiling_color(t_game_file file, t_board *board);
 void			ft_draw_floor_ceiling_color(t_board *board, int x);
 void	ft_set_header_bitmap(int fd, t_board *board);
 void	ft_put_pixel_bitmap(int fd, t_board *board);
-void	ft_save_screenshot(t_board *board);
+void	ft_take_screenshot(t_game_file game_file);
 
 
 /*

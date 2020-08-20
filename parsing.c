@@ -60,8 +60,8 @@ int		ft_check_unique_orientation(t_map *map)
 				if (map->orientation != '\0')
 					return (0);
 				map->orientation = map->data[i][j];
-				map->start_pos.x = i;
-				map->start_pos.y = j;
+				map->start_pos.x = j;  //se cambio para simular las coordenadas de un plano cartesiano
+				map->start_pos.y = i;
 			}
 			j++;
 		}
@@ -472,82 +472,6 @@ int			ft_check_args(int argc, char **argv, int *screenshot)
 	return (1);
 }
 
-
-
-/*
-int			ft_check_args(int argc, char **argv, t_game *game)
-{
-	int		error;
-
-	game->screenshot = 0;
-	error = 0;
-
-	printf("Valor de screenshot %d", game->screenshot);
-
-	if (argc < 2)
-		return (ft_put_error("at least one argument was expected"));
-	if (argc > 3)
-		return (ft_put_error("too many arguments"));
-	if (argc >= 2)
-	{
-		if (!ft_check_extension(argv[1], CUB))
-		{
-			ft_put_error("wrong extension in map file");
-			error++;
-		}
-		if (argc == 3)
-		{
-			if (ft_strcmp(argv[2], "--save") == 0)
-				game->screenshot = 1;
-			else
-			{
-				ft_put_error("wrong argument for screenshot");
-				error++;
-			}
-		}
-	}
-	if (error > 0)
-		return (0);
-	return (1);
-}
-
-
-
-int				main(int argc, char **argv)
-{
-	// int			screenshot;
-	t_game_file	game_file;
-	t_game	*game;
-
-	game->screenshot = 0;
-
-		// chequeo de input
-	// if (!ft_check_args(argc, argv, &screenshot))
-	if (!ft_check_args(argc, argv, game))
-		return (0);
-
-	ft_reset_input(&game_file);
-	if (!ft_read_file(argv[1], &game_file))
-		return (0);
-	if (!ft_check_complete_elements(&game_file))
-		return (ft_put_error("Scene map incomplete. Complete to continue"));
-	if (!ft_check_unique_orientation(&game_file.map))
-		return (ft_put_error("check orientation in the map"));
-
-	printfs(&game_file); // borrar
-
-	// if (screenshot)
-	// {
-	// 	ft_save_screenshot(board); // podria tener como parametros el game file, REVISAR
-	// 	// board->screenshot = screenshot; //podria colocarse en otra estructura para organizarlo mejor
-	// }
-	// 	// ft_save_screenshot(board); // podria tener como parametros el game file, REVISAR
-	ft_start_game(game_file);
-	return (0);
-}
-*/
-
-
 int				main(int argc, char **argv)
 {
 	int			screenshot;
@@ -567,9 +491,9 @@ int				main(int argc, char **argv)
 	printfs(&game_file); // borrar
 	
 	if (screenshot)
-		return (1);//ft_save_screen(game_file);
-
-	ft_start_game(game_file);
+		ft_take_screenshot(game_file);
+	else
+		ft_start_game(game_file);
 	return (0);
 }
 

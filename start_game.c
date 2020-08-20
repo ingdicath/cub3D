@@ -25,79 +25,92 @@
 **	2) S_IRWXU: This is equivalent to ‘(S_IRUSR | S_IWUSR | S_IXUSR)’
 */
 
-void		ft_set_header_bitmap(int fd, t_board *board)//FUNCION TIENE 29 LINEAS, MIRAR COMMO SIMPLIFICAR
+static void ft_write_int_bytes(int fd, int param)
 {
-	int		file_size;
-	int		pixel_data_offset;
-	int		plane;
-	int		bits_per_pixel;
-	int		padding;
+	write(fd, &param, FOUR_BYTES);
+}
+
+static void ft_write_short_bytes(int fd, int param)
+{	
+	write(fd, &param, TWO_BYTES);
+}
+
+static void ft_write_char_zeros(int fd, int times)
+{
+	int i; 
+
+	i = 0;
+	while (i < times)
+	{
+		write(fd, "\0", ONE_BYTE);
+		i++;
+	}
+}
+
+void		ft_set_header_bitmap(int fd, t_board *board)
+{
+	int		file_size; 
 	char	*file_type;
-	char	*reserved_space;
 
 	file_type = "BM";
 	file_size = board->resolution.width * board->resolution.height *
 		(BITS_PER_PIXEL / 8) + FINAL_IMAGE_SIZE;
-	pixel_data_offset = FINAL_IMAGE_SIZE;
-	reserved_space = "\0\0\0\0";
-	plane = PLANE;
-	bits_per_pixel = BITS_PER_PIXEL;
-	padding = 0;
 	write(fd, file_type, TWO_BYTES);
-	write(fd, &file_size, FOUR_BYTES);
-	write(fd, reserved_space, FOUR_BYTES);
-	write(fd, &pixel_data_offset, FOUR_BYTES);
-	write(fd, &board->resolution.width, FOUR_BYTES);
-	write(fd, &board->resolution.height, FOUR_BYTES);
-	write(fd, &plane, TWO_BYTES);
-	write(fd, &bits_per_pixel, TWO_BYTES);
-	while (padding < BMP_PIXELS)
-	{
-		write(fd, "\0", 1);
-		padding++;
-	}
+	ft_write_int_bytes(fd, file_size);
+	ft_write_char_zeros(fd, RESERVED_1);
+	ft_write_char_zeros(fd, RESERVED_2);
+	ft_write_int_bytes(fd, FINAL_IMAGE_SIZE);
+	ft_write_int_bytes(fd, INFO_HEADER);
+	ft_write_int_bytes(fd, board->resolution.width);
+	ft_write_int_bytes(fd, board->resolution.height);
+	ft_write_short_bytes(fd, PLANE);
+	ft_write_short_bytes(fd, BITS_PER_PIXEL);
+	ft_write_char_zeros(fd, COMPRESSION);
+	ft_write_char_zeros(fd, IMAGE_SIZE);
+	ft_write_char_zeros(fd, X_PPM);
+	ft_write_char_zeros(fd, Y_PPM);
+	ft_write_char_zeros(fd, TOTAL_COLORS);
+	ft_write_char_zeros(fd, IMPORTANT_COLORS);
 }
 
 void 		ft_put_pixel_bitmap(int fd, t_board *board)
 {
 	int		x;
 	int		y;
-	char	*dest;
-
-	y = board->resolution.height;
-	while (y > 0)
+	int     pos;
+	char    *address;
+	
+	address = board->win_data.address;
+	y = board->resolution.height - 1;  //porque tenemos que incluir el cero
+	while (y >= 0)
 	{
 		x = 0;
 		while (x < board->resolution.width)
 		{
-			dest = board->win_data.address + (y * board->win_data.size_line + x *
-				(board->win_data.bits_per_pixel / 8));
-			write(fd, dest, FOUR_BYTES);
-			// write(fd, &dest[board.resolution.height * board.win_data.size_line + x * 4], FOUR_BYTES);
+			pos = y * board->win_data.size_line +x *
+					(board->win_data.bits_per_pixel / 8);
+			write(fd, &address[pos], FOUR_BYTES);
 			x++;
 		}
 		y--;
 	}
 }
 
-void ft_save_screenshot(t_board *board)
+void ft_take_screenshot(t_game_file file)
 {
+	t_game game;
+
 	int fd;
 
-	fd = open(SCREENSHOT, O_CREAT | O_WRONLY | O_TRUNC, S_IRUSR| S_IWUSR); //preguntar si es full permission o solo lectura y escritura o es 755?
-	
-	printf("Valor de fd %d",fd); ////borrar
-	
+	fd = open(SCREENSHOT, O_CREAT | O_WRONLY | O_TRUNC, S_IRUSR | S_IWUSR); //preguntar si es full permission o solo lectura y escritura o es 755?
 	if (fd < 0)
 		ft_put_error("File screenshot cannot open");
-	ft_set_header_bitmap(fd, board);
-	ft_put_pixel_bitmap(fd, board);
+	
+	ft_initialize(file, &game);
+	ft_set_header_bitmap(fd, &game.board);
+	ft_put_pixel_bitmap(fd, &game.board);
 	close(fd);
 }
-
-/*
-** aqui podria incluirse destroy window cuando screenshot no se necesita
-*/
 
 void		ft_reset_variables_game(t_board *board, t_player *player)
 {
@@ -214,10 +227,10 @@ void			ft_move_front(t_map map, t_player *player)
 	new_pos.x = player->current_pos.x + player->orientation.x * MOVE_SPEED;
 	new_pos.y = player->current_pos.y + player->orientation.y * MOVE_SPEED;
 
-	if (map.data[(int)new_pos.x][(int)player->current_pos.y] == '0') // Aca se revisa si el movimiento se sale del mapa 
-		player->current_pos.x = new_pos.x;
-	if (map.data[(int)player->current_pos.x][(int)new_pos.y] == '0') // si queremos el norte en el norte y es la primera posicion
+	if (map.data[(int)new_pos.y][(int)player->current_pos.x] == '0') // Aca se revisa si el movimiento se sale del mapa 
 		player->current_pos.y = new_pos.y;
+	if (map.data[(int)player->current_pos.y][(int)new_pos.x] == '0') // si queremos el norte en el norte y es la primera posicion
+		player->current_pos.x = new_pos.x;
 }
 
 //move backwards if no wall behind you
@@ -227,10 +240,10 @@ void			ft_move_back(t_map map, t_player *player)
 
 	new_pos.x = player->current_pos.x - player->orientation.x * MOVE_SPEED;
 	new_pos.y = player->current_pos.y - player->orientation.y * MOVE_SPEED;
-	if (map.data[(int)new_pos.x][(int)player->current_pos.y] == '0')
-		player->current_pos.x = new_pos.x;
-	if (map.data[(int)player->current_pos.x][(int)new_pos.y] == '0')
+	if (map.data[(int)new_pos.y][(int)player->current_pos.x] == '0')
 		player->current_pos.y = new_pos.y;
+	if (map.data[(int)player->current_pos.y][(int)new_pos.x] == '0')
+		player->current_pos.x = new_pos.x;
 }
 
 void			ft_move_right(t_map map, t_player *player)
@@ -238,10 +251,10 @@ void			ft_move_right(t_map map, t_player *player)
 	t_position	new_pos;
 	new_pos.x = player->current_pos.x + player->plane.x * MOVE_SPEED;
 	new_pos.y = player->current_pos.y + player->plane.y * MOVE_SPEED;
-	if (map.data[(int)new_pos.x][(int)player->current_pos.y] == '0')
-		player->current_pos.x = new_pos.x;
-	if (map.data[(int)player->current_pos.x][(int)new_pos.y] == '0')
+	if (map.data[(int)new_pos.y][(int)player->current_pos.x] == '0')
 		player->current_pos.y = new_pos.y;
+	if (map.data[(int)player->current_pos.y][(int)new_pos.x] == '0')
+		player->current_pos.x = new_pos.x;
 }
 
 void			ft_move_left(t_map map, t_player *player)// tarea factorizar
@@ -249,14 +262,14 @@ void			ft_move_left(t_map map, t_player *player)// tarea factorizar
 	t_position	new_pos;
 	new_pos.x = player->current_pos.x - player->plane.x * MOVE_SPEED;
 	new_pos.y = player->current_pos.y - player->plane.y * MOVE_SPEED;
-	if (map.data[(int)new_pos.x][(int)player->current_pos.y] == '0')
-		player->current_pos.x = new_pos.x;
-	if (map.data[(int)player->current_pos.x][(int)new_pos.y] == '0')
+	if (map.data[(int)new_pos.y][(int)player->current_pos.x] == '0')
 		player->current_pos.y = new_pos.y;
+	if (map.data[(int)player->current_pos.y][(int)new_pos.x] == '0')
+		player->current_pos.x = new_pos.x;
 }
 //rotate to the right
 //both camera direction and camera plane must be rotated
-void		ft_turn_right(t_player *player)
+void		ft_turn_left(t_player *player)
 {
 	double	old_dir_x;
 	double	old_plane_x;
@@ -273,7 +286,7 @@ void		ft_turn_right(t_player *player)
 		player->plane.y * cos(-ROTATE_SPEED);
 }
 
-void		ft_turn_left(t_player *player)
+void	ft_turn_right(t_player *player)
 {
 	double	old_dir_x;
 	double	old_plane_x;
@@ -709,20 +722,26 @@ int	ft_play_game(t_game *game)
 	return (0);
 }
 
+int ft_initialize(t_game_file file, t_game *game)
+{
+	game->map = file.map;
+	game->board.resolution = file.resolution;
+
+	ft_reset_variables_game(&game->board, &game->player);
+	if (!ft_set_board(&game->board))
+		ft_put_error("set board failure"); // ok
+	ft_set_floor_ceiling_color(file, &game->board);//ok
+	ft_set_all_textures(file, &game->board); //ok
+	ft_set_orientation(game->map, &game->player);
+	ft_render_map(game);
+	return(1);
+}
+
 int			ft_start_game(t_game_file file)
 {
 	t_game	game;
 
-	game.map = file.map;
-	game.board.resolution = file.resolution;
-
-	ft_reset_variables_game(&game.board, &game.player);
-	if (!ft_set_board(&game.board))
-		return (ft_put_error("set board failure")); // ok
-	ft_set_floor_ceiling_color(file, &game.board);//ok
-	ft_set_all_textures(file, &game.board); //ok
-	ft_set_orientation(game.map, &game.player);
-	ft_render_map(&game);
+	ft_initialize(file, &game);
 	mlx_hook(game.board.window, DESTROY, NOTIFY_MASK, &ft_close_game, &game);
 	mlx_hook(game.board.window, PRESS, PRESS_MASK, &ft_key_press, &game);
 	mlx_hook(game.board.window, RELEASE, RELEASE_MASK, &ft_key_release, &game);
