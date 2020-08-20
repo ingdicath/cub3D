@@ -12,6 +12,8 @@
 
 #ifndef CUB3D_H
 # define CUB3D_H
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 32 //get get_next_line
 
 /*
 ** ----------- Extensions & BMP name file -------------------------------------
@@ -26,8 +28,8 @@
 ** ----------- Speed & moves --------------------------------------------------
 */
 
-# define ROTATE_SPEED 0.2
-# define MOVE_SPEED 0.5
+# define ROTATE_SPEED 0.15
+# define MOVE_SPEED 0.7
 
 /*
 ** ----------- Colors ---------------------------------------------------------
@@ -270,7 +272,6 @@ char			*ft_strcpy(char *dst, char const *src);
 int				ft_isemptyline(char *str);
 int				ft_iswhitespace(char c);
 char			**ft_split(char *s, char c);
-size_t			ft_count_words(char const *s, char c);
 void			ft_putstr(char *str);
 void			ft_putchar(char c);
 int				ft_atoi(const char *str);

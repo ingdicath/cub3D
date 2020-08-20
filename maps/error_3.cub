@@ -2,10 +2,10 @@
           
   R  800 600
 
-WE ./textures/red.xpm
-NO ./textures/green.xpm
-SO ./textures/blue.xpm
-EA ./textures/yellow.xpm
+WE ./textures/Bark.xpm
+NO ./textures/barrel.xpm
+SO ./textures/pillar.xpm
+EA ./textures/Stone.xpm
 
 
 
