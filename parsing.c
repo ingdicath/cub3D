@@ -49,19 +49,20 @@ int		ft_check_unique_orientation(t_map *map)
 	int j;
 
 	i = 0;
-	while (map->data[i] != NULL)
+	while (map->matrix[i] != NULL)
 	{
 		j = 0;
-		while (map->data[i][j] != '\0')
+		while (map->matrix[i][j] != '\0')
 		{
-			if (map->data[i][j] == 'N' || map->data[i][j] == 'S' ||
-				map->data[i][j] == 'W' || map->data[i][j] == 'E')
+			if (map->matrix[i][j] == 'N' || map->matrix[i][j] == 'S' ||
+				map->matrix[i][j] == 'W' || map->matrix[i][j] == 'E')
 			{
 				if (map->orientation != '\0')
 					return (0);
-				map->orientation = map->data[i][j];
+				map->orientation = map->matrix[i][j];
 				map->start_pos.x = j;  //se cambio para simular las coordenadas de un plano cartesiano
 				map->start_pos.y = i;
+				map->matrix[i][j] = '0'; // se cambio a 0 para hacer la celda caminable
 			}
 			j++;
 		}
@@ -80,14 +81,14 @@ void	ft_reset_input(t_game_file *game_file)
 	game_file->floor.red = -1;
 	game_file->floor.green = -1;
 	game_file->floor.blue = -1;
-	game_file->resolution.width = -1;
-	game_file->resolution.height = -1;
+	game_file->win_size.width = -1;
+	game_file->win_size.height = -1;
 	game_file->no_path = NULL;
 	game_file->so_path = NULL;
 	game_file->ea_path = NULL;
 	game_file->we_path = NULL;
 	game_file->sprite_path = NULL;
-	game_file->map.data = NULL;
+	game_file->map.matrix = NULL;
 	game_file->map.orientation = '\0';
 	game_file->map.start_pos.x = -1;
 	game_file->map.start_pos.y = -1;
@@ -98,8 +99,8 @@ int		ft_check_complete_elements(t_game_file *game_file)
 	if (game_file->ceiling.red == -1 || game_file->ceiling.green == -1 ||
 		game_file->ceiling.blue == -1 || game_file->floor.red == -1 ||
 		game_file->floor.green == -1 || game_file->floor.blue == -1 ||
-		game_file->resolution.width == -1 ||
-		game_file->resolution.height == -1 || game_file->no_path == NULL ||
+		game_file->win_size.width == -1 ||
+		game_file->win_size.height == -1 || game_file->no_path == NULL ||
 		game_file->so_path == NULL || game_file->ea_path == NULL ||
 		game_file->we_path == NULL || game_file->sprite_path == NULL)
 		return (0);
@@ -147,12 +148,12 @@ int			ft_read_file(char *file_name, t_game_file *game_file)
 			return (ft_put_error("file not found"));
 		if (ft_check_complete_elements(game_file))
 		{
-			if (ft_isemptyline(line) && game_file->map.data == NULL)
+			if (ft_isemptyline(line) && game_file->map.matrix == NULL)
 				continue ;
 			if (!ft_check_valid_char(line))
 				return (ft_put_error("invalid character in the map"));
-			game_file->map.data = ft_join_lines(game_file->map.data, line);
-			//print_map(game_file->map.data);//borrar
+			game_file->map.matrix = ft_join_lines(game_file->map.matrix, line);
+			//print_map(game_file->map.matrix);//borrar
 		}
 		else
 		{
@@ -185,7 +186,7 @@ int			ft_fill_elements(char **line_split, t_game_file *game_file)
 {
 	int		result;
 
-	result = ft_check_resolution(line_split, &game_file->resolution)
+	result = ft_check_resolution(line_split, &game_file->win_size)
 	&& ft_check_ceiling(line_split, &game_file->ceiling)
 	&& ft_check_floor(line_split, &game_file->floor)
 	&& ft_check_north_path(line_split, &game_file->no_path)
@@ -222,7 +223,7 @@ char		**ft_join_lines(char **matrix, char *new_line)
 
 void	printfs(t_game_file *game_file)
 {
-	printf("%d %d\n",game_file->resolution.width,game_file->resolution.height); //borrar
+	printf("%d %d\n",game_file->win_size.width,game_file->win_size.height); //borrar
 	printf("%d %d %d\n",game_file->ceiling.red,game_file->ceiling.green, game_file->ceiling.blue); //borrar
 	printf("%d %d %d\n",game_file->floor.red,game_file->floor.green, game_file->floor.blue); //borrar
 	printf("%s\n", game_file->no_path); //borrar
@@ -230,7 +231,7 @@ void	printfs(t_game_file *game_file)
 	printf("%s\n", game_file->ea_path); //borrar
 	printf("%s\n", game_file->we_path); //borrar
 	printf("%s\n", game_file->sprite_path); //borrar
-	print_map(game_file->map.data);
+	print_map(game_file->map.matrix);
 }
 
 void	print_map(char **map)
@@ -243,7 +244,7 @@ void	print_map(char **map)
 	}
 }
 
-int		ft_check_resolution(char **line, t_screen *resolution)
+int		ft_check_resolution(char **line, t_win_size *win_size)
 {
 	// int	i;
 
@@ -255,17 +256,17 @@ int		ft_check_resolution(char **line, t_screen *resolution)
 	// }
 	if (line[0] && (ft_strcmp(line[0], "R") == 0))
 	{
-		if (resolution->width >= 0 || resolution->height >= 0)
+		if (win_size->width >= 0 || win_size->height >= 0)
 			return (ft_put_error("argument(s) for RES already exist(s)"));
 		if (ft_array_size(line) != 3)
 			return (ft_put_error("wrong number of arguments for RES"));
 		if (!ft_isnumber(line[1]) || !ft_isnumber(line[2]))
 			return (ft_put_error("is not number for resolution"));
-		resolution->width = ft_atoi(line[1]);
-		resolution->height = ft_atoi(line[2]);
-		printf("ancho %d \n", resolution->width); // borrar
-		printf("altura %d \n", resolution->height); //borrar
-		if (resolution->width <= 0 || resolution->height <= 0)
+		win_size->width = ft_atoi(line[1]);
+		win_size->height = ft_atoi(line[2]);
+		printf("ancho %d \n", win_size->width); // borrar
+		printf("altura %d \n", win_size->height); //borrar
+		if (win_size->width <= 0 || win_size->height <= 0)
 			return (ft_put_error("Resolution must be greater than 0"));
 	}
 /*

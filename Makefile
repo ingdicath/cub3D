@@ -20,9 +20,8 @@ FLAGS= -Wall -Wextra -Werror
 
 MLX_FLAGS = -lmlx -framework OpenGL -framework AppKit
 
-#GNL = gnl
 MLX = mlx
-#LIBGNL = libgnl.a
+
 LIB_FT = libft
 
 LIBFT = libft.a
@@ -44,19 +43,11 @@ $(LIBMLX):
 $(LIBFT):
 	@make -C $(LIB_FT)
 	@cp $(LIB_FT)/$(LIBFT) .
-#$(LIBGNL):
-	#@make -C $(GNL)
-	#@cp $(GNL)/$(LIBGNL) .
 
 $(NAME): $(OBJECTS) $(LIBMLX) $(LIBFT)
 	@ar rcs $(LIB) $(OBJECTS)
 	@gcc -I $(MLX) -L $(MLX) $(MLX_FLAGS) $(LIB) $(LIBFT) -o $(NAME)
 
-#$(NAME): $(OBJECTS) $(LIBMLX) $(LIBGNL)
-#	@ar rcs $(LIB) $(OBJECTS)
-#	@gcc -I $(MLX) -L $(MLX) $(MLX_FLAGS) $(LIB) $(LIBGNL) -o $(NAME)
-
-	#libgnl.a
 %.o: %.c $(HEADERS)
 	@gcc $(FLAGS) -c $< -o $@
 	@echo "cub3D successful creation"
@@ -73,6 +64,12 @@ fclean: clean
 	@make fclean -C $(LIB_FT)	
 	@echo "Objects file were removed - fclean."
 
+sclean: 
+	@rm -f $(OBJECTS) $(BMP)
+	@echo "Objects file were removed - sclean."
+
+cub: sclean $(NAME)
+
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re cub

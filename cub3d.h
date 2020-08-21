@@ -27,7 +27,7 @@
 */
 
 # define ROTATE_SPEED 0.15
-# define MOVE_SPEED 0.7
+# define MOVE_SPEED 0.3
 
 /*
 ** ----------- Colors ---------------------------------------------------------
@@ -37,6 +37,7 @@
 
 # define RED_BIT 65536
 # define GREEN_BIT 256
+# define DARKER 7566197
 
 /*
 ** ----------- Libraries ------------------------------------------------------
@@ -44,14 +45,13 @@
 
 # include <stdlib.h>
 # include <unistd.h>
-# include <string.h>
 # include <fcntl.h>
 # include <math.h>
 # include "mlx/mlx.h"
-# include "gnl/get_next_line.h"
+# include "gnl/get_next_line.h" //quitar luego
 
 /*
-** ----------- Actions structures ---------------------------------------------
+** ----------- Actions constants ----------------------------------------------
 */
 
 typedef enum	e_keys
@@ -71,13 +71,13 @@ typedef enum	e_masks
 }				t_masks;
 
 /*
-** ----------- Constants ------------------------------------------------------
+** ----------- Util Constants -------------------------------------------------
 */
 
 typedef enum	e_sizes
 {
 	TEXTURE_WIDTH = 64, TEXTURE_HEIGHT = 64, ONE_BYTE = 1, TWO_BYTES = 2,
-	FOUR_BYTES = 4
+	FOUR_BYTES = 4, EIGHT_BITS = 8
 }				t_sizes;
 
 typedef enum	e_bmp
@@ -99,11 +99,11 @@ typedef struct	s_color
 	int			blue;
 }				t_color;
 
-typedef struct	s_screen
+typedef struct	s_win_size
 {
 	int			width;
 	int			height;
-}				t_screen;
+}				t_win_size;
 
 typedef struct	s_position
 {
@@ -113,7 +113,7 @@ typedef struct	s_position
 
 typedef struct	s_map
 {
-	char		**data;
+	char		**matrix;
 	char		orientation;
 	t_position	start_pos;
 }				t_map;
@@ -127,7 +127,7 @@ typedef struct	s_game_file
 	char		*sprite_path;
 	t_color		ceiling;
 	t_color		floor;
-	t_screen	resolution;
+	t_win_size	win_size;
 	t_map		map;
 }				t_game_file;
 
@@ -167,52 +167,55 @@ typedef struct	s_ray
 	t_position	sidedist;
 	t_position	step;
 	t_position	map;
-	t_wall		tex;
 }				t_ray;
 
-typedef struct	s_board
+typedef struct	s_screen
 {
 	void		*mlx;
 	void		*window;
-	double		*buffer;  // Uint32 buffer[screenHeight][screenWidth], no se ha usado todavia
 	int			ceiling;
 	int			floor;
-	int			screenshot;
-	t_screen	resolution;
+	t_wall		wall;
+	t_win_size	win_size;
 	t_texture	win_data;
 	t_texture	north;
 	t_texture	south;
 	t_texture	west;
 	t_texture	east;
 	t_texture	sprite;
-	t_ray		ray;
-}				t_board;
+}				t_screen;
 
 typedef struct	s_movements
 {
-	int			move_front;
-	int			move_back;
-	int			move_right;
-	int			move_left;
+	int			front;
+	int			back;
+	int			right;
+	int			left;
 	int			turn_right;
 	int			turn_left;
-	// int 		close;   verificar si va dentro de esta estructura
 }				t_movements;
+
+typedef struct	s_rotations
+{
+	int			up;
+	int			left;
+	int			right;
+	int			down;
+}				t_rotations;
 
 typedef struct	s_player
 {
-	double		time;
-	double		old_time;
 	t_position	orientation;
 	t_position	plane;
 	t_position	current_pos;
 	t_movements	move;
+	t_rotations rotate;
+	t_ray		ray;
 }				t_player;
 
 typedef struct	s_game // Game
 {
-	int			screenshot;
-	t_board		board;
+	t_screen	screen;
 	t_player	player;
 	t_map		map;
 }				t_game;
@@ -223,7 +226,7 @@ typedef struct	s_game // Game
 
 typedef struct		s_file_header
 {
-	char	*signature;
+	char			*signature;
 	unsigned int	size;
 	unsigned int	reserved_1;
 	unsigned int	reserved_2;
@@ -283,7 +286,7 @@ void			ft_bzero(void *s, size_t n);
 void			ft_reset_input(t_game_file *mapfile);
 int				ft_read_file(char *file_name, t_game_file *mapfile);
 int				ft_check_valid_color(char *color);
-int				ft_check_resolution(char **line, t_screen *resolution);
+int				ft_check_resolution(char **line, t_win_size *win_size);
 int				ft_check_ceiling(char **line, t_color *ceiling);
 int				ft_check_floor(char **line, t_color *floor);
 int				ft_check_north_path(char **line, char **north_path);
@@ -310,24 +313,23 @@ int				ft_close_game(t_game *game);
 int				ft_play_game(t_game *game);
 int				ft_key_press(int keycode, t_game *game);
 int				ft_key_release(int keycode, t_game *game);
-int ft_initialize(t_game_file file, t_game	*game);
+int 			ft_set_game(t_game_file file, t_game	*game);
 int				ft_start_game(t_game_file game_file);
-int				ft_set_board(t_board *board);
-int				ft_set_all_textures(t_game_file file, t_board *board);
+int				ft_set_screen(t_screen *screen);
+int				ft_set_all_textures(t_game_file file, t_screen *screen);
 int				ft_set_texture(void *mlx, char *path, t_texture *texture);
-void			ft_reset_player(t_player *player);
 int				ft_set_orientation(t_map map, t_player *player);
-void			ft_render_map(t_game *game);
-void			ft_step_side_dist_init(t_position current, t_ray *ray);
+void			ft_render_map(t_game *game);  
+void			ft_calc_side_dist(t_position current, t_ray *ray);
 void			ft_perform_dda(t_map map, t_ray *ray);
-void			ft_perp_wall_dist(t_ray *ray, t_position current);
-void			ft_screen_line_pixels_stripe(t_ray *ray, t_screen resolution);
-void			ft_wall_texture(t_ray *ray, t_position current);
-void			ft_texture_color(t_ray *ray, t_board board, int x);
-t_texture		ft_get_textures(t_board board, t_ray *ray);
-void			ft_reset_variables_game(t_board *board, t_player *player);
+void			ft_calc_wall_dist(t_ray *ray, t_position current);
+void			ft_calc_draw_limits(t_ray *ray, t_win_size win_size);
+void			ft_calc_wall_pos(t_ray *ray, t_wall *wall, t_position current);
+void			ft_draw_walls(t_ray *ray, t_screen *screen, int x);
+t_texture		ft_get_textures(t_screen screen, t_ray *ray);
+void			ft_clean_game(t_screen *screen, t_player *player);
 void			ft_put_pixel(t_texture *texture, int x, int y, int color);
-int				ft_get_color(t_texture texture, t_ray ray);
+int				ft_get_color(t_texture texture, t_wall wall);
 void			ft_set_ray_position(t_game *game, int x);
 void			ft_move_front(t_map map, t_player *player);
 void			ft_move_back(t_map map, t_player *player);
@@ -337,12 +339,12 @@ void			ft_turn_right(t_player *player);
 void			ft_turn_left(t_player *player);
 int				ft_manage_movements(t_map map, t_player *player);
 int				ft_rgb_calculator(int r, int g, int b);
-void			ft_set_floor_ceiling_color(t_game_file file, t_board *board);
-void			ft_draw_floor_ceiling_color(t_board *board, int x);
-void	ft_set_header_bitmap(int fd, t_board *board);
-void	ft_put_pixel_bitmap(int fd, t_board *board);
+void			ft_set_floor_ceiling(t_game_file file, t_screen *screen);
+void 			ft_draw_floor_ceiling(t_screen *screen, t_ray ray, int x);
+void	ft_set_header_bitmap(int fd, t_screen *screen);
+void	ft_put_pixel_bitmap(int fd, t_screen *screen);
 void	ft_take_screenshot(t_game_file game_file);
-
+int	ft_is_moving(t_movements move, t_rotations rotate);
 
 /*
 ** ---------- DELETEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE ---------------
