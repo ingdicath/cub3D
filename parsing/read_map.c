@@ -1,5 +1,4 @@
-#include "cub3d.h"
-#include <stdio.h> //borrar
+#include "../cub3d.h"
 
 char		**ft_join_lines(char **matrix, char *new_line)
 {

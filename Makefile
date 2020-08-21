@@ -30,17 +30,21 @@ LIBFT = libft.a
 
 BMP = cub3d_screenshot.bmp
 
-SRC = check_args_path.c check_textures_path.c check_res_floor_ceiling_color.c\
-	read_map.c check_orientacion.c fill_elements.c\
-	initialize_structures.c game_start.c set_game.c render_map.c\
-	calculate_wall_draw.c draw_walls.c movements.c rotations.c keys_actions.c\
-	draw_floor_ceiling.c screenshot.c write_bytes.c 
+SRC = parsing/check_args_path.c parsing/check_textures_path.c\
+	parsing/check_res_floor_ceiling_color.c parsing/read_map.c\
+	parsing/check_orientacion.c parsing/fill_elements.c\
+	parsing/initialize_structures.c raycasting/game_start.c\
+	raycasting/set_game.c raycasting/render_map.c\
+	raycasting/calculate_wall_draw.c raycasting/draw_walls.c\
+	raycasting/movements.c raycasting/rotations.c\
+	raycasting/keys_actions.c raycasting/draw_floor_ceiling.c\
+	raycasting/screenshot.c raycasting/write_bytes.c main.c
 
 OBJECTS = $(SRC:.c=.o)
 
 all: $(NAME)
 
-lib_ft:
+$(LIB_FT):
 	@make -C $(LIB_FT)
 	@cp $(LIB_FT)/$(LIBFT) .
 	@echo "libft library created successfully"
@@ -50,13 +54,12 @@ $(LIBMLX):
 	@cp $(MLX)/$(LIBMLX) .
 	@echo "mlx library created successfully"
 
-$(NAME): $(OBJECTS) $(LIBMLX) lib_ft
+$(NAME): $(OBJECTS) $(LIBMLX) $(LIB_FT)
 	@$(CC) $(FLAGS) $(MLX_FLAGS) -o $(NAME) $(OBJECTS) $(LIBFT)
 	@echo "name rule executed successfully"
 
 %.o: %.c $(HEADERS)
-	$(CC) $(FLAGS) -Imlx -Ilibft -c $< -o $@
-	@echo "cub3D successful creation"
+	@$(CC) $(FLAGS) -Imlx -Ilibft -c $< -o $@
 
 clean:
 	@rm -f $(OBJECTS) $(LIBMLX) $(BMP)
@@ -66,7 +69,6 @@ clean:
 	@echo "Objects file were removed - clean."
 
 fclean: clean
-#@rm -f $(NAME)$(LIB)
 	@rm -f $(NAME)
 	@make fclean -C $(LIB_FT)	
 	@echo "Objects file were removed - fclean."

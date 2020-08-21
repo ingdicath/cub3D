@@ -1,4 +1,4 @@
-#include "cub3d.h"
+#include "../cub3d.h"
 
 void		ft_put_pixel(t_texture *texture, int x, int y, int color)
 {

@@ -1,5 +1,4 @@
-#include "cub3d.h"
-#include <stdio.h>
+#include "../cub3d.h"
 
 int			ft_check_extension(char *file_name, char *valid_ext)
 {

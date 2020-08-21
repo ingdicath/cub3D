@@ -1,5 +1,4 @@
-#include "cub3d.h"
-#include <stdio.h> //borrar
+#include "../cub3d.h"
 
 int			ft_set_texture(void *mlx, char *path, t_texture *texture)
 {

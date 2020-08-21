@@ -193,17 +193,19 @@ typedef struct	s_movements
 	int			back;
 	int			right;
 	int			left;
-	int			turn_right;
-	int			turn_left;
 }				t_movements;
 
 typedef struct	s_rotations
 {
-	int			up;
 	int			left;
 	int			right;
-	int			down;
 }				t_rotations;
+
+typedef struct	s_sprite
+{
+	t_position	position;
+}				t_sprite;
+
 
 typedef struct	s_player
 {
@@ -221,26 +223,6 @@ typedef struct	s_game // Game
 	t_player	player;
 	t_map		map;
 }				t_game;
-
-/*
-** ----------- Auxiliary functions --------------------------------------------
-*/
-
-void			ft_putstr_fd(char *str, int fd);
-int				ft_put_error(char *error);
-size_t			ft_strlen(const char *s);
-char			*ft_substr(char *s, unsigned int start, size_t len);
-char			*ft_strdup(const char *s1);
-char			*ft_strchr(const char *s, int c);
-char			*ft_strjoin(char *s1, char *s2);
-int				ft_strcmp(const char *s1, const char *s2);
-char			*ft_strcpy(char *dst, char const *src);
-int				ft_isemptyline(char *str);
-int				ft_iswhitespace(char c);
-char			**ft_split(char *s, char c);
-void			ft_putstr(char *str);
-int				ft_atoi(const char *str);
-int				ft_isnumber(char *str);
 
 /*
 ** ----------- Parsing functions ----------------------------------------------

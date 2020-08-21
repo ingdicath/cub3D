@@ -1,4 +1,4 @@
-#include "cub3d.h"
+#include "../cub3d.h"
 
 void 		ft_put_pixel_bitmap(int fd, t_screen *screen)
 {

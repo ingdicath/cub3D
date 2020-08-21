@@ -1,4 +1,4 @@
-#include "cub3d.h"
+#include "../cub3d.h"
 
 /*
 ** Draw the pixels of the stripe as a vertical line.

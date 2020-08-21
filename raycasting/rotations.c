@@ -1,4 +1,4 @@
-#include "cub3d.h"
+#include "../cub3d.h"
 
 //rotate to the right
 //both camera direction and camera plane must be rotated

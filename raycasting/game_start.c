@@ -1,5 +1,4 @@
-#include "cub3d.h"
-#include <stdio.h> //borrar
+#include "../cub3d.h"
 
 int	ft_is_moving(t_movements move, t_rotations rotate)
 {

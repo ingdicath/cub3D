@@ -1,4 +1,4 @@
-#include "cub3d.h"
+#include "../cub3d.h"
 
 void	ft_reset_input(t_game_file *game_file)
 {

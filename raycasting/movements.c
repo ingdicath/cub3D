@@ -1,4 +1,4 @@
-#include "cub3d.h"
+#include "../cub3d.h"
 
 //move forward if no wall in front of you
 void			ft_move_front(t_map map, t_player *player)

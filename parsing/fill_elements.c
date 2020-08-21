@@ -1,5 +1,4 @@
-#include "cub3d.h"
-#include <stdio.h> //borrar
+#include "../cub3d.h"
 
 int			ft_fill_elements(char **line_split, t_game_file *game_file)
 {
@@ -15,7 +14,6 @@ int			ft_fill_elements(char **line_split, t_game_file *game_file)
 	&& ft_check_sprite_path(line_split, &game_file->sprite_path);
 	return (result);
 }
-
 
 int		ft_array_size(char **array)
 {

@@ -1,5 +1,4 @@
-#include "cub3d.h"
-#include <stdio.h> //borrar
+#include "../cub3d.h"
 
 // ARREGLAR TIENE 26 LINEAS
 
