@@ -6,7 +6,7 @@
 #    By: dsalaman <dsalaman@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/07/07 08:57:54 by dsalaman      #+#    #+#                  #
-#    Updated: 2020/08/21 17:19:43 by dsalaman      ########   odam.nl          #
+#    Updated: 2020/08/21 14:44:31 by dsalaman      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,11 +30,7 @@ LIBFT = libft.a
 
 BMP = cub3d_screenshot.bmp
 
-SRC = check_args_path.c check_textures_path.c check_res_floor_ceiling_color.c\
-	read_map.c check_orientacion.c fill_elements.c\
-	initialize_structures.c game_start.c set_game.c render_map.c\
-	calculate_wall_draw.c draw_walls.c movements.c rotations.c keys_actions.c\
-	draw_floor_ceiling.c screenshot.c write_bytes.c 
+SRC = ft_split.c parsing.c start_game.c cub3d_utils.c
 
 OBJECTS = $(SRC:.c=.o)
 

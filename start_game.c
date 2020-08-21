@@ -6,7 +6,7 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/06 14:19:42 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/18 21:25:52 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/21 17:14:46 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,17 @@
 **	2) S_IRWXU: This is equivalent to ‘(S_IRUSR | S_IWUSR | S_IXUSR)’
 */
 
-static void ft_write_int_bytes(int fd, int param)
+void ft_write_int_bytes(int fd, int param) //makefile
 {
 	write(fd, &param, FOUR_BYTES);
 }
 
-static void ft_write_short_bytes(int fd, int param)
+void ft_write_short_bytes(int fd, int param) //makefile
 {	
 	write(fd, &param, TWO_BYTES);
 }
 
-static void ft_write_char_zeros(int fd, int times)
+void ft_write_char_zeros(int fd, int times) //makefile
 {
 	int i; 
 
@@ -47,7 +47,7 @@ static void ft_write_char_zeros(int fd, int times)
 	}
 }
 
-void		ft_set_header_bitmap(int fd, t_screen *screen)
+void		ft_set_header_bitmap(int fd, t_screen *screen) //makefile
 {
 	int		file_size; 
 	char	*file_type;
@@ -73,7 +73,7 @@ void		ft_set_header_bitmap(int fd, t_screen *screen)
 	ft_write_char_zeros(fd, IMPORTANT_COLORS);
 }
 
-void 		ft_put_pixel_bitmap(int fd, t_screen *screen)
+void 		ft_put_pixel_bitmap(int fd, t_screen *screen) //makefile
 {
 	int		x;
 	int		y;
@@ -96,7 +96,7 @@ void 		ft_put_pixel_bitmap(int fd, t_screen *screen)
 	}
 }
 
-void ft_take_screenshot(t_game_file file)
+void ft_take_screenshot(t_game_file file) //makefile
 {
 	t_game game;
 
@@ -112,7 +112,7 @@ void ft_take_screenshot(t_game_file file)
 	close(fd);
 }
 
-void		ft_clean_game(t_screen *screen, t_player *player)
+void		ft_clean_game(t_screen *screen, t_player *player) //makefile
 {
 	screen->mlx = NULL;
 	screen->window = NULL;
@@ -135,7 +135,7 @@ void		ft_clean_game(t_screen *screen, t_player *player)
 }
 
 
-int	ft_close_game(t_game *game)
+int	ft_close_game(t_game *game) //makefile
 {
 	if (game->screen.window)
 		mlx_destroy_window(game->screen.mlx, game->screen.window);
@@ -144,12 +144,12 @@ int	ft_close_game(t_game *game)
 	exit(0);
 }
 
-int ft_rgb_calculator(int r, int g, int b)
+int ft_rgb_calculator(int r, int g, int b) //makefile
 {
 	return (r * RED_BIT + g * GREEN_BIT + b);
 }
 
-void ft_set_floor_ceiling(t_game_file file, t_screen *screen)
+void ft_set_floor_ceiling(t_game_file file, t_screen *screen) //makefile
 {
 	screen->floor = ft_rgb_calculator(file.floor.red, file.floor.green,
 		file.floor.blue);
@@ -157,7 +157,7 @@ void ft_set_floor_ceiling(t_game_file file, t_screen *screen)
 		file.ceiling.blue);
 }
 
-void ft_draw_floor_ceiling(t_screen *screen, t_ray ray, int x)
+void ft_draw_floor_ceiling(t_screen *screen, t_ray ray, int x) //makefile
 {
 	int y;
 	
@@ -176,7 +176,7 @@ void ft_draw_floor_ceiling(t_screen *screen, t_ray ray, int x)
 	}
 }
 
-int	ft_key_press(int keycode, t_game *game)
+int	ft_key_press(int keycode, t_game *game) //makefile
 {
 	if (keycode == ESC)
 		ft_close_game(game); // create function
@@ -196,7 +196,7 @@ int	ft_key_press(int keycode, t_game *game)
 	return (0);
 }
 
-int	ft_key_release(int keycode, t_game *game)
+int	ft_key_release(int keycode, t_game *game) //makefile
 {
 	if (keycode == KEY_W)
 		game->player.move.front = 0;
@@ -215,7 +215,7 @@ int	ft_key_release(int keycode, t_game *game)
 }
 
 //move forward if no wall in front of you
-void			ft_move_front(t_map map, t_player *player)
+void			ft_move_front(t_map map, t_player *player) //makefile
 {
 	// //printf("llo que quieras\n");
 	t_position	new_pos;
@@ -230,7 +230,7 @@ void			ft_move_front(t_map map, t_player *player)
 }
 
 //move backwards if no wall behind you
-void			ft_move_back(t_map map, t_player *player)
+void			ft_move_back(t_map map, t_player *player) //makefile
 {
 	t_position	new_pos;
 
@@ -242,7 +242,7 @@ void			ft_move_back(t_map map, t_player *player)
 		player->current_pos.x = new_pos.x;
 }
 
-void			ft_move_right(t_map map, t_player *player)
+void			ft_move_right(t_map map, t_player *player) //makefile
 {
 	t_position	new_pos;
 	new_pos.x = player->current_pos.x + player->plane.x * MOVE_SPEED;
@@ -253,7 +253,7 @@ void			ft_move_right(t_map map, t_player *player)
 		player->current_pos.x = new_pos.x;
 }
 
-void			ft_move_left(t_map map, t_player *player)// tarea factorizar
+void			ft_move_left(t_map map, t_player *player)// tarea factorizar  //makefile
 {
 	t_position	new_pos;
 	new_pos.x = player->current_pos.x - player->plane.x * MOVE_SPEED;
@@ -265,7 +265,7 @@ void			ft_move_left(t_map map, t_player *player)// tarea factorizar
 }
 //rotate to the right
 //both camera direction and camera plane must be rotated
-void		ft_turn_left(t_player *player)
+void		ft_turn_left(t_player *player) //makefile
 {
 	double	old_dir_x;
 	double	old_plane_x;
@@ -282,7 +282,7 @@ void		ft_turn_left(t_player *player)
 		player->plane.y * cos(-ROTATE_SPEED);
 }
 
-void	ft_turn_right(t_player *player)
+void	ft_turn_right(t_player *player)  //makefile
 {
 	double	old_dir_x;
 	double	old_plane_x;
@@ -299,7 +299,7 @@ void	ft_turn_right(t_player *player)
 		player->plane.y * cos(ROTATE_SPEED);
 }
 
-int		ft_manage_movements(t_map map, t_player *player) //revisar si esta bien definida la posicion
+int		ft_manage_movements(t_map map, t_player *player) //makefile
 {
 	if (player->move.front == 1)
 		ft_move_front(map, player);
@@ -316,7 +316,7 @@ int		ft_manage_movements(t_map map, t_player *player) //revisar si esta bien def
 	return (0);
 }
 
-t_texture		ft_get_textures(t_screen screen, t_ray *ray)
+t_texture		ft_get_textures(t_screen screen, t_ray *ray) //makefile
 {
 	t_texture	texture;
 	if (ray->side == 0)
@@ -344,7 +344,7 @@ t_texture		ft_get_textures(t_screen screen, t_ray *ray)
 	return(texture);
 }
 
-int			ft_get_color(t_texture texture, t_wall wall)
+int			ft_get_color(t_texture texture, t_wall wall) //makefile
 {
 	int		color;
 	char	*dst;
@@ -355,7 +355,7 @@ int			ft_get_color(t_texture texture, t_wall wall)
 	return (color);
 }
 
-void		ft_put_pixel(t_texture *texture, int x, int y, int color)
+void		ft_put_pixel(t_texture *texture, int x, int y, int color) //makefile
 {
 	char	*dst;
 	////printf("address %p y %d size %d  bits_per_pixel %d\n", texture->address, y, texture-> size_line, texture->bits_per_pixel);
@@ -371,7 +371,7 @@ void		ft_put_pixel(t_texture *texture, int x, int y, int color)
 **
 */
 
-void	ft_draw_walls(t_ray *ray, t_screen *screen, int x)// name of function render wall??
+void	ft_draw_walls(t_ray *ray, t_screen *screen, int x) // makefile
 {
 	int y;
 	int color;
@@ -406,7 +406,7 @@ void	ft_draw_walls(t_ray *ray, t_screen *screen, int x)// name of function rende
 
 //calculate value of wallX
 
-void	ft_calc_wall_pos(t_ray *ray, t_wall *wall, t_position current)
+void	ft_calc_wall_pos(t_ray *ray, t_wall *wall, t_position current) //makefile
 {
 	if (ray->side == 0)
 		ray->wall_x = current.y + ray->perpwalldist * ray->dir.y;
@@ -424,7 +424,7 @@ void	ft_calc_wall_pos(t_ray *ray, t_wall *wall, t_position current)
 ** Calculate lowest and highest pixel to fill in current stripe.
 */
 
-void	ft_calc_draw_limits(t_ray *ray, t_win_size win_size)
+void	ft_calc_draw_limits(t_ray *ray, t_win_size win_size) //makefile
 {
 	ray->line_height = (int)(win_size.height / ray->perpwalldist);
 	ray->draw_start = -ray->line_height / 2 + win_size.height / 2;
@@ -445,7 +445,7 @@ void	ft_calc_draw_limits(t_ray *ray, t_win_size win_size)
     distance to the player point, to avoid making straight walls look rounded.
 */
 
-void	ft_calc_wall_dist(t_ray *ray, t_position current)
+void	ft_calc_wall_dist(t_ray *ray, t_position current) //makefile
 {
 	if(ray->side == 0)
 		ray->perpwalldist = (ray->map.x - current.x +
@@ -464,7 +464,7 @@ void	ft_calc_wall_dist(t_ray *ray, t_position current)
 */
 
 
-void	ft_perform_dda(t_map map, t_ray *ray)
+void	ft_perform_dda(t_map map, t_ray *ray) //makefile
 {
 	int	hit;
 	int x;
@@ -503,7 +503,7 @@ void	ft_perform_dda(t_map map, t_ray *ray)
 // Now, before the actual DDA can start, first stepX, stepY,
 // and the initial sideDistX and sideDistY still have to be calculated.
 
-void			ft_calc_side_dist(t_position current, t_ray *ray)
+void			ft_calc_side_dist(t_position current, t_ray *ray) //makefile
 {
 	// //printf("ray->dir.x %f\n", ray->dir.x );
 	// //printf("ray->dir.y %f\n", ray->dir.y );
@@ -536,7 +536,7 @@ void			ft_calc_side_dist(t_position current, t_ray *ray)
 }
 
 //////////////////////////////// 14 ago /////////////////////////////
-void	ft_set_ray_position(t_game *game, int x)  /// check this
+void	ft_set_ray_position(t_game *game, int x)  /// check this //makefile
 {
 	t_ray		*ray;
 
@@ -560,7 +560,7 @@ void	ft_set_ray_position(t_game *game, int x)  /// check this
 	////printf("loading delta  %f %f\n", ray->deltadist.x  , ray->deltadist.y);
 }
 
-void			ft_render_map(t_game *game)
+void			ft_render_map(t_game *game) //makefile
 {
 	int			x;
 
@@ -584,7 +584,7 @@ void			ft_render_map(t_game *game)
 	//printf("Poniendo imagen %p %d\n",game->screen.win_data.address, game->screen.win_data.size_line ); //borrar
 }
 
-int			ft_set_orientation(t_map map, t_player *player)
+int			ft_set_orientation(t_map map, t_player *player) //makefile
 {
 	player->current_pos = map.start_pos;
 	if (map.orientation == 'N')
@@ -621,7 +621,7 @@ int			ft_set_orientation(t_map map, t_player *player)
 }
 
 ////////////////////////check como cargar las texturas, ver texture_wall in the tutorial
-int			ft_set_texture(void *mlx, char *path, t_texture *texture)
+int			ft_set_texture(void *mlx, char *path, t_texture *texture) //makefile
 {
 	//printf("%s\n", path); //borrar
 	texture->image = mlx_xpm_file_to_image(mlx, path,
@@ -635,7 +635,7 @@ int			ft_set_texture(void *mlx, char *path, t_texture *texture)
 	return (1);
 }
 
-int			ft_set_all_textures(t_game_file file, t_screen *screen)
+int			ft_set_all_textures(t_game_file file, t_screen *screen) //makefile
 {
 	int		result;
 
@@ -659,7 +659,7 @@ int			ft_set_all_textures(t_game_file file, t_screen *screen)
 ** @return int:					1 is ok
 */
 
-int				ft_set_screen(t_screen *screen)
+int				ft_set_screen(t_screen *screen) //makefile
 {
 	t_texture	*data;
 
@@ -683,13 +683,13 @@ int				ft_set_screen(t_screen *screen)
 	return (1);
 }
 
-int	ft_is_moving(t_movements move, t_rotations rotate)
+int	ft_is_moving(t_movements move, t_rotations rotate) //makefile
 {
 	return (move.front || move.back || move.left
 		|| move.right || rotate.right || rotate.left);
 }
 
-int	ft_play_game(t_game *game)
+int	ft_play_game(t_game *game) // makefile
 {
 	if (ft_is_moving(game->player.move, game->player.rotate))
 	{
@@ -701,7 +701,7 @@ int	ft_play_game(t_game *game)
 	return (0);
 }
 
-int ft_set_game(t_game_file file, t_game *game)
+int ft_set_game(t_game_file file, t_game *game) //makefile
 {
 	game->map = file.map;
 	game->screen.win_size = file.win_size;
@@ -716,7 +716,7 @@ int ft_set_game(t_game_file file, t_game *game)
 	return(1);
 }
 
-int			ft_start_game(t_game_file file)
+int			ft_start_game(t_game_file file) //makefile
 {
 	t_game	game;
 

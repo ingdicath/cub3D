@@ -6,7 +6,7 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/29 11:20:00 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/20 16:50:31 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/21 17:14:23 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,9 @@
 # include <fcntl.h>
 # include <math.h>
 # include "mlx/mlx.h"
-# include "gnl/get_next_line.h" //quitar luego
+# include "libft/libft.h"
+# include <stdio.h> // BORRAR
+// # include "gnl/get_next_line.h" //quitar luego
 
 /*
 ** ----------- Actions constants ----------------------------------------------
@@ -221,43 +223,6 @@ typedef struct	s_game // Game
 }				t_game;
 
 /*
-** ----------- BMP ------------------------------------------------------------
-*/
-
-typedef struct		s_file_header
-{
-	char			*signature;
-	unsigned int	size;
-	unsigned int	reserved_1;
-	unsigned int	reserved_2;
-	unsigned int	pixel_data_offset;
-}					t_file_header;
-
-typedef struct		s_info_header
-{
-	unsigned int	dib_header_size;
-	int				image_width;
-	int				image_height;
-	unsigned int	planes;
-	unsigned int	bits_per_pixel;
-	unsigned int	compression;
-	unsigned int	image_size;
-	int				x_pixels_per_meter;
-	int				y_pixels_per_meter;
-	unsigned int	num_colors;
-	unsigned int	important_colors;
-}					t_info_header;
-
-typedef struct	s_bitmap
-{
-	t_file_header	file_header;
-	t_info_header	info_header;
-
-}				t_bitmap;
-
-
-
-/*
 ** ----------- Auxiliary functions --------------------------------------------
 */
 
@@ -274,10 +239,8 @@ int				ft_isemptyline(char *str);
 int				ft_iswhitespace(char c);
 char			**ft_split(char *s, char c);
 void			ft_putstr(char *str);
-void			ft_putchar(char c);
 int				ft_atoi(const char *str);
 int				ft_isnumber(char *str);
-void			ft_bzero(void *s, size_t n);
 
 /*
 ** ----------- Parsing functions ----------------------------------------------
@@ -303,7 +266,6 @@ int				ft_fill_elements(char **line_split, t_game_file *mapfile);
 char			**ft_join_lines(char **matrix, char *new_line);
 int				ft_check_unique_orientation(t_map *map);
 int				ft_check_args(int argc, char **argv, int *screenshot);
-// int			ft_check_args(int argc, char **argv, t_game *game);
 
 /*
 ** ---------- Raycasting functions --------------------------------------------
@@ -345,6 +307,10 @@ void	ft_set_header_bitmap(int fd, t_screen *screen);
 void	ft_put_pixel_bitmap(int fd, t_screen *screen);
 void	ft_take_screenshot(t_game_file game_file);
 int	ft_is_moving(t_movements move, t_rotations rotate);
+void ft_write_char_zeros(int fd, int times);
+void ft_write_short_bytes(int fd, int param);
+void ft_write_int_bytes(int fd, int param);
+
 
 /*
 ** ---------- DELETEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE ---------------

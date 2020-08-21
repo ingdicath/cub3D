@@ -6,14 +6,14 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/22 13:15:55 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/11 11:48:42 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/21 15:37:21 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include <stdio.h>
 
-int			ft_check_extension(char *file_name, char *valid_ext)
+int			ft_check_extension(char *file_name, char *valid_ext) //makefile
 {
 	int		name_size;
 	int		ext_size;
@@ -27,7 +27,7 @@ int			ft_check_extension(char *file_name, char *valid_ext)
 	return (0);
 }
 
-int		ft_check_valid_char(char *line)
+int		ft_check_valid_char(char *line) //makefile
 {
 	int i;
 
@@ -43,7 +43,7 @@ int		ft_check_valid_char(char *line)
 	return (1);
 }
 
-int		ft_check_unique_orientation(t_map *map)
+int		ft_check_unique_orientation(t_map *map) //makefile
 {
 	int i;
 	int j;
@@ -73,7 +73,7 @@ int		ft_check_unique_orientation(t_map *map)
 	return (1);
 }
 
-void	ft_reset_input(t_game_file *game_file)
+void	ft_reset_input(t_game_file *game_file) // makefile
 {
 	game_file->ceiling.red = -1;
 	game_file->ceiling.green = -1;
@@ -94,7 +94,7 @@ void	ft_reset_input(t_game_file *game_file)
 	game_file->map.start_pos.y = -1;
 }
 
-int		ft_check_complete_elements(t_game_file *game_file)
+int		ft_check_complete_elements(t_game_file *game_file) //makefile
 {
 	if (game_file->ceiling.red == -1 || game_file->ceiling.green == -1 ||
 		game_file->ceiling.blue == -1 || game_file->floor.red == -1 ||
@@ -108,7 +108,7 @@ int		ft_check_complete_elements(t_game_file *game_file)
 		return (1);
 }
 
-int		ft_array_size(char **array)
+int		ft_array_size(char **array) //makefile fill elements
 {
 	int i;
 
@@ -118,7 +118,7 @@ int		ft_array_size(char **array)
 	return (i);
 }
 
-int			ft_check_valid_color(char *color)
+int			ft_check_valid_color(char *color) //makefile
 {
 	int		len;
 	char	*temp;
@@ -130,7 +130,7 @@ int			ft_check_valid_color(char *color)
 	return (0);
 }
 
-int			ft_read_file(char *file_name, t_game_file *game_file)
+int			ft_read_file(char *file_name, t_game_file *game_file) //makefile
 {
 	int		ret;
 	int		fd;
@@ -182,7 +182,7 @@ int			ft_read_file(char *file_name, t_game_file *game_file)
 	return (1);
 }
 
-int			ft_fill_elements(char **line_split, t_game_file *game_file)
+int			ft_fill_elements(char **line_split, t_game_file *game_file) //makefile
 {
 	int		result;
 
@@ -198,7 +198,7 @@ int			ft_fill_elements(char **line_split, t_game_file *game_file)
 	return (result);
 }
 
-char		**ft_join_lines(char **matrix, char *new_line)
+char		**ft_join_lines(char **matrix, char *new_line) //makefile
 {
 	int		rows;
 	char	**new_matrix;
@@ -244,7 +244,7 @@ void	print_map(char **map)
 	}
 }
 
-int		ft_check_resolution(char **line, t_win_size *win_size)
+int		ft_check_resolution(char **line, t_win_size *win_size) //makefile
 {
 	// int	i;
 
@@ -282,7 +282,7 @@ int		ft_check_resolution(char **line, t_win_size *win_size)
 	return (1);
 }
 
-int		ft_check_ceiling(char **line, t_color *ceiling)
+int		ft_check_ceiling(char **line, t_color *ceiling) //makefile
 {
 	if (line[0] && (ft_strcmp(line[0], "C") == 0))
 	{
@@ -309,7 +309,7 @@ int		ft_check_ceiling(char **line, t_color *ceiling)
 	return (1);
 }
 
-int		ft_check_floor(char **line, t_color *floor)
+int		ft_check_floor(char **line, t_color *floor) //makefile
 {
 	if (line[0] && (ft_strcmp(line[0], "F") == 0))
 	{
@@ -336,7 +336,7 @@ int		ft_check_floor(char **line, t_color *floor)
 	return (1);
 }
 
-int		ft_check_north_path(char **line, char **north_path)
+int		ft_check_north_path(char **line, char **north_path) //makefile
 {
 	if (line[0] && (ft_strcmp(line[0], "NO") == 0))
 	{
@@ -353,7 +353,7 @@ int		ft_check_north_path(char **line, char **north_path)
 	return (1);
 }
 
-int		ft_check_south_path(char **line, char **south_path)
+int		ft_check_south_path(char **line, char **south_path) //makefile
 {
 	if (line[0] && (ft_strcmp(line[0], "SO") == 0))
 	{
@@ -370,7 +370,7 @@ int		ft_check_south_path(char **line, char **south_path)
 	return (1);
 }
 
-int		ft_check_west_path(char **line, char **west_path)
+int		ft_check_west_path(char **line, char **west_path) //makefile
 {
 	if (line[0] && (ft_strcmp(line[0], "WE") == 0))
 	{
@@ -387,7 +387,7 @@ int		ft_check_west_path(char **line, char **west_path)
 	return (1);
 }
 
-int		ft_check_east_path(char **line, char **east_path)
+int		ft_check_east_path(char **line, char **east_path) //makefile
 {
 	if (line[0] && (ft_strcmp(line[0], "EA") == 0))
 	{
@@ -404,7 +404,7 @@ int		ft_check_east_path(char **line, char **east_path)
 	return (1);
 }
 
-int		ft_check_sprite_path(char **line, char **sprite_path)
+int		ft_check_sprite_path(char **line, char **sprite_path) //makefile
 {
 	if (line[0] && (ft_strcmp(line[0], "S") == 0))
 	{
@@ -421,7 +421,7 @@ int		ft_check_sprite_path(char **line, char **sprite_path)
 	return (1);
 }
 
-int		ft_check_path(char *str)
+int		ft_check_path(char *str) //makefile
 {
 	int		ret;
 	int		i;
@@ -440,7 +440,7 @@ int		ft_check_path(char *str)
 }
 
 
-int			ft_check_args(int argc, char **argv, int *screenshot)
+int			ft_check_args(int argc, char **argv, int *screenshot)  //makefile
 {
 	int		error;
 
