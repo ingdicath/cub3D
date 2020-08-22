@@ -19,6 +19,8 @@ void	ft_reset_input(t_game_file *game_file)
 	game_file->map.orientation = '\0';
 	game_file->map.start_pos.x = -1;
 	game_file->map.start_pos.y = -1;
+	game_file->map.num_sprites = 0;
+
 }
 
 void		ft_clean_game(t_screen *screen, t_player *player)

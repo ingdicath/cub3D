@@ -26,8 +26,8 @@
 ** ----------- Speed & moves --------------------------------------------------
 */
 
-# define ROTATE_SPEED 0.15
-# define MOVE_SPEED 0.3
+# define ROTATE_SPEED 0.05
+# define MOVE_SPEED 0.1
 
 /*
 ** ----------- Colors ---------------------------------------------------------
@@ -113,10 +113,17 @@ typedef struct	s_position
 	double		y;
 }				t_position;
 
+typedef struct	s_sprite
+{
+	t_position	position;
+}				t_sprite;
+
 typedef struct	s_map
 {
 	char		**matrix;
+	int 		num_sprites;
 	char		orientation;
+	t_sprite	*sprite;
 	t_position	start_pos;
 }				t_map;
 
@@ -201,12 +208,6 @@ typedef struct	s_rotations
 	int			right;
 }				t_rotations;
 
-typedef struct	s_sprite
-{
-	t_position	position;
-}				t_sprite;
-
-
 typedef struct	s_player
 {
 	t_position	orientation;
@@ -229,7 +230,7 @@ typedef struct	s_game // Game
 */
 
 void			ft_reset_input(t_game_file *mapfile);
-int				ft_read_file(char *file_name, t_game_file *mapfile);
+int				ft_read_file(char *file_name, t_game_file *file);
 int				ft_check_valid_color(char *color);
 int				ft_check_resolution(char **line, t_win_size *win_size);
 int				ft_check_ceiling(char **line, t_color *ceiling);
@@ -243,11 +244,13 @@ int				ft_check_complete_elements(t_game_file *mapfile);
 int				ft_array_size(char **array);
 int				ft_check_path(char *str);
 int				ft_check_extension(char *file_name, char *valid_ext);
-int				ft_check_valid_char(char *line);
+int				ft_check_valid_char(char c);
 int				ft_fill_elements(char **line_split, t_game_file *mapfile);
 char			**ft_join_lines(char **matrix, char *new_line);
-int				ft_check_unique_orientation(t_map *map);
+int				ft_check_unique_orientation(t_map *map, int i, int j);
 int				ft_check_args(int argc, char **argv, int *screenshot);
+int				ft_count_sprites(char *line, t_map *map);
+int		ft_set_sprites_and_orientation(t_map *map);
 
 /*
 ** ---------- Raycasting functions --------------------------------------------
@@ -285,13 +288,13 @@ int				ft_manage_movements(t_map map, t_player *player);
 int				ft_rgb_calculator(int r, int g, int b);
 void			ft_set_floor_ceiling(t_game_file file, t_screen *screen);
 void 			ft_draw_floor_ceiling(t_screen *screen, t_ray ray, int x);
-void	ft_set_header_bitmap(int fd, t_screen *screen);
-void	ft_put_pixel_bitmap(int fd, t_screen *screen);
-void	ft_take_screenshot(t_game_file game_file);
-int	ft_is_moving(t_movements move, t_rotations rotate);
-void ft_write_char_zeros(int fd, int times);
-void ft_write_short_bytes(int fd, int param);
-void ft_write_int_bytes(int fd, int param);
+void			ft_set_header_bitmap(int fd, t_screen *screen);
+void			ft_put_pixel_bitmap(int fd, t_screen *screen);
+void			ft_take_screenshot(t_game_file game_file);
+int				ft_is_moving(t_movements move, t_rotations rotate);
+void 			ft_write_char_zeros(int fd, int times);
+void 			ft_write_short_bytes(int fd, int param);
+void 			ft_write_int_bytes(int fd, int param);
 
 
 /*
@@ -300,5 +303,6 @@ void ft_write_int_bytes(int fd, int param);
 
 void			printfs(t_game_file *mapfile);//BORRAR
 void			print_map(char **map);//BORRAR
+void 			print_array(t_sprite *sprites, int x);
 
 #endif

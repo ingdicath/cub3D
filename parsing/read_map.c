@@ -21,19 +21,48 @@ char		**ft_join_lines(char **matrix, char *new_line)
 	rows++;
 	new_matrix[rows] = NULL;
 	return (new_matrix);
+	// toca hacer free de la matrix
 }
 
-int		ft_check_valid_char(char *line)
+// int		ft_check_valid_char(char *line, t_map *map)
+// {
+// 	int i;
+
+// 	i = 0;
+// 	while (line[i] != '\0')
+// 	{
+// 		if (line[i] != '0' && line[i] != '1' && line[i] != '2' &&
+// 			line[i] != ' ' && line[i] != 'N' && line[i] != 'S' &&
+// 			line[i] != 'W' && line[i] != 'E')
+// 			return (0);
+// 		else if (line[i] == '2')
+// 			map->num_sprites++;
+// 		i++;
+// 	}
+// 	return (1);
+// }
+
+int		ft_check_valid_char(char c)
+{
+	if (c != '0' && c != '1' && c != '2' &&
+			c != ' ' && c != 'N' && c != 'S' &&
+			c != 'W' && c != 'E')
+			return (0);
+	
+	return (1);
+}
+
+int		ft_count_sprites(char *line, t_map *map)
 {
 	int i;
 
 	i = 0;
 	while (line[i] != '\0')
 	{
-		if (line[i] != '0' && line[i] != '1' && line[i] != '2' &&
-			line[i] != ' ' && line[i] != 'N' && line[i] != 'S' &&
-			line[i] != 'W' && line[i] != 'E')
+		if(!ft_check_valid_char(line[i]))
 			return (0);
+		else if (line[i] == '2')
+			map->num_sprites++;
 		i++;
 	}
 	return (1);
@@ -53,7 +82,7 @@ int		ft_check_complete_elements(t_game_file *game_file)
 		return (1);
 }
 
-int			ft_read_file(char *file_name, t_game_file *game_file)
+int			ft_read_file(char *file_name, t_game_file *file)
 {
 	int		ret;
 	int		fd;
@@ -69,18 +98,18 @@ int			ft_read_file(char *file_name, t_game_file *game_file)
 		ret = get_next_line(fd, &line);
 		if (ret < 0)
 			return (ft_put_error("file not found"));
-		if (ft_check_complete_elements(game_file))
+		if (ft_check_complete_elements(file))
 		{
-			if (ft_isemptyline(line) && game_file->map.matrix == NULL)
+			if (ft_isemptyline(line) && file->map.matrix == NULL)
 				continue ;
-			if (!ft_check_valid_char(line))
+			if (!ft_count_sprites(line, &file->map))
 				return (ft_put_error("invalid character in the map"));
-			game_file->map.matrix = ft_join_lines(game_file->map.matrix, line);
+			file->map.matrix = ft_join_lines(file->map.matrix, line);
 		}
 		else
 		{
 			line_split = ft_split(line, ' ');
-			if (!ft_fill_elements(line_split, game_file))
+			if (!ft_fill_elements(line_split, file))
 			{
 				free(line);
 				return (ft_put_error("check map elements"));
