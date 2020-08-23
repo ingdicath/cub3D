@@ -28,7 +28,7 @@ void	ft_calc_wall_pos(t_ray *ray, t_wall *wall, t_position current)
 ** Calculate lowest and highest pixel to fill in current stripe.
 */
 
-void	ft_calc_draw_limits(t_ray *ray, t_win_size win_size)
+void	ft_calc_draw_limits(t_ray *ray, t_size win_size) //cambiar a resoltuioon
 {
 	ray->line_height = (int)(win_size.height / ray->perpwalldist);
 	ray->draw_start = -ray->line_height / 2 + win_size.height / 2;

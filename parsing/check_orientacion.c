@@ -9,12 +9,12 @@
 // 		return(0);
 // 	map->sprite = sprites;
 
-static int  prueba ( t_map  *map, int i , int j, int k){
+static int  prueba(t_map  *map, int i , int j, int k){
 	
 	if (map->matrix[i][j] == '2')
 	{
-		map->sprite[k].position.x = j;
-		map->sprite[k].position.y = i;
+		map->sprites[k].position.x = j;
+		map->sprites[k].position.y = i;
 		return(1);
 	}
 	return (0);
@@ -27,7 +27,7 @@ static int nose(t_map *map){
 	sprites = (t_sprite *)malloc(sizeof(t_sprite) * map->num_sprites); // LIBERAR!!!
 	if (sprites == NULL)
 		return(0);
-	map->sprite = sprites;
+	map->sprites = sprites;
 	return(1);
 }
 		
@@ -54,7 +54,7 @@ int		ft_set_sprites_and_orientation(t_map *map)
 		}
 		i++;
 	}
-	print_array	(map->sprite, map->num_sprites);
+	print_array	(map->sprites, map->num_sprites);
 
 	if (map->orientation == '\0')
 		return (0);

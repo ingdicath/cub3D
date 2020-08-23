@@ -116,7 +116,7 @@ void			ft_render_map(t_game *game)
 		ft_calc_wall_pos(&game->player.ray, &game->screen.wall, game->player.current_pos); // REVISAR SI CAMBIA CONSTANTE POR TEXTURA
 		ft_draw_walls(&game->player.ray, &game->screen, x);
 		ft_draw_floor_ceiling(&game->screen, game->player.ray, x);
-		//sprites
+		ft_sort_sprites(game);
 		x++;
 	}
 	mlx_put_image_to_window(game->screen.mlx, game->screen.window,

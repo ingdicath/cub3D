@@ -13,7 +13,7 @@ int			ft_check_valid_color(char *color)
 	return (0);
 }
 
-int		ft_check_resolution(char **line, t_win_size *win_size)
+int		ft_check_resolution(char **line, t_size *win_size) //cambiar a resoltuion
 {
 	if (line[0] && (ft_strcmp(line[0], "R") == 0))
 	{

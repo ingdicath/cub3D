@@ -38,7 +38,8 @@ SRC = parsing/check_args_path.c parsing/check_textures_path.c\
 	raycasting/calculate_wall_draw.c raycasting/draw_walls.c\
 	raycasting/movements.c raycasting/rotations.c\
 	raycasting/keys_actions.c raycasting/draw_floor_ceiling.c\
-	raycasting/screenshot.c raycasting/write_bytes.c main.c
+	raycasting/screenshot.c raycasting/write_bytes.c main.c\
+	raycasting/sprite_casting.c
 
 OBJECTS = $(SRC:.c=.o)
 

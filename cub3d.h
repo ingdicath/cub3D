@@ -101,11 +101,11 @@ typedef struct	s_color
 	int			blue;
 }				t_color;
 
-typedef struct	s_win_size
+typedef struct	s_size
 {
 	int			width;
 	int			height;
-}				t_win_size;
+}				t_size;
 
 typedef struct	s_position
 {
@@ -113,8 +113,9 @@ typedef struct	s_position
 	double		y;
 }				t_position;
 
-typedef struct	s_sprite
+typedef struct	s_sprite //mirar si es parte del parsing oo no
 {
+	double		distance;
 	t_position	position;
 }				t_sprite;
 
@@ -123,7 +124,7 @@ typedef struct	s_map
 	char		**matrix;
 	int 		num_sprites;
 	char		orientation;
-	t_sprite	*sprite;
+	t_sprite	*sprites;
 	t_position	start_pos;
 }				t_map;
 
@@ -136,7 +137,7 @@ typedef struct	s_game_file
 	char		*sprite_path;
 	t_color		ceiling;
 	t_color		floor;
-	t_win_size	win_size;
+	t_size		win_size; //cambiar a resolution
 	t_map		map;
 }				t_game_file;
 
@@ -178,6 +179,13 @@ typedef struct	s_ray
 	t_position	map;
 }				t_ray;
 
+
+typedef struct	s_sp_cast
+{
+	int 		screen_x;			
+	// t_position	pos;
+}				t_sp_cast; // t_sprite_cast: revisar con norminette ii se puede poner commpleto
+
 typedef struct	s_screen
 {
 	void		*mlx;
@@ -185,7 +193,7 @@ typedef struct	s_screen
 	int			ceiling;
 	int			floor;
 	t_wall		wall;
-	t_win_size	win_size;
+	t_size		win_size;
 	t_texture	win_data;
 	t_texture	north;
 	t_texture	south;
@@ -232,7 +240,7 @@ typedef struct	s_game // Game
 void			ft_reset_input(t_game_file *mapfile);
 int				ft_read_file(char *file_name, t_game_file *file);
 int				ft_check_valid_color(char *color);
-int				ft_check_resolution(char **line, t_win_size *win_size);
+int				ft_check_resolution(char **line, t_size *win_size); //cambiar a resolution
 int				ft_check_ceiling(char **line, t_color *ceiling);
 int				ft_check_floor(char **line, t_color *floor);
 int				ft_check_north_path(char **line, char **north_path);
@@ -270,7 +278,7 @@ void			ft_render_map(t_game *game);
 void			ft_calc_side_dist(t_position current, t_ray *ray);
 void			ft_perform_dda(t_map map, t_ray *ray);
 void			ft_calc_wall_dist(t_ray *ray, t_position current);
-void			ft_calc_draw_limits(t_ray *ray, t_win_size win_size);
+void			ft_calc_draw_limits(t_ray *ray, t_size win_size); //cambiar a resolution
 void			ft_calc_wall_pos(t_ray *ray, t_wall *wall, t_position current);
 void			ft_draw_walls(t_ray *ray, t_screen *screen, int x);
 t_texture		ft_get_textures(t_screen screen, t_ray *ray);
@@ -295,8 +303,9 @@ int				ft_is_moving(t_movements move, t_rotations rotate);
 void 			ft_write_char_zeros(int fd, int times);
 void 			ft_write_short_bytes(int fd, int param);
 void 			ft_write_int_bytes(int fd, int param);
-
-
+// void 			ft_calc_screen(t_sprite_cast *s_cast, t_game game);
+void 			ft_calc_screen(t_sprite sprite, t_sp_cast *s_cast, t_player player, int w);
+int ft_sort_sprites(t_game *game);
 /*
 ** ---------- DELETEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE ---------------
 */
