@@ -26,8 +26,8 @@
 ** ----------- Speed & moves --------------------------------------------------
 */
 
-# define ROTATE_SPEED 0.05
-# define MOVE_SPEED 0.1
+# define ROTATE_SPEED 0.4
+# define MOVE_SPEED 0.7
 
 /*
 ** ----------- Colors ---------------------------------------------------------
@@ -73,7 +73,16 @@ typedef enum	e_masks
 }				t_masks;
 
 /*
-** ----------- Util Constants -------------------------------------------------
+** ----------- Sprites constants ----------------------------------------------
+*/
+
+typedef enum	e_sp_constants
+{
+	V_MOVE = 0, U_DIV = 1, V_DIV = 1
+}				t_sp_constants;
+
+/*
+** ----------- Util constants -------------------------------------------------
 */
 
 typedef enum	e_sizes
@@ -122,6 +131,7 @@ typedef struct	s_sprite //mirar si es parte del parsing oo no
 typedef struct	s_map
 {
 	char		**matrix;
+	double		*zbuffer;
 	int 		num_sprites;
 	char		orientation;
 	t_sprite	*sprites;
@@ -137,7 +147,7 @@ typedef struct	s_game_file
 	char		*sprite_path;
 	t_color		ceiling;
 	t_color		floor;
-	t_size		win_size; //cambiar a resolution
+	t_size		resolution;
 	t_map		map;
 }				t_game_file;
 
@@ -182,8 +192,11 @@ typedef struct	s_ray
 
 typedef struct	s_sp_cast
 {
-	int 		screen_x;			
-	// t_position	pos;
+	int 		screen_x;
+	t_size 		size;
+	t_position	transform;
+	t_position	draw_start;
+	t_position	draw_end;
 }				t_sp_cast; // t_sprite_cast: revisar con norminette ii se puede poner commpleto
 
 typedef struct	s_screen
@@ -193,7 +206,7 @@ typedef struct	s_screen
 	int			ceiling;
 	int			floor;
 	t_wall		wall;
-	t_size		win_size;
+	t_size		resolution;
 	t_texture	win_data;
 	t_texture	north;
 	t_texture	south;
@@ -240,7 +253,7 @@ typedef struct	s_game // Game
 void			ft_reset_input(t_game_file *mapfile);
 int				ft_read_file(char *file_name, t_game_file *file);
 int				ft_check_valid_color(char *color);
-int				ft_check_resolution(char **line, t_size *win_size); //cambiar a resolution
+int				ft_check_resolution(char **line, t_size *resolution);
 int				ft_check_ceiling(char **line, t_color *ceiling);
 int				ft_check_floor(char **line, t_color *floor);
 int				ft_check_north_path(char **line, char **north_path);
@@ -278,13 +291,13 @@ void			ft_render_map(t_game *game);
 void			ft_calc_side_dist(t_position current, t_ray *ray);
 void			ft_perform_dda(t_map map, t_ray *ray);
 void			ft_calc_wall_dist(t_ray *ray, t_position current);
-void			ft_calc_draw_limits(t_ray *ray, t_size win_size); //cambiar a resolution
+void			ft_calc_draw_limits(t_ray *ray, t_size resolution);
 void			ft_calc_wall_pos(t_ray *ray, t_wall *wall, t_position current);
 void			ft_draw_walls(t_ray *ray, t_screen *screen, int x);
 t_texture		ft_get_textures(t_screen screen, t_ray *ray);
-void			ft_clean_game(t_screen *screen, t_player *player);
+void			ft_clean_game(t_screen *screen, t_player *player, t_map *map);
 void			ft_put_pixel(t_texture *texture, int x, int y, int color);
-int				ft_get_color(t_texture texture, t_wall wall);
+int				ft_get_color(t_texture texture, t_position position);
 void			ft_set_ray_position(t_game *game, int x);
 void			ft_move_front(t_map map, t_player *player);
 void			ft_move_back(t_map map, t_player *player);
@@ -304,8 +317,13 @@ void 			ft_write_char_zeros(int fd, int times);
 void 			ft_write_short_bytes(int fd, int param);
 void 			ft_write_int_bytes(int fd, int param);
 // void 			ft_calc_screen(t_sprite_cast *s_cast, t_game game);
-void 			ft_calc_screen(t_sprite sprite, t_sp_cast *s_cast, t_player player, int w);
-int ft_sort_sprites(t_game *game);
+void 			ft_inverse_camera(t_sprite sprite, t_sp_cast *s_cast, t_player player, int w);
+int 			ft_render_sprites(t_game *game);
+void 			ft_calc_sprite_limits(t_sp_cast *s_cast, t_size resolution);
+void 			ft_vertical_stripes(t_sp_cast *s_cast, t_screen screen, double *zbuffer);
+void 			ft_draw_stripes(t_sp_cast *s_cast, t_screen screen, t_position *tex, int stripe);
+void ft_sort_sprites(t_map *map, t_position current_pos);
+void ft_calc_dist_sprite (t_map *map, t_position current_pos);
 /*
 ** ---------- DELETEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE ---------------
 */

@@ -82,7 +82,7 @@ void	ft_set_ray_position(t_game *game, int x)  /// check this
 
 	ray = &game->player.ray;
 	// //printf("loading player  %f %f\n", game->player.direction.x  ,game->player.direction.y);
-	ray->camera_x = 2 * x / (double)game->screen.win_size.width - 1;
+	ray->camera_x = 2 * x / (double)game->screen.resolution.width - 1;
 	
 	ray->dir.x = game->player.orientation.x +
 			game->player.plane.x * ray->camera_x;
@@ -106,19 +106,23 @@ void			ft_render_map(t_game *game)
 
 	//printf("resoultion W%d, H%d\n", game->screen.resolution.width, game->screen.resolution.height); //borrar
 	x = 0;
-	while (x < game->screen.win_size.width)
+	while (x < game->screen.resolution.width)
 	{
 		ft_set_ray_position(game, x);
 		ft_calc_side_dist(game->player.current_pos, &game->player.ray);
 		ft_perform_dda(game->map, &game->player.ray);
 		ft_calc_wall_dist(&game->player.ray, game->player.current_pos);
-		ft_calc_draw_limits(&game->player.ray, game->screen.win_size);
+		ft_calc_draw_limits(&game->player.ray, game->screen.resolution);
 		ft_calc_wall_pos(&game->player.ray, &game->screen.wall, game->player.current_pos); // REVISAR SI CAMBIA CONSTANTE POR TEXTURA
 		ft_draw_walls(&game->player.ray, &game->screen, x);
+		game->map.zbuffer[x] = game->player.ray.perpwalldist;
+		
 		ft_draw_floor_ceiling(&game->screen, game->player.ray, x);
-		ft_sort_sprites(game);
+		ft_render_sprites(game);
 		x++;
 	}
+
+
 	mlx_put_image_to_window(game->screen.mlx, game->screen.window,
 		game->screen.win_data.image, 0, 0);
 	//printf("Poniendo imagen %p %d\n",game->screen.win_data.address, game->screen.win_data.size_line ); //borrar

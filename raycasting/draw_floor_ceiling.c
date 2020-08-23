@@ -25,7 +25,7 @@ void ft_draw_floor_ceiling(t_screen *screen, t_ray ray, int x)
 		y++;
 	}
 	y = ray.draw_end;
-	while(y < screen->win_size.height)
+	while(y < screen->resolution.height)
 	{
 		ft_put_pixel(&screen->win_data, x, y, screen->floor);
 		y++;

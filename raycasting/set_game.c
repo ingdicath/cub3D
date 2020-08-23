@@ -72,11 +72,11 @@ int				ft_set_screen(t_screen *screen)
 	if (screen->mlx == NULL)
 		return (ft_put_error("mlx connection failure"));
 	screen->window = mlx_new_window(screen->mlx,
-		screen->win_size.width, screen->win_size.height, "Welcome");
+		screen->resolution.width, screen->resolution.height, "Welcome");
 	if (screen->window == NULL)
 		return (ft_put_error("mlx window failure"));
 	data->image = mlx_new_image(screen->mlx,
-		screen->win_size.width, screen->win_size.height);
+		screen->resolution.width, screen->resolution.height);
 	if (data->image == NULL)
 		return (ft_put_error("mlx image failure"));
 	data->address = mlx_get_data_addr(data->image, &data->bits_per_pixel,
@@ -98,9 +98,9 @@ int				ft_set_screen(t_screen *screen)
 int ft_set_game(t_game_file file, t_game *game)
 {
 	game->map = file.map;
-	game->screen.win_size = file.win_size;
+	game->screen.resolution = file.resolution;
 
-	ft_clean_game(&game->screen, &game->player);
+	ft_clean_game(&game->screen, &game->player, &game->map);
 	if (!ft_set_screen(&game->screen))
 		ft_put_error("set screen failure"); // ok
 	ft_set_floor_ceiling(file, &game->screen);//ok

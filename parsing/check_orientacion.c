@@ -9,12 +9,13 @@
 // 		return(0);
 // 	map->sprite = sprites;
 
-static int  prueba(t_map  *map, int i , int j, int k){
-	
+static int  prueba(t_map  *map, int i , int j, int k)
+{
 	if (map->matrix[i][j] == '2')
 	{
-		map->sprites[k].position.x = j;
-		map->sprites[k].position.y = i;
+		map->sprites[k].position.x = j + 0.5;
+		map->sprites[k].position.y = i + 0.5;
+		map->sprites[k].distance = 0;
 		return(1);
 	}
 	return (0);
@@ -54,8 +55,7 @@ int		ft_set_sprites_and_orientation(t_map *map)
 		}
 		i++;
 	}
-	print_array	(map->sprites, map->num_sprites);
-
+	// print_array	(map->sprites, map->num_sprites); // borrar
 	if (map->orientation == '\0')
 		return (0);
 	return (1);
@@ -81,7 +81,7 @@ void 			print_array(t_sprite *sprites, int x)
 {
 	while (x>0){
 
-		printf("x%f , y%f\n", sprites->position.x,sprites->position.y );
+		printf("pos x%f , pos y%f , distance %f \n", sprites->position.x,sprites->position.y , sprites->distance );
 		sprites++;
 		x--;
 	}

@@ -53,7 +53,7 @@ void		ft_set_header_bitmap(int fd, t_screen *screen) //makefile
 	char	*file_type;
 
 	file_type = "BM";
-	file_size = screen->win_size.width * screen->win_size.height *
+	file_size = screen->resolution.width * screen->resolution.height *
 		(BITS_PER_PIXEL / EIGHT_BITS) + FINAL_IMAGE_SIZE;
 	write(fd, file_type, TWO_BYTES);
 	ft_write_int_bytes(fd, file_size);
@@ -61,8 +61,8 @@ void		ft_set_header_bitmap(int fd, t_screen *screen) //makefile
 	ft_write_char_zeros(fd, RESERVED_2);
 	ft_write_int_bytes(fd, FINAL_IMAGE_SIZE);
 	ft_write_int_bytes(fd, INFO_HEADER);
-	ft_write_int_bytes(fd, screen->win_size.width);
-	ft_write_int_bytes(fd, screen->win_size.height);
+	ft_write_int_bytes(fd, screen->resolution.width);
+	ft_write_int_bytes(fd, screen->resolution.height);
 	ft_write_short_bytes(fd, PLANE);
 	ft_write_short_bytes(fd, BITS_PER_PIXEL);
 	ft_write_char_zeros(fd, COMPRESSION);
@@ -81,11 +81,11 @@ void 		ft_put_pixel_bitmap(int fd, t_screen *screen) //makefile
 	char    *address;
 	
 	address = screen->win_data.address;
-	y = screen->win_size.height - 1;  //porque tenemos que incluir el cero
+	y = screen->resolution.height - 1;  //porque tenemos que incluir el cero
 	while (y >= 0)
 	{
 		x = 0;
-		while (x < screen->win_size.width)
+		while (x < screen->resolution.width)
 		{
 			pos = y * screen->win_data.size_line +x *
 					(screen->win_data.bits_per_pixel / EIGHT_BITS);
@@ -169,7 +169,7 @@ void ft_draw_floor_ceiling(t_screen *screen, t_ray ray, int x) //makefile
 		y++;
 	}
 	y = ray.draw_end;
-	while(y < screen->win_size.height)
+	while(y < screen->resolution.height)
 	{
 		ft_put_pixel(&screen->win_data, x, y, screen->floor);
 		y++;
@@ -378,7 +378,7 @@ void	ft_draw_walls(t_ray *ray, t_screen *screen, int x) // makefile
 	t_texture texture;
 
 	screen->wall.step = 1.0 * TEXTURE_HEIGHT / ray->line_height;
-	screen->wall.start_pos = (ray->draw_start - screen->win_size.height / 2 +
+	screen->wall.start_pos = (ray->draw_start - screen->resolution.height / 2 +
 		ray->line_height / 2) * screen->wall.step;
 	y = ray->draw_start;
 
@@ -424,15 +424,15 @@ void	ft_calc_wall_pos(t_ray *ray, t_wall *wall, t_position current) //makefile
 ** Calculate lowest and highest pixel to fill in current stripe.
 */
 
-void	ft_calc_draw_limits(t_ray *ray, t_win_size win_size) //makefile
+void	ft_calc_draw_limits(t_ray *ray, t_resolution resolution) //makefile
 {
-	ray->line_height = (int)(win_size.height / ray->perpwalldist);
-	ray->draw_start = -ray->line_height / 2 + win_size.height / 2;
+	ray->line_height = (int)(resolution.height / ray->perpwalldist);
+	ray->draw_start = -ray->line_height / 2 + resolution.height / 2;
 	if (ray->draw_start < 0)
 		ray->draw_start = 0;
-	ray->draw_end = (ray->line_height / 2) + (win_size.height / 2);
-	if (ray->draw_end >= win_size.height)
-		ray->draw_end = win_size.height - 1;
+	ray->draw_end = (ray->line_height / 2) + (resolution.height / 2);
+	if (ray->draw_end >= resolution.height)
+		ray->draw_end = resolution.height - 1;
 }
 
 /*
@@ -542,7 +542,7 @@ void	ft_set_ray_position(t_game *game, int x)  /// check this //makefile
 
 	ray = &game->player.ray;
 	// //printf("loading player  %f %f\n", game->player.direction.x  ,game->player.direction.y);
-	ray->camera_x = 2 * x / (double)game->screen.win_size.width - 1;
+	ray->camera_x = 2 * x / (double)game->screen.resolution.width - 1;
 	
 	ray->dir.x = game->player.orientation.x +
 			game->player.plane.x * ray->camera_x;
@@ -566,13 +566,13 @@ void			ft_render_map(t_game *game) //makefile
 
 	//printf("resoultion W%d, H%d\n", game->screen.resolution.width, game->screen.resolution.height); //borrar
 	x = 0;
-	while (x < game->screen.win_size.width)
+	while (x < game->screen.resolution.width)
 	{
 		ft_set_ray_position(game, x);
 		ft_calc_side_dist(game->player.current_pos, &game->player.ray);
 		ft_perform_dda(game->map, &game->player.ray);
 		ft_calc_wall_dist(&game->player.ray, game->player.current_pos);
-		ft_calc_draw_limits(&game->player.ray, game->screen.win_size);
+		ft_calc_draw_limits(&game->player.ray, game->screen.resolution);
 		ft_calc_wall_pos(&game->player.ray, &game->screen.wall, game->player.current_pos); // REVISAR SI CAMBIA CONSTANTE POR TEXTURA
 		ft_draw_walls(&game->player.ray, &game->screen, x);
 		ft_draw_floor_ceiling(&game->screen, game->player.ray, x);
@@ -669,11 +669,11 @@ int				ft_set_screen(t_screen *screen) //makefile
 	if (screen->mlx == NULL)
 		return (ft_put_error("mlx connection failure"));
 	screen->window = mlx_new_window(screen->mlx,
-		screen->win_size.width, screen->win_size.height, "Welcome");
+		screen->resolution.width, screen->resolution.height, "Welcome");
 	if (screen->window == NULL)
 		return (ft_put_error("mlx window failure"));
 	data->image = mlx_new_image(screen->mlx,
-		screen->win_size.width, screen->win_size.height);
+		screen->resolution.width, screen->resolution.height);
 	if (data->image == NULL)
 		return (ft_put_error("mlx image failure"));
 	data->address = mlx_get_data_addr(data->image, &data->bits_per_pixel,
@@ -704,7 +704,7 @@ int	ft_play_game(t_game *game) // makefile
 int ft_set_game(t_game_file file, t_game *game) //makefile
 {
 	game->map = file.map;
-	game->screen.win_size = file.win_size;
+	game->screen.resolution = file.resolution;
 
 	ft_clean_game(&game->screen, &game->player);
 	if (!ft_set_screen(&game->screen))

@@ -73,8 +73,8 @@ int		ft_check_complete_elements(t_game_file *game_file)
 	if (game_file->ceiling.red == -1 || game_file->ceiling.green == -1 ||
 		game_file->ceiling.blue == -1 || game_file->floor.red == -1 ||
 		game_file->floor.green == -1 || game_file->floor.blue == -1 ||
-		game_file->win_size.width == -1 ||
-		game_file->win_size.height == -1 || game_file->no_path == NULL ||
+		game_file->resolution.width == -1 ||
+		game_file->resolution.height == -1 || game_file->no_path == NULL ||
 		game_file->so_path == NULL || game_file->ea_path == NULL ||
 		game_file->we_path == NULL || game_file->sprite_path == NULL)
 		return (0);

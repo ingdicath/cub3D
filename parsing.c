@@ -81,8 +81,8 @@ void	ft_reset_input(t_game_file *game_file) // makefile
 	game_file->floor.red = -1;
 	game_file->floor.green = -1;
 	game_file->floor.blue = -1;
-	game_file->win_size.width = -1;
-	game_file->win_size.height = -1;
+	game_file->resolution.width = -1;
+	game_file->resolution.height = -1;
 	game_file->no_path = NULL;
 	game_file->so_path = NULL;
 	game_file->ea_path = NULL;
@@ -99,8 +99,8 @@ int		ft_check_complete_elements(t_game_file *game_file) //makefile
 	if (game_file->ceiling.red == -1 || game_file->ceiling.green == -1 ||
 		game_file->ceiling.blue == -1 || game_file->floor.red == -1 ||
 		game_file->floor.green == -1 || game_file->floor.blue == -1 ||
-		game_file->win_size.width == -1 ||
-		game_file->win_size.height == -1 || game_file->no_path == NULL ||
+		game_file->resolution.width == -1 ||
+		game_file->resolution.height == -1 || game_file->no_path == NULL ||
 		game_file->so_path == NULL || game_file->ea_path == NULL ||
 		game_file->we_path == NULL || game_file->sprite_path == NULL)
 		return (0);
@@ -186,7 +186,7 @@ int			ft_fill_elements(char **line_split, t_game_file *game_file) //makefile
 {
 	int		result;
 
-	result = ft_check_resolution(line_split, &game_file->win_size)
+	result = ft_check_resolution(line_split, &game_file->resolution)
 	&& ft_check_ceiling(line_split, &game_file->ceiling)
 	&& ft_check_floor(line_split, &game_file->floor)
 	&& ft_check_north_path(line_split, &game_file->no_path)
@@ -223,7 +223,7 @@ char		**ft_join_lines(char **matrix, char *new_line) //makefile
 
 void	printfs(t_game_file *game_file)
 {
-	printf("%d %d\n",game_file->win_size.width,game_file->win_size.height); //borrar
+	printf("%d %d\n",game_file->resolution.width,game_file->resolution.height); //borrar
 	printf("%d %d %d\n",game_file->ceiling.red,game_file->ceiling.green, game_file->ceiling.blue); //borrar
 	printf("%d %d %d\n",game_file->floor.red,game_file->floor.green, game_file->floor.blue); //borrar
 	printf("%s\n", game_file->no_path); //borrar
@@ -244,7 +244,7 @@ void	print_map(char **map)
 	}
 }
 
-int		ft_check_resolution(char **line, t_win_size *win_size) //makefile
+int		ft_check_resolution(char **line, t_resolution *resolution) //makefile
 {
 	// int	i;
 
@@ -256,17 +256,17 @@ int		ft_check_resolution(char **line, t_win_size *win_size) //makefile
 	// }
 	if (line[0] && (ft_strcmp(line[0], "R") == 0))
 	{
-		if (win_size->width >= 0 || win_size->height >= 0)
+		if (resolution->width >= 0 || resolution->height >= 0)
 			return (ft_put_error("argument(s) for RES already exist(s)"));
 		if (ft_array_size(line) != 3)
 			return (ft_put_error("wrong number of arguments for RES"));
 		if (!ft_isnumber(line[1]) || !ft_isnumber(line[2]))
 			return (ft_put_error("is not number for resolution"));
-		win_size->width = ft_atoi(line[1]);
-		win_size->height = ft_atoi(line[2]);
-		printf("ancho %d \n", win_size->width); // borrar
-		printf("altura %d \n", win_size->height); //borrar
-		if (win_size->width <= 0 || win_size->height <= 0)
+		resolution->width = ft_atoi(line[1]);
+		resolution->height = ft_atoi(line[2]);
+		printf("ancho %d \n", resolution->width); // borrar
+		printf("altura %d \n", resolution->height); //borrar
+		if (resolution->width <= 0 || resolution->height <= 0)
 			return (ft_put_error("Resolution must be greater than 0"));
 	}
 /*

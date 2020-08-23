@@ -13,19 +13,19 @@ int			ft_check_valid_color(char *color)
 	return (0);
 }
 
-int		ft_check_resolution(char **line, t_size *win_size) //cambiar a resoltuion
+int		ft_check_resolution(char **line, t_size *resolution) //cambiar a resoltuion
 {
 	if (line[0] && (ft_strcmp(line[0], "R") == 0))
 	{
-		if (win_size->width >= 0 || win_size->height >= 0)
+		if (resolution->width >= 0 || resolution->height >= 0)
 			return (ft_put_error("argument(s) for RES already exist(s)"));
 		if (ft_array_size(line) != 3)
 			return (ft_put_error("wrong number of arguments for RES"));
 		if (!ft_isnumber(line[1]) || !ft_isnumber(line[2]))
 			return (ft_put_error("is not number for resolution"));
-		win_size->width = ft_atoi(line[1]);
-		win_size->height = ft_atoi(line[2]);
-		if (win_size->width <= 0 || win_size->height <= 0)
+		resolution->width = ft_atoi(line[1]);
+		resolution->height = ft_atoi(line[2]);
+		if (resolution->width <= 0 || resolution->height <= 0)
 			return (ft_put_error("Resolution must be greater than 0"));
 	}
 	return (1);

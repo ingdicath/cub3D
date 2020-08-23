@@ -8,11 +8,11 @@ void 		ft_put_pixel_bitmap(int fd, t_screen *screen)
 	char    *address;
 	
 	address = screen->win_data.address;
-	y = screen->win_size.height - 1;  //porque tenemos que incluir el cero
+	y = screen->resolution.height - 1;  //porque tenemos que incluir el cero
 	while (y >= 0)
 	{
 		x = 0;
-		while (x < screen->win_size.width)
+		while (x < screen->resolution.width)
 		{
 			pos = y * screen->win_data.size_line +x *
 					(screen->win_data.bits_per_pixel / EIGHT_BITS);
@@ -29,7 +29,7 @@ void		ft_set_header_bitmap(int fd, t_screen *screen)
 	char	*file_type;
 
 	file_type = "BM";
-	file_size = screen->win_size.width * screen->win_size.height *
+	file_size = screen->resolution.width * screen->resolution.height *
 		(BITS_PER_PIXEL / EIGHT_BITS) + FINAL_IMAGE_SIZE;
 	write(fd, file_type, TWO_BYTES);
 	ft_write_int_bytes(fd, file_size);
@@ -37,8 +37,8 @@ void		ft_set_header_bitmap(int fd, t_screen *screen)
 	ft_write_char_zeros(fd, RESERVED_2);
 	ft_write_int_bytes(fd, FINAL_IMAGE_SIZE);
 	ft_write_int_bytes(fd, INFO_HEADER);
-	ft_write_int_bytes(fd, screen->win_size.width);
-	ft_write_int_bytes(fd, screen->win_size.height);
+	ft_write_int_bytes(fd, screen->resolution.width);
+	ft_write_int_bytes(fd, screen->resolution.height);
 	ft_write_short_bytes(fd, PLANE);
 	ft_write_short_bytes(fd, BITS_PER_PIXEL);
 	ft_write_char_zeros(fd, COMPRESSION);
