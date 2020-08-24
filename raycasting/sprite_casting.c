@@ -141,12 +141,11 @@ void ft_vertical_stripes(t_sp_cast *s_cast, t_screen screen, double *zbuffer)
 	t_position tex;
 
 	stripe = s_cast->draw_start.x;
-	// printf("sprite %d,  v,%f\n", stripe,  s_cast->draw_end.x );
 	while (stripe < s_cast->draw_end.x)
 	{
 		tex.x = (int)(256 * (stripe - (-s_cast->size.width / 2 +
 			s_cast->screen_x)) * screen.sprite.width / s_cast->size.width) / 256;  //revisar valor quemado
-		if (s_cast->transform.y > 0 //&& stripe > 0 && stripe < screen.resolution.width
+		if (s_cast->transform.y > 0 && stripe > 0 && stripe < screen.resolution.width
 			&& s_cast->transform.y < zbuffer[stripe])
 				ft_draw_stripes(s_cast, screen, &tex, stripe);
 		stripe++;
@@ -161,7 +160,7 @@ void ft_draw_stripes(t_sp_cast *s_cast, t_screen screen, t_position *tex, int st
 
 	y = s_cast->draw_start.y;
 
-	 // printf("sprite %d, y, %d  v,%f\n", stripe, y , s_cast->draw_end.y );
+	// printf("y, %d v, %f\n", y , s_cast->draw_end.y );
 
 	while (y < s_cast->draw_end.y)
 	{

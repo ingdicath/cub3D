@@ -2,17 +2,15 @@
           
   R  800 600
 
-WE ./textures/rock.xpm
- 
-NO                             ./textures/blue.xpm
-SO ./textures/yellow.xpm
 
-
-S                 ./textures/sprite_1.xpm
+WE         ./textures/colorstone.xpm
+NO ./textures/wood.xpm
+SO ./textures/greystone.xpm
+EA ./textures/mossy.xpm
 
 
 
-EA ./textures/Bark.xpm
+S ./textures/barrel.xpm
 
 F     220,   100,   244
 

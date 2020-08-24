@@ -78,7 +78,6 @@ int		ft_check_valid_char(char c)
 			c != ' ' && c != 'N' && c != 'S' &&
 			c != 'W' && c != 'E')
 			return (0);
-	
 	return (1);
 }
 

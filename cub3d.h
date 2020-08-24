@@ -272,6 +272,10 @@ int				ft_check_unique_orientation(t_map *map, int i, int j);
 int				ft_check_args(int argc, char **argv, int *screenshot);
 int				ft_count_sprites(char *line, t_map *map);
 int		ft_set_sprites_and_orientation(t_map *map);
+int ft_check_map(t_map map);
+int ft_flood_fill(char **matrix, int x, int y);
+int ft_uncovered_map(char **matrix);
+
 
 /*
 ** ---------- Raycasting functions --------------------------------------------
