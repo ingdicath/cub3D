@@ -52,15 +52,8 @@ int			ft_set_orientation(t_map map, t_player *player)
 	// Opcional (Magia!!!)
 	player->current_pos.x += 0.5;
 	player->current_pos.y += 0.5;
-
-
-	// if (player->direction.y == 0)
-	// 	player->plane.y = 0.66 ;
-	// else
-	// 	player->plane.x = 0.66 ;
 	return (1);
 }
-
 
 int				ft_set_screen(t_screen *screen)
 {
@@ -71,7 +64,8 @@ int				ft_set_screen(t_screen *screen)
 	screen->mlx = mlx_init();
 	if (screen->mlx == NULL)
 		return (ft_put_error("mlx connection failure"));
-	screen->window = mlx_new_window(screen->mlx,
+	ft_resize_resolution(screen);  //new function
+ 	screen->window = mlx_new_window(screen->mlx,
 		screen->resolution.width, screen->resolution.height, "Welcome");
 	if (screen->window == NULL)
 		return (ft_put_error("mlx window failure"));
@@ -83,6 +77,19 @@ int				ft_set_screen(t_screen *screen)
 		&data->size_line, &data->endian);
 	if (data->address == NULL)
 		return (ft_put_error("mlx address image failure"));
+	return (1);
+}
+
+int ft_resize_resolution(t_screen *screen)
+{
+	mlx_get_screen_size(screen->mlx, &screen->max_res.width,
+		&screen->max_res.height);
+	if (screen->max_res.width <= 0 || screen->max_res.height <= 0)
+		return(ft_put_error("mlx screen resolution failure"));
+	if(screen->width > screen->max_res.width)
+		screen->width = screen->max_res.width;
+	if(screen->height > screen->max_res.height)
+		screen->height = screen->max_res.height;
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/29 11:20:00 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/21 17:14:23 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/24 16:31:17 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,7 +189,6 @@ typedef struct	s_ray
 	t_position	map;
 }				t_ray;
 
-
 typedef struct	s_sp_cast
 {
 	int 		screen_x;
@@ -207,6 +206,7 @@ typedef struct	s_screen
 	int			floor;
 	t_wall		wall;
 	t_size		resolution;
+	t_size 		max_res;
 	t_texture	win_data;
 	t_texture	north;
 	t_texture	south;
@@ -324,6 +324,7 @@ void 			ft_vertical_stripes(t_sp_cast *s_cast, t_screen screen, double *zbuffer)
 void 			ft_draw_stripes(t_sp_cast *s_cast, t_screen screen, t_position *tex, int stripe);
 void ft_sort_sprites(t_map *map, t_position current_pos);
 void ft_calc_dist_sprite (t_map *map, t_position current_pos);
+int ft_resize_resolution(t_screen *screen);
 /*
 ** ---------- DELETEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE ---------------
 */

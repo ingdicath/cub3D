@@ -13,7 +13,7 @@ int			ft_check_valid_color(char *color)
 	return (0);
 }
 
-int		ft_check_resolution(char **line, t_size *resolution) //cambiar a resoltuion
+int		ft_check_resolution(char **line, t_size *resolution)
 {
 	if (line[0] && (ft_strcmp(line[0], "R") == 0))
 	{
@@ -27,6 +27,9 @@ int		ft_check_resolution(char **line, t_size *resolution) //cambiar a resoltuion
 		resolution->height = ft_atoi(line[2]);
 		if (resolution->width <= 0 || resolution->height <= 0)
 			return (ft_put_error("Resolution must be greater than 0"));
+		// if (resolution->width > 16384 || resolution->height > 16384)
+		// 	return (ft_put_error("Resolution exceeds maximum (16384) for 
+		// 		screenshot rendering"));
 	}
 	return (1);
 }

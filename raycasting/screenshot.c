@@ -1,26 +1,30 @@
 #include "../cub3d.h"
 
-void 		ft_put_pixel_bitmap(int fd, t_screen *screen)
+/*
+** Flags
+** 	- O_WRONLY: Open for writing only.
+** 	- O_CREAT: the file shall be created if it does not exist.
+** 	- O_TRUNC: truncating the file length to 0 if it does exist.
+**
+** mode_t: The Mode Bits for Access Permission
+** It can set up with octal or with symbolic constants:
+** 	1) 0777: Permissions read, write or execute, it should be in octal.
+**	2) S_IRWXU: This is equivalent to ‘(S_IRUSR | S_IWUSR | S_IXUSR)’
+*/
+
+void ft_take_screenshot(t_game_file file)
 {
-	int		x;
-	int		y;
-	int     pos;
-	char    *address;
-	
-	address = screen->win_data.address;
-	y = screen->resolution.height - 1;  //porque tenemos que incluir el cero
-	while (y >= 0)
-	{
-		x = 0;
-		while (x < screen->resolution.width)
-		{
-			pos = y * screen->win_data.size_line +x *
-					(screen->win_data.bits_per_pixel / EIGHT_BITS);
-			write(fd, &address[pos], FOUR_BYTES);
-			x++;
-		}
-		y--;
-	}
+	t_game game;
+
+	int fd;
+
+	fd = open(SCREENSHOT, O_CREAT | O_WRONLY | O_TRUNC, S_IRUSR | S_IWUSR); //preguntar si es full permission o solo lectura y escritura o es 755?
+	if (fd < 0)
+		ft_put_error("File screenshot cannot open");
+	ft_set_game(file, &game);
+	ft_set_header_bitmap(fd, &game.screen);
+	ft_put_pixel_bitmap(fd, &game.screen);
+	close(fd);
 }
 
 void		ft_set_header_bitmap(int fd, t_screen *screen)
@@ -49,29 +53,25 @@ void		ft_set_header_bitmap(int fd, t_screen *screen)
 	ft_write_char_zeros(fd, IMPORTANT_COLORS);
 }
 
-/*
-** Flags
-** 	- O_WRONLY: Open for writing only.
-** 	- O_CREAT: the file shall be created if it does not exist.
-** 	- O_TRUNC: truncating the file length to 0 if it does exist.
-**
-** mode_t: The Mode Bits for Access Permission
-** It can set up with octal or with symbolic constants:
-** 	1) 0777: Permissions read, write or execute, it should be in octal.
-**	2) S_IRWXU: This is equivalent to ‘(S_IRUSR | S_IWUSR | S_IXUSR)’
-*/
-
-void ft_take_screenshot(t_game_file file)
+void 		ft_put_pixel_bitmap(int fd, t_screen *screen)
 {
-	t_game game;
-
-	int fd;
-
-	fd = open(SCREENSHOT, O_CREAT | O_WRONLY | O_TRUNC, S_IRUSR | S_IWUSR); //preguntar si es full permission o solo lectura y escritura o es 755?
-	if (fd < 0)
-		ft_put_error("File screenshot cannot open");
-	ft_set_game(file, &game);
-	ft_set_header_bitmap(fd, &game.screen);
-	ft_put_pixel_bitmap(fd, &game.screen);
-	close(fd);
+	int		x;
+	int		y;
+	int     pos;
+	char    *address;
+	
+	address = screen->win_data.address;
+	y = screen->resolution.height - 1;  //porque tenemos que incluir el cero
+	while (y >= 0)
+	{
+		x = 0;
+		while (x < screen->resolution.width)
+		{
+			pos = y * screen->win_data.size_line +x *
+					(screen->win_data.bits_per_pixel / EIGHT_BITS);
+			write(fd, &address[pos], FOUR_BYTES);
+			x++;
+		}
+		y--;
+	}
 }
