@@ -2,14 +2,14 @@
           
   R  800 600
 
-WE ./textures/Bark.xpm
+WE ./textures/colorstone.xpm
 NO ./textures/wood.xpm
-SO ./textures/pillar.xpm
-EA ./textures/Stone.xpm
+SO ./textures/greystone.xpm
+EA ./textures/mossy.xpm
 
 
 
-S  ./textures/pillar.xpm
+S  ./textures/barrel.xpm
 
 
 

@@ -86,10 +86,10 @@ int ft_resize_resolution(t_screen *screen)
 		&screen->max_res.height);
 	if (screen->max_res.width <= 0 || screen->max_res.height <= 0)
 		return(ft_put_error("mlx screen resolution failure"));
-	if(screen->width > screen->max_res.width)
-		screen->width = screen->max_res.width;
-	if(screen->height > screen->max_res.height)
-		screen->height = screen->max_res.height;
+	if(screen->resolution.width > screen->max_res.width)
+		screen->resolution.width = screen->max_res.width;
+	if(screen->resolution.height > screen->max_res.height)
+		screen->resolution.height = screen->max_res.height;
 	return (1);
 }
 

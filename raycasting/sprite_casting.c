@@ -7,7 +7,6 @@ int ft_render_sprites(t_game *game)
 
 	i = 0;
 	ft_sort_sprites(&game->map, game->player.current_pos);
-
 	while (i < game->map.num_sprites)
 	{
 		ft_inverse_camera(game->map.sprites[i], &s_cast, game->player,
@@ -94,17 +93,17 @@ void ft_inverse_camera(t_sprite sprite, t_sp_cast *s_cast, t_player player, int 
 
 	sprite_relative.x = sprite.position.x - player.current_pos.x;
 	sprite_relative.y = sprite.position.y - player.current_pos.y;
-	inv_camera = 1.0 / (player.plane.x * player.ray.dir.y -
-		player.ray.dir.x * player.plane.y);
-	s_cast->transform.x = inv_camera * (player.ray.dir.y * sprite_relative.x -
-		player.ray.dir.x * sprite_relative.y);
+	inv_camera = 1.0 / (player.plane.x * player.orientation.y -
+		player.orientation.x * player.plane.y);
+	s_cast->transform.x = inv_camera * (player.orientation.y * sprite_relative.x -
+		player.orientation.x * sprite_relative.y);
 	s_cast->transform.y = inv_camera * (-player.plane.y * sprite_relative.x +
 		player.plane.x * sprite_relative.y);
 	s_cast->screen_x = (int)((w / 2) *
 		(1 + s_cast->transform.x / s_cast->transform.y));
 
-	// if (player.ray.camera_x == 1)
-	// 	s_cast->transform.x *= -1; 
+	if (player.ray.camera_x == 1)
+		s_cast->transform.x *= -1; 
 }
 
 //calculate height of the sprite on screen
@@ -142,11 +141,12 @@ void ft_vertical_stripes(t_sp_cast *s_cast, t_screen screen, double *zbuffer)
 	t_position tex;
 
 	stripe = s_cast->draw_start.x;
+	// printf("sprite %d,  v,%f\n", stripe,  s_cast->draw_end.x );
 	while (stripe < s_cast->draw_end.x)
 	{
 		tex.x = (int)(256 * (stripe - (-s_cast->size.width / 2 +
 			s_cast->screen_x)) * screen.sprite.width / s_cast->size.width) / 256;  //revisar valor quemado
-		if (s_cast->transform.y > 0 && stripe > 0 && stripe < screen.resolution.width
+		if (s_cast->transform.y > 0 //&& stripe > 0 && stripe < screen.resolution.width
 			&& s_cast->transform.y < zbuffer[stripe])
 				ft_draw_stripes(s_cast, screen, &tex, stripe);
 		stripe++;
@@ -161,7 +161,7 @@ void ft_draw_stripes(t_sp_cast *s_cast, t_screen screen, t_position *tex, int st
 
 	y = s_cast->draw_start.y;
 
-	// printf("y, %d v, %f\n", y , s_cast->draw_end.y );
+	 // printf("sprite %d, y, %d  v,%f\n", stripe, y , s_cast->draw_end.y );
 
 	while (y < s_cast->draw_end.y)
 	{
