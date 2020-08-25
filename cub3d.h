@@ -6,7 +6,7 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/29 11:20:00 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/25 10:55:35 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/25 17:00:26 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -329,6 +329,8 @@ void			ft_draw_stripes(t_sprite_cast *s_cast, t_screen screen,
 void			ft_sort_sprites(t_map *map, t_position current_pos);
 void			ft_calc_dist_sprite (t_map *map, t_position current_pos);
 int				ft_resize_resolution(t_screen *screen);
+int				ft_calc_sprite_variables(t_map *map, int i, int j, int k);
+int				ft_memory_space_sprites(t_map *map);
 
 /*
 ** ---------- DELETEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE ---------------

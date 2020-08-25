@@ -6,7 +6,7 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/25 09:55:32 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/25 13:50:02 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/25 16:55:38 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,12 @@ int				ft_resize_resolution(t_screen *screen)
 
 int				ft_set_texture(void *mlx, char *path, t_texture *texture)
 {
-	texture->image = mlx_xpm_file_to_image(mlx, path,
-		&texture->width, &texture->height);
+	if (ft_check_extension(path, XPM))
+		texture->image = mlx_xpm_file_to_image(mlx, path,
+			&texture->width, &texture->height);
+	else if (ft_check_extension(path, PNG))
+		texture->image = mlx_png_file_to_image(mlx, path,
+			&texture->width, &texture->height);
 	if (texture->image == NULL)
 		return (ft_put_error("invalid path for texture"));
 	texture->address = mlx_get_data_addr(texture->image,

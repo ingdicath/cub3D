@@ -6,34 +6,11 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/25 09:45:18 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/25 13:02:30 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/25 17:02:01 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
-
-static int		ft_calc_sprite_variables(t_map *map, int i, int j, int k)
-{
-	if (map->matrix[i][j] == '2')
-	{
-		map->sprites[k].position.x = j + 0.5;
-		map->sprites[k].position.y = i + 0.5;
-		map->sprites[k].distance = 0;
-		return (1);
-	}
-	return (0);
-}
-
-static int		ft_memory_space_sprites(t_map *map)
-{
-	t_sprite	*sprites;
-
-	sprites = (t_sprite *)malloc(sizeof(t_sprite) * map->num_sprites); //LIBERA
-	if (sprites == NULL)
-		return (0);
-	map->sprites = sprites;
-	return (1);
-}
 
 int				ft_set_sprites_and_orientation(t_map *map)
 {
@@ -61,6 +38,29 @@ int				ft_set_sprites_and_orientation(t_map *map)
 	if (map->orientation == '\0')
 		return (0);
 	return (1);
+}
+
+int				ft_memory_space_sprites(t_map *map)
+{
+	t_sprite	*sprites;
+
+	sprites = (t_sprite *)malloc(sizeof(t_sprite) * map->num_sprites); //LIBERA
+	if (sprites == NULL)
+		return (0);
+	map->sprites = sprites;
+	return (1);
+}
+
+int				ft_calc_sprite_variables(t_map *map, int i, int j, int k)
+{
+	if (map->matrix[i][j] == '2')
+	{
+		map->sprites[k].position.x = j + 0.5;
+		map->sprites[k].position.y = i + 0.5;
+		map->sprites[k].distance = 0;
+		return (1);
+	}
+	return (0);
 }
 
 /*
