@@ -31,6 +31,8 @@ int		ft_check_map(t_map map)
 	//print_map(map.matrix); //borrar
 	&& ft_uncovered_map(map.matrix);
 	// print_map(map.matrix); //borrar
+	if (!res)
+		return (ft_put_error("Invalid map"));
 	return (res);
 }
 
@@ -42,10 +44,9 @@ int		ft_flood_fill(char **matrix, int x, int y)
 	res = 1;
 	if (!res && matrix[y][x] != '+' && !ft_check_valid_char(matrix[y][x]))
 		return (0);
-	if (matrix[y][x] == '1' || matrix[y][x] == '+')
+	if (matrix[y][x] == '1' || matrix[y][x] == '2'|| matrix[y][x] == '+')
 		return (res);
-	// else if (matrix[y][x] == '0')
-	else if (matrix[y][x] == '0' || matrix[y][x] == '2')
+	else if (matrix[y][x] == '0')
 	{
 		matrix[y][x] = '+';
 		res = res && ft_flood_fill(matrix, x - 1, y);

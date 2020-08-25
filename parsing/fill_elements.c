@@ -27,12 +27,5 @@ int		ft_fill_elements(char **line_split, t_game_file *game_file)
 	return (result);
 }
 
-int		ft_array_size(char **array)
-{
-	int i;
 
-	i = 0;
-	while (array[i])
-		i++;
-	return (i);
-}
+//poner funcion que valide que no hayan otros elementos diferentes en el mapa

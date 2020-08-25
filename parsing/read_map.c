@@ -16,41 +16,48 @@ int			ft_read_file(char *file_name, t_game_file *file)
 {
 	int		ret;
 	int		fd;
+	int 	valid;
 	char	*line;
-	char	**line_split;
 
+	valid = 1;
 	ret = 1;
 	fd = open(file_name, O_RDONLY);
 	if (fd < 0)
 		return (ft_put_error("cannot open .cub map file"));
-	while (ret > 0)
+	while (ret > 0 && valid)
 	{
 		ret = get_next_line(fd, &line);
 		if (ret < 0)
 			return (ft_put_error("file not found"));
-		if (ft_check_complete_elements(file))
-		{
-			if (ft_isemptyline(line) && file->map.matrix == NULL)
-				continue ;
-			if (!ft_count_sprites(line, &file->map))
-				return (ft_put_error("invalid character in the map"));
-			file->map.matrix = ft_join_lines(file->map.matrix, line);
-		}
-		else
-		{
-			line_split = ft_split(line, ' ');
-			if (!ft_fill_elements(line_split, file))
-			{
-				free(line);
-				return (ft_put_error("check map elements"));
-			}
-		}
-		// AQUIIIIIIIIIIIII HAYYYYY UNN LEaKKKKKK, FALTA LIBERAR EN LOS RETURNS
+		if (!ft_read_line(file, line))
+			valid = 0;
 		free(line);
 	}
 	close(fd);
+	return (valid);
+}
+
+int ft_read_line(t_game_file *file, char *line)
+{
+	char	**line_split;
+
+	if (ft_check_complete_elements(file))
+	{
+		if (ft_isemptyline(line) && file->map.matrix == NULL)
+			return (1);
+		if (!ft_count_sprites(line, &file->map))
+			return (ft_put_error("invalid character in the map"));
+		file->map.matrix = ft_join_lines(file->map.matrix, line);
+	}
+	else
+	{
+		line_split = ft_split(line, ' ');
+		if (!ft_fill_elements(line_split, file))
+			return (ft_put_error("check map elements"));
+	}
 	return (1);
 }
+
 
 int			ft_check_complete_elements(t_game_file *game_file)
 {

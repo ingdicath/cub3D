@@ -121,7 +121,7 @@ typedef struct	s_position
 	double		y;
 }				t_position;
 
-typedef struct	s_sprite //mirar si es parte del parsing oo no
+typedef struct	s_sprite
 {
 	double		distance;
 	t_position	position;
@@ -274,6 +274,9 @@ int				ft_set_sprites_and_orientation(t_map *map);
 int				ft_check_map(t_map map);
 int				ft_flood_fill(char **matrix, int x, int y);
 int				ft_uncovered_map(char **matrix);
+int 			ft_read_line(t_game_file *file, char *line);
+int 			ft_parsing(int argc, char **argv, t_game_file *file,
+					int *screenshot);
 
 /*
 ** ---------- Raycasting functions --------------------------------------------
@@ -283,9 +286,9 @@ int				ft_close_game(t_game *game);
 int				ft_play_game(t_game *game);
 int				ft_key_press(int keycode, t_game *game);
 int				ft_key_release(int keycode, t_game *game);
-int				ft_set_game(t_game_file file, t_game	*game);
+int				ft_set_game(t_game_file file, t_game *game, int screenshot);
 int				ft_start_game(t_game_file game_file);
-int				ft_set_screen(t_screen *screen);
+int				ft_set_screen(t_screen *screen, int screenshot);
 int				ft_set_all_textures(t_game_file file, t_screen *screen);
 int				ft_set_texture(void *mlx, char *path, t_texture *texture);
 int				ft_set_orientation(t_map map, t_player *player);

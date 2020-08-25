@@ -34,7 +34,7 @@ int			ft_start_game(t_game_file file)
 {
 	t_game	game;
 
-	ft_set_game(file, &game);
+	ft_set_game(file, &game, 0);
 	mlx_hook(game.screen.window, DESTROY, NOTIFY_MASK, &ft_close_game, &game);
 	mlx_hook(game.screen.window, PRESS, PRESS_MASK, &ft_key_press, &game);
 	mlx_hook(game.screen.window, RELEASE, RELEASE_MASK, &ft_key_release, &game);

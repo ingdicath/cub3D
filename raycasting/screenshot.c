@@ -32,7 +32,7 @@ void		ft_take_screenshot(t_game_file file)
 	fd = open(SCREENSHOT, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd < 0)
 		ft_put_error("File screenshot cannot open");
-	ft_set_game(file, &game);
+	ft_set_game(file, &game, 1);
 	ft_set_header_bitmap(fd, &game.screen);
 	ft_put_pixel_bitmap(fd, &game.screen);
 	close(fd);

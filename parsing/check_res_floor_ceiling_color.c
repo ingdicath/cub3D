@@ -24,6 +24,16 @@ int			ft_check_valid_color(char *color)
 	return (0);
 }
 
+int			ft_array_size(char **array)
+{
+	int		i;
+
+	i = 0;
+	while (array[i])
+		i++;
+	return (i);
+}
+
 /*
 ** width or height bigger than 16384 for screenshot rendering
 */

@@ -72,8 +72,6 @@ void				ft_calc_dist_sprite(t_map *map, t_position current_pos)
 ** transform y = //this is actually the depth inside the screen
 */
 
-// si norminette lo prohibe, enviar solo el juego, t_game
-
 void				ft_inverse_camera(t_sprite sprite, t_sprite_cast *s_cast,
 						t_player player, int w)
 {

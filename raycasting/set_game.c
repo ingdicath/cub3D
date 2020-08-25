@@ -12,12 +12,12 @@
 
 #include "../cub3d.h"
 
-int				ft_set_game(t_game_file file, t_game *game)
+int				ft_set_game(t_game_file file, t_game *game, int screenshot)
 {
 	game->map = file.map;
 	game->screen.resolution = file.resolution;
 	ft_clean_game(&game->screen, &game->player, &game->map);
-	if (!ft_set_screen(&game->screen))
+	if (!ft_set_screen(&game->screen, screenshot))
 		ft_put_error("set screen failure");
 	ft_set_floor_ceiling(file, &game->screen);
 	ft_set_all_textures(file, &game->screen);
@@ -26,7 +26,7 @@ int				ft_set_game(t_game_file file, t_game *game)
 	return (1);
 }
 
-int				ft_set_screen(t_screen *screen)
+int				ft_set_screen(t_screen *screen, int screenshot)
 {
 	t_texture	*data;
 
@@ -34,8 +34,8 @@ int				ft_set_screen(t_screen *screen)
 	screen->mlx = mlx_init();
 	if (screen->mlx == NULL)
 		return (ft_put_error("mlx connection failure"));
-	// incuir una condicion  que diga que si hay screenshot no haga resize
-	ft_resize_resolution(screen);
+	if (screenshot == 0)
+		ft_resize_resolution(screen);
 	screen->window = mlx_new_window(screen->mlx,
 		screen->resolution.width, screen->resolution.height, "Welcome");
 	if (screen->window == NULL)
