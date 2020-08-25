@@ -6,7 +6,7 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/29 11:20:00 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/24 16:31:17 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/25 10:55:35 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@
 # include "mlx/mlx.h"
 # include "libft/libft.h"
 # include <stdio.h> // BORRAR
-// # include "gnl/get_next_line.h" //quitar luego
 
 /*
 ** ----------- Actions constants ----------------------------------------------
@@ -132,7 +131,7 @@ typedef struct	s_map
 {
 	char		**matrix;
 	double		*zbuffer;
-	int 		num_sprites;
+	int			num_sprites;
 	char		orientation;
 	t_sprite	*sprites;
 	t_position	start_pos;
@@ -155,7 +154,7 @@ typedef struct	s_game_file
 ** ----------- Raycasting structures ------------------------------------------
 */
 
-typedef struct	s_texture //validar
+typedef struct	s_texture
 {
 	void		*image;
 	char		*address;
@@ -189,14 +188,14 @@ typedef struct	s_ray
 	t_position	map;
 }				t_ray;
 
-typedef struct	s_sp_cast
+typedef struct	s_sprite_cast
 {
-	int 		screen_x;
-	t_size 		size;
+	int			screen_x;
+	t_size		size;
 	t_position	transform;
 	t_position	draw_start;
 	t_position	draw_end;
-}				t_sp_cast; // t_sprite_cast: revisar con norminette ii se puede poner commpleto
+}				t_sprite_cast;
 
 typedef struct	s_screen
 {
@@ -206,7 +205,7 @@ typedef struct	s_screen
 	int			floor;
 	t_wall		wall;
 	t_size		resolution;
-	t_size 		max_res;
+	t_size		max_res;
 	t_texture	win_data;
 	t_texture	north;
 	t_texture	south;
@@ -239,7 +238,7 @@ typedef struct	s_player
 	t_ray		ray;
 }				t_player;
 
-typedef struct	s_game // Game
+typedef struct	s_game
 {
 	t_screen	screen;
 	t_player	player;
@@ -271,11 +270,10 @@ char			**ft_join_lines(char **matrix, char *new_line);
 int				ft_check_unique_orientation(t_map *map, int i, int j);
 int				ft_check_args(int argc, char **argv, int *screenshot);
 int				ft_count_sprites(char *line, t_map *map);
-int		ft_set_sprites_and_orientation(t_map *map);
-int ft_check_map(t_map map);
-int ft_flood_fill(char **matrix, int x, int y);
-int ft_uncovered_map(char **matrix);
-
+int				ft_set_sprites_and_orientation(t_map *map);
+int				ft_check_map(t_map map);
+int				ft_flood_fill(char **matrix, int x, int y);
+int				ft_uncovered_map(char **matrix);
 
 /*
 ** ---------- Raycasting functions --------------------------------------------
@@ -285,13 +283,13 @@ int				ft_close_game(t_game *game);
 int				ft_play_game(t_game *game);
 int				ft_key_press(int keycode, t_game *game);
 int				ft_key_release(int keycode, t_game *game);
-int 			ft_set_game(t_game_file file, t_game	*game);
+int				ft_set_game(t_game_file file, t_game	*game);
 int				ft_start_game(t_game_file game_file);
 int				ft_set_screen(t_screen *screen);
 int				ft_set_all_textures(t_game_file file, t_screen *screen);
 int				ft_set_texture(void *mlx, char *path, t_texture *texture);
 int				ft_set_orientation(t_map map, t_player *player);
-void			ft_render_map(t_game *game);  
+void			ft_render_map(t_game *game);
 void			ft_calc_side_dist(t_position current, t_ray *ray);
 void			ft_perform_dda(t_map map, t_ray *ray);
 void			ft_calc_wall_dist(t_ray *ray, t_position current);
@@ -312,23 +310,26 @@ void			ft_turn_left(t_player *player);
 int				ft_manage_movements(t_map map, t_player *player);
 int				ft_rgb_calculator(int r, int g, int b);
 void			ft_set_floor_ceiling(t_game_file file, t_screen *screen);
-void 			ft_draw_floor_ceiling(t_screen *screen, t_ray ray, int x);
+void			ft_draw_floor_ceiling(t_screen *screen, t_ray ray, int x);
 void			ft_set_header_bitmap(int fd, t_screen *screen);
 void			ft_put_pixel_bitmap(int fd, t_screen *screen);
 void			ft_take_screenshot(t_game_file game_file);
 int				ft_is_moving(t_movements move, t_rotations rotate);
-void 			ft_write_char_zeros(int fd, int times);
-void 			ft_write_short_bytes(int fd, int param);
-void 			ft_write_int_bytes(int fd, int param);
-// void 			ft_calc_screen(t_sprite_cast *s_cast, t_game game);
-void 			ft_inverse_camera(t_sprite sprite, t_sp_cast *s_cast, t_player player, int w);
-int 			ft_render_sprites(t_game *game);
-void 			ft_calc_sprite_limits(t_sp_cast *s_cast, t_size resolution);
-void 			ft_vertical_stripes(t_sp_cast *s_cast, t_screen screen, double *zbuffer);
-void 			ft_draw_stripes(t_sp_cast *s_cast, t_screen screen, t_position *tex, int stripe);
-void ft_sort_sprites(t_map *map, t_position current_pos);
-void ft_calc_dist_sprite (t_map *map, t_position current_pos);
-int ft_resize_resolution(t_screen *screen);
+void			ft_write_char_zeros(int fd, int times);
+void			ft_write_short_bytes(int fd, int param);
+void			ft_write_int_bytes(int fd, int param);
+void			ft_inverse_camera(t_sprite sprite, t_sprite_cast *s_cast,
+					t_player player, int w);
+int				ft_render_sprites(t_game *game);
+void			ft_calc_sprite_limits(t_sprite_cast *s_cast, t_size resolution);
+void			ft_vertical_stripes(t_sprite_cast *s_cast, t_screen screen,
+					double *zbuffer);
+void			ft_draw_stripes(t_sprite_cast *s_cast, t_screen screen,
+					t_position *tex, int stripe);
+void			ft_sort_sprites(t_map *map, t_position current_pos);
+void			ft_calc_dist_sprite (t_map *map, t_position current_pos);
+int				ft_resize_resolution(t_screen *screen);
+
 /*
 ** ---------- DELETEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE ---------------
 */

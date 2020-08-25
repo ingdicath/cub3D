@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   fill_elements.c                                    :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2020/08/25 09:46:01 by dsalaman      #+#    #+#                 */
+/*   Updated: 2020/08/25 13:09:53 by dsalaman      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../cub3d.h"
 
-int			ft_fill_elements(char **line_split, t_game_file *game_file)
+int		ft_fill_elements(char **line_split, t_game_file *game_file)
 {
-	int		result;
+	int	result;
 
 	result = ft_check_resolution(line_split, &game_file->resolution)
 	&& ft_check_ceiling(line_split, &game_file->ceiling)

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   calculate_wall_draw.c                              :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2020/08/25 09:49:44 by dsalaman      #+#    #+#                 */
+/*   Updated: 2020/08/25 10:04:05 by dsalaman      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../cub3d.h"
 
 /*
@@ -7,8 +19,6 @@
 ** - wall->pos.x = is the x-coordinate of the texture, and this is calculated
 **	out of wall_x.
 */
-
-//calculate value of wallX
 
 void	ft_calc_wall_pos(t_ray *ray, t_wall *wall, t_position current)
 {
@@ -28,7 +38,7 @@ void	ft_calc_wall_pos(t_ray *ray, t_wall *wall, t_position current)
 ** Calculate lowest and highest pixel to fill in current stripe.
 */
 
-void	ft_calc_draw_limits(t_ray *ray, t_size resolution) //cambiar a resoltuioon
+void	ft_calc_draw_limits(t_ray *ray, t_size resolution)
 {
 	ray->line_height = (int)(resolution.height / ray->perpwalldist);
 	ray->draw_start = -ray->line_height / 2 + resolution.height / 2;
@@ -41,22 +51,26 @@ void	ft_calc_draw_limits(t_ray *ray, t_size resolution) //cambiar a resoltuioon
 
 /*
 ** Creating the raycasting
- 	int hit = 0; //was there a wall hit?
-    int side; //was a NS or a EW wall hit?
-	Calculate distance projected on camera direction (Euclidean distance will give fisheye effect!)
-    perpWallDist: the length of this line is the value to compute now, the distance
-    perpenducilar from the wall hit point to the camera plane instead of Euclidean
-    distance to the player point, to avoid making straight walls look rounded.
+** int hit = 0; //was there a wall hit?
+** int side; //was a NS or a EW wall hit?
+** Calculate distance projected on camera direction
+**    (Euclidean distance will give fisheye effect!)
+** perpWallDist: the length of this line is the value to compute now,
+** the distance perpendicular from the wall hit point to the camera plane
+** instead of Euclidean distance to the player point, to avoid making straight
+** walls look rounded.
 */
 
 void	ft_calc_wall_dist(t_ray *ray, t_position current)
 {
-	if(ray->side == 0)
+	if (ray->side == 0)
 		ray->perpwalldist = (ray->map.x - current.x +
 			(1 - ray->step.x) / 2) / ray->dir.x;
 	else
 		ray->perpwalldist = (ray->map.y - current.y +
 			(1 - ray->step.y) / 2) / ray->dir.y;
-	ray->perpwalldist = (ray->perpwalldist < 1)  ? 1 : ray->perpwalldist;
-	//printf("Line he%f\n",  ray->perpwalldist);//borrar
+	if (ray->perpwalldist < 1)
+		ray->perpwalldist = 1;
+	else
+		ray->perpwalldist = ray->perpwalldist;
 }

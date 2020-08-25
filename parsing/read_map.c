@@ -1,7 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   read_map.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2020/08/25 09:48:45 by dsalaman      #+#    #+#                 */
+/*   Updated: 2020/08/25 13:13:15 by dsalaman      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../cub3d.h"
 
-
-//TOCAR PARTIR LA FUNCION READ FILE EN DOS
 int			ft_read_file(char *file_name, t_game_file *file)
 {
 	int		ret;
@@ -42,7 +52,7 @@ int			ft_read_file(char *file_name, t_game_file *file)
 	return (1);
 }
 
-int		ft_check_complete_elements(t_game_file *game_file)
+int			ft_check_complete_elements(t_game_file *game_file)
 {
 	if (game_file->ceiling.red == -1 || game_file->ceiling.green == -1 ||
 		game_file->ceiling.blue == -1 || game_file->floor.red == -1 ||
@@ -56,14 +66,14 @@ int		ft_check_complete_elements(t_game_file *game_file)
 		return (1);
 }
 
-int		ft_count_sprites(char *line, t_map *map)
+int			ft_count_sprites(char *line, t_map *map)
 {
-	int i;
+	int		i;
 
 	i = 0;
 	while (line[i] != '\0')
 	{
-		if(!ft_check_valid_char(line[i]))
+		if (!ft_check_valid_char(line[i]))
 			return (0);
 		else if (line[i] == '2')
 			map->num_sprites++;
@@ -72,12 +82,11 @@ int		ft_count_sprites(char *line, t_map *map)
 	return (1);
 }
 
-int		ft_check_valid_char(char c)
+int			ft_check_valid_char(char c)
 {
-	if (c != '0' && c != '1' && c != '2' &&
-			c != ' ' && c != 'N' && c != 'S' &&
+	if (c != '0' && c != '1' && c != '2' && c != ' ' && c != 'N' && c != 'S' &&
 			c != 'W' && c != 'E')
-			return (0);
+		return (0);
 	return (1);
 }
 

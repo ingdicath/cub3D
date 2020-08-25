@@ -1,5 +1,16 @@
-#include "../cub3d.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   check_res_floor_ceiling_color.c                    :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2020/08/25 09:48:02 by dsalaman      #+#    #+#                 */
+/*   Updated: 2020/08/25 13:08:38 by dsalaman      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "../cub3d.h"
 
 int			ft_check_valid_color(char *color)
 {
@@ -13,7 +24,11 @@ int			ft_check_valid_color(char *color)
 	return (0);
 }
 
-int		ft_check_resolution(char **line, t_size *resolution)
+/*
+** width or height bigger than 16384 for screenshot rendering
+*/
+
+int			ft_check_resolution(char **line, t_size *resolution)
 {
 	if (line[0] && (ft_strcmp(line[0], "R") == 0))
 	{
@@ -26,15 +41,14 @@ int		ft_check_resolution(char **line, t_size *resolution)
 		resolution->width = ft_atoi(line[1]);
 		resolution->height = ft_atoi(line[2]);
 		if (resolution->width <= 0 || resolution->height <= 0)
-			return (ft_put_error("Resolution must be greater than 0"));
-		// if (resolution->width > 16384 || resolution->height > 16384)
-		// 	return (ft_put_error("Resolution exceeds maximum (16384) for 
-		// 		screenshot rendering"));
+			return (ft_put_error("Invalid value for Resolution"));
+		if (resolution->width > 16384 || resolution->height > 16384)
+			return (ft_put_error("Resolution exceeds maximum value 16384"));
 	}
 	return (1);
 }
 
-int		ft_check_ceiling(char **line, t_color *ceiling)
+int			ft_check_ceiling(char **line, t_color *ceiling)
 {
 	if (line[0] && (ft_strcmp(line[0], "C") == 0))
 	{
@@ -58,7 +72,7 @@ int		ft_check_ceiling(char **line, t_color *ceiling)
 	return (1);
 }
 
-int		ft_check_floor(char **line, t_color *floor)
+int			ft_check_floor(char **line, t_color *floor)
 {
 	if (line[0] && (ft_strcmp(line[0], "F") == 0))
 	{

@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   keys_actions.c                                     :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2020/08/25 09:51:42 by dsalaman      #+#    #+#                 */
+/*   Updated: 2020/08/25 13:17:59 by dsalaman      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../cub3d.h"
 
 int	ft_key_press(int keycode, t_game *game)
 {
 	if (keycode == ESC)
-		ft_close_game(game); // create function
+		ft_close_game(game);
 	if (keycode == KEY_W)
 		game->player.move.front = 1;
 	if (keycode == KEY_S)
@@ -16,7 +28,6 @@ int	ft_key_press(int keycode, t_game *game)
 		game->player.rotate.right = 1;
 	if (keycode == LEFT)
 		game->player.rotate.left = 1;
-	// //printf("auch%d\n ", keycode); //borrarmove_front
 	return (0);
 }
 
@@ -43,6 +54,5 @@ int	ft_key_release(int keycode, t_game *game)
 		game->player.rotate.left = 0;
 	if (keycode == RIGHT)
 		game->player.rotate.right = 0;
-	// //printf("fiiiiu\n");
 	return (0);
 }

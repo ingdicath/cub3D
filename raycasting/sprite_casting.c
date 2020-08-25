@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   sprite_casting.c                                   :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2020/08/25 08:29:41 by dsalaman      #+#    #+#                 */
+/*   Updated: 2020/08/25 09:12:14 by dsalaman      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../cub3d.h"
 
-int ft_render_sprites(t_game *game)
+int					ft_render_sprites(t_game *game)
 {
-	int i;
-	t_sp_cast s_cast;
+	int				i;
+	t_sprite_cast	s_cast;
 
 	i = 0;
 	ft_sort_sprites(&game->map, game->player.current_pos);
@@ -18,10 +30,10 @@ int ft_render_sprites(t_game *game)
 	return (0);
 }
 
-void ft_sort_sprites(t_map *map, t_position current_pos)  //24ago: se reemplazo el while interno por if
+void				ft_sort_sprites(t_map *map, t_position current_pos)
 {
-	int i;
-	t_sprite	temp;
+	int				i;
+	t_sprite		temp;
 
 	i = 0;
 	ft_calc_dist_sprite(map, current_pos);
@@ -39,37 +51,10 @@ void ft_sort_sprites(t_map *map, t_position current_pos)  //24ago: se reemplazo 
 	}
 }
 
-/*
-void ft_sort_sprites(t_map *map, t_position current_pos)  //revisar los dos whiles
+void				ft_calc_dist_sprite(t_map *map, t_position current_pos)
 {
-	int i;
-	int j;
-	t_sprite	temp;
-
-	i = 0;
-	ft_calc_dist_sprite(map, current_pos);
-	while (i < map->num_sprites)
-	{
-		j = i + 1;
-		while (j < map->num_sprites)
-		{
-			if (map->sprites[i].distance > map->sprites[j].distance)
-			{
-				temp = map->sprites[i];
-				map->sprites[i] = map->sprites[j];
-				map->sprites[j] = temp;
-			}
-			j++;
-		}
-		i++;
-	}
-}
-*/
-
-void ft_calc_dist_sprite(t_map *map, t_position current_pos)
-{
-	int i;
-	t_position	relative;
+	int				i;
+	t_position		relative;
 
 	i = 0;
 	while (i < map->num_sprites)
@@ -81,34 +66,41 @@ void ft_calc_dist_sprite(t_map *map, t_position current_pos)
 	}
 }
 
-//inv_camera  = required for correct matrix multiplication
-//sprite_relative = translate sprite position to relative to camera
-// transform y = //this is actually the depth inside the screen
+/*
+** inv_camera  = required for correct matrix multiplication
+** sprite_relative = translate sprite position to relative to camera
+** transform y = //this is actually the depth inside the screen
+*/
 
 // si norminette lo prohibe, enviar solo el juego, t_game
-void ft_inverse_camera(t_sprite sprite, t_sp_cast *s_cast, t_player player, int w)
+
+void				ft_inverse_camera(t_sprite sprite, t_sprite_cast *s_cast,
+						t_player player, int w)
 {
-	double inv_camera;
-	t_position sprite_relative;
+	double			inv_camera;
+	t_position		sprite_relative;
 
 	sprite_relative.x = sprite.position.x - player.current_pos.x;
 	sprite_relative.y = sprite.position.y - player.current_pos.y;
 	inv_camera = 1.0 / (player.plane.x * player.orientation.y -
 		player.orientation.x * player.plane.y);
-	s_cast->transform.x = inv_camera * (player.orientation.y * sprite_relative.x -
-		player.orientation.x * sprite_relative.y);
+	s_cast->transform.x = inv_camera * (player.orientation.y *
+		sprite_relative.x - player.orientation.x * sprite_relative.y);
 	s_cast->transform.y = inv_camera * (-player.plane.y * sprite_relative.x +
 		player.plane.x * sprite_relative.y);
 	s_cast->screen_x = (int)((w / 2) *
 		(1 + s_cast->transform.x / s_cast->transform.y));
-
-	if (player.ray.camera_x == 1)
-		s_cast->transform.x *= -1; 
+	// if (player.ray.camera_x == 1)
+	// 	s_cast->transform.x *= -1;
 }
 
-//calculate height of the sprite on screen
-//using 'transformY' instead of the real distance prevents fisheye
-void ft_calc_sprite_limits(t_sp_cast *s_cast, t_size resolution)
+/*
+** Calculate height of the sprite on screen using 'transformY' instead of
+** the real distance prevents fisheye
+*/
+
+void				ft_calc_sprite_limits(t_sprite_cast *s_cast,
+						t_size resolution)
 {
 	s_cast->size.height = abs((int)(resolution.height / s_cast->transform.y));
 	s_cast->draw_start.y = (int)(-s_cast->size.height / 2 +
@@ -122,11 +114,21 @@ void ft_calc_sprite_limits(t_sp_cast *s_cast, t_size resolution)
 	s_cast->size.width = abs((int)(resolution.height / s_cast->transform.y));
 	s_cast->draw_start.x = (int)(-s_cast->size.width / 2 + s_cast->screen_x);
 	if (s_cast->draw_start.x < 0)
-		s_cast->draw_start.x  = 0;
+		s_cast->draw_start.x = 0;
 	s_cast->draw_end.x = (int)(s_cast->size.width / 2 + s_cast->screen_x);
 	if (s_cast->draw_end.x >= resolution.width)
 		s_cast->draw_end.x = resolution.width - 1.0;
 }
+
+
+/*
+**
+**
+**
+
+*/
+
+
 
   //loop through every vertical stripe of the sprite on screen
    //the conditions in the if are:
@@ -135,10 +137,11 @@ void ft_calc_sprite_limits(t_sp_cast *s_cast, t_size resolution)
         //3) it's on the screen (right)
         //4) ZBuffer, with perpendicular distance
 
-void ft_vertical_stripes(t_sp_cast *s_cast, t_screen screen, double *zbuffer)
+void			ft_vertical_stripes(t_sprite_cast *s_cast, t_screen screen,
+					double *zbuffer)
 {
-	int stripe;
-	t_position tex;
+	int			stripe;
+	t_position	tex;
 
 	stripe = s_cast->draw_start.x;
 	while (stripe < s_cast->draw_end.x)
@@ -152,15 +155,15 @@ void ft_vertical_stripes(t_sp_cast *s_cast, t_screen screen, double *zbuffer)
 	}
 }
 
-void ft_draw_stripes(t_sp_cast *s_cast, t_screen screen, t_position *tex, int stripe)
+void 			ft_draw_stripes(t_sprite_cast *s_cast, t_screen screen, t_position *tex, int stripe)
 {
-	int color;
-	int y;
-	int d;
+	int 		color;
+	int 		y;
+	int 		d;
 
 	y = s_cast->draw_start.y;
 
-	// printf("y, %d v, %f\n", y , s_cast->draw_end.y );
+	// printf("y, %d draw_end.y, %f\n", y , s_cast->draw_end.y );
 
 	while (y < s_cast->draw_end.y)
 	{
@@ -173,13 +176,3 @@ void ft_draw_stripes(t_sp_cast *s_cast, t_screen screen, t_position *tex, int st
 		y++;
 	}
 }
-
-// void ft_scaling_sprites(t_sp_cast *s_cast)
-// {
-// 	int v_move_screen;
-
-// 	v_move_screen = (int)(V_MOVE / s_cast->transform.y);
-
-
-// }
-

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   initialize_structures.c                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2020/08/25 09:47:25 by dsalaman      #+#    #+#                 */
+/*   Updated: 2020/08/25 13:10:20 by dsalaman      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../cub3d.h"
 
 void	ft_reset_input(t_game_file *game_file)
@@ -22,7 +34,7 @@ void	ft_reset_input(t_game_file *game_file)
 	game_file->map.num_sprites = 0;
 }
 
-void		ft_clean_game(t_screen *screen, t_player *player, t_map *map)
+void	ft_clean_game(t_screen *screen, t_player *player, t_map *map)
 {
 	screen->mlx = NULL;
 	screen->window = NULL;

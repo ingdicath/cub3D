@@ -1,38 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   check_args_path.c                                  :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2020/08/25 09:07:06 by dsalaman      #+#    #+#                 */
+/*   Updated: 2020/08/25 12:42:10 by dsalaman      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../cub3d.h"
 
-int			ft_check_extension(char *file_name, char *valid_ext)
-{
-	int		name_size;
-	int		ext_size;
-	char	*temp;
-
-	name_size = ft_strlen(file_name);
-	ext_size = ft_strlen(valid_ext);
-	temp = ft_substr(file_name, (name_size - ext_size), name_size);
-	if (ft_strcmp(temp, valid_ext) == 0)
-		return (1);
-	return (0);
-}
-
-int		ft_check_path(char *str)
-{
-	int		ret;
-	int		i;
-
-	i = 0;
-	if (str[i] != '.')
-		return (ft_put_error("invalid path"));
-	if (!ft_check_extension(str, XPM) && !ft_check_extension(str, PNG)) // si no se va a usar PNG BORRAR
-		return (ft_put_error("invalid extension for texture"));
-	ret = open(str, O_RDONLY);
-	printf("valor: %d\n", ret);
-	if (ret < 0)
-		return (ft_put_error("file does not exist."));
-	close(ret);
-	return (1);
-}
-
-// FUNCION TIENE 29 LINEAS, TOCARA QUITARLE LOS ERRORES ACUMULATIVOS
 int			ft_check_args(int argc, char **argv, int *screenshot)
 {
 	int		error;
@@ -63,5 +42,36 @@ int			ft_check_args(int argc, char **argv, int *screenshot)
 	}
 	if (error > 0)
 		return (0);
+	return (1);
+}
+
+int			ft_check_extension(char *file_name, char *valid_ext)
+{
+	int		name_size;
+	int		ext_size;
+	char	*temp;
+
+	name_size = ft_strlen(file_name);
+	ext_size = ft_strlen(valid_ext);
+	temp = ft_substr(file_name, (name_size - ext_size), name_size);
+	if (ft_strcmp(temp, valid_ext) == 0)
+		return (1);
+	return (0);
+}
+
+int			ft_check_path(char *str)
+{
+	int		ret;
+	int		i;
+
+	i = 0;
+	if (str[i] != '.')
+		return (ft_put_error("invalid path"));
+	if (!ft_check_extension(str, XPM) && !ft_check_extension(str, PNG)) // si no se va a usar PNG BORRAR
+		return (ft_put_error("invalid extension for texture"));
+	ret = open(str, O_RDONLY);
+	if (ret < 0)
+		return (ft_put_error("file does not exist."));
+	close(ret);
 	return (1);
 }

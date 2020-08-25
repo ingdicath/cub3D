@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   check_textures_path.c                              :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2020/08/25 09:46:37 by dsalaman      #+#    #+#                 */
+/*   Updated: 2020/08/25 13:09:23 by dsalaman      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../cub3d.h"
 
 int		ft_check_north_path(char **line, char **north_path)
@@ -12,7 +24,6 @@ int		ft_check_north_path(char **line, char **north_path)
 			return (ft_put_error("invalid arguments for NO texture"));
 		if (ft_check_path(line[1]))
 			*north_path = line[1];
-		printf("north texture %s\n", *north_path); // borrar
 	}
 	return (1);
 }
@@ -29,7 +40,6 @@ int		ft_check_south_path(char **line, char **south_path)
 			return (ft_put_error("invalid arguments for SO texture"));
 		if (ft_check_path(line[1]))
 			*south_path = line[1];
-		printf("south texture %s\n", *south_path); // borrar
 	}
 	return (1);
 }
@@ -46,7 +56,6 @@ int		ft_check_west_path(char **line, char **west_path)
 			return (ft_put_error("invalid arguments WE texture"));
 		if (ft_check_path(line[1]))
 			*west_path = line[1];
-		printf("west texture %s\n", *west_path); // borrar
 	}
 	return (1);
 }
@@ -63,7 +72,6 @@ int		ft_check_east_path(char **line, char **east_path)
 			return (ft_put_error("invalid arguments for EA texture"));
 		if (ft_check_path(line[1]))
 			*east_path = line[1];
-		printf("east texture %s\n", *east_path); // borrar
 	}
 	return (1);
 }
@@ -80,7 +88,6 @@ int		ft_check_sprite_path(char **line, char **sprite_path)
 			return (ft_put_error("invalid arguments for sprite texture"));
 		if (ft_check_path(line[1]))
 			*sprite_path = line[1];
-		printf("sprite texture %s\n", *sprite_path); // borrar
 	}
 	return (1);
 }

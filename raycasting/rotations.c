@@ -1,7 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   rotations.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2020/08/25 09:53:13 by dsalaman      #+#    #+#                 */
+/*   Updated: 2020/08/25 13:37:23 by dsalaman      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../cub3d.h"
 
-//rotate to the right
-//both camera direction and camera plane must be rotated
+/*
+** both camera direction and camera plane must be rotated
+*/
+
 void		ft_turn_left(t_player *player)
 {
 	double	old_dir_x;
@@ -19,7 +33,7 @@ void		ft_turn_left(t_player *player)
 		player->plane.y * cos(-ROTATE_SPEED);
 }
 
-void	ft_turn_right(t_player *player)  
+void		ft_turn_right(t_player *player)
 {
 	double	old_dir_x;
 	double	old_plane_x;

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   screenshot.c                                       :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2020/08/25 09:53:36 by dsalaman      #+#    #+#                 */
+/*   Updated: 2020/08/25 14:03:28 by dsalaman      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../cub3d.h"
 
 /*
@@ -8,17 +20,16 @@
 **
 ** mode_t: The Mode Bits for Access Permission
 ** It can set up with octal or with symbolic constants:
-** 	1) 0777: Permissions read, write or execute, it should be in octal.
+** 	1) 0644: Permissions read, write or execute, it should be in octal.
 **	2) S_IRWXU: This is equivalent to ‘(S_IRUSR | S_IWUSR | S_IXUSR)’
 */
 
-void ft_take_screenshot(t_game_file file)
+void		ft_take_screenshot(t_game_file file)
 {
-	t_game game;
+	int		fd;
+	t_game	game;
 
-	int fd;
-
-	fd = open(SCREENSHOT, O_CREAT | O_WRONLY | O_TRUNC, S_IRUSR | S_IWUSR); //preguntar si es full permission o solo lectura y escritura o es 755?
+	fd = open(SCREENSHOT, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd < 0)
 		ft_put_error("File screenshot cannot open");
 	ft_set_game(file, &game);
@@ -29,7 +40,7 @@ void ft_take_screenshot(t_game_file file)
 
 void		ft_set_header_bitmap(int fd, t_screen *screen)
 {
-	int		file_size; 
+	int		file_size;
 	char	*file_type;
 
 	file_type = "BM";
@@ -53,21 +64,26 @@ void		ft_set_header_bitmap(int fd, t_screen *screen)
 	ft_write_char_zeros(fd, IMPORTANT_COLORS);
 }
 
-void 		ft_put_pixel_bitmap(int fd, t_screen *screen)
+/*
+** y = screen->resolution.height - 1, '-1' is to include the position zero
+**
+*/
+
+void		ft_put_pixel_bitmap(int fd, t_screen *screen)
 {
 	int		x;
 	int		y;
-	int     pos;
-	char    *address;
-	
+	int		pos;
+	char	*address;
+
 	address = screen->win_data.address;
-	y = screen->resolution.height - 1;  //porque tenemos que incluir el cero
+	y = screen->resolution.height - 1;
 	while (y >= 0)
 	{
 		x = 0;
 		while (x < screen->resolution.width)
 		{
-			pos = y * screen->win_data.size_line +x *
+			pos = y * screen->win_data.size_line + x *
 					(screen->win_data.bits_per_pixel / EIGHT_BITS);
 			write(fd, &address[pos], FOUR_BYTES);
 			x++;

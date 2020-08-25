@@ -5,7 +5,6 @@ int				main(int argc, char **argv)
 	int			screenshot;
 	t_game_file	game_file;
 
-
 	if (!ft_check_args(argc, argv, &screenshot))
 		return (0);
 	ft_reset_input(&game_file);

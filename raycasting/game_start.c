@@ -1,12 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   game_start.c                                       :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2020/08/25 09:51:02 by dsalaman      #+#    #+#                 */
+/*   Updated: 2020/08/25 13:16:39 by dsalaman      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../cub3d.h"
 
-int	ft_is_moving(t_movements move, t_rotations rotate)
+int			ft_is_moving(t_movements move, t_rotations rotate)
 {
 	return (move.front || move.back || move.left
 		|| move.right || rotate.right || rotate.left);
 }
 
-int	ft_play_game(t_game *game)
+int			ft_play_game(t_game *game)
 {
 	if (ft_is_moving(game->player.move, game->player.rotate))
 	{

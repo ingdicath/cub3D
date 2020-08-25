@@ -6,7 +6,7 @@
 #    By: dsalaman <dsalaman@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/07/07 08:57:54 by dsalaman      #+#    #+#                  #
-#    Updated: 2020/08/21 17:19:43 by dsalaman      ########   odam.nl          #
+#    Updated: 2020/08/25 13:48:54 by dsalaman      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,8 @@ SRC = parsing/check_args_path.c parsing/check_textures_path.c\
 	raycasting/movements.c raycasting/rotations.c\
 	raycasting/keys_actions.c raycasting/draw_floor_ceiling.c\
 	raycasting/screenshot.c raycasting/write_bytes.c main.c\
-	raycasting/sprite_casting.c parsing/check_map.c
+	raycasting/sprite_casting.c parsing/check_map.c\
+	raycasting/set_orientation.c
 
 OBJECTS = $(SRC:.c=.o)
 
