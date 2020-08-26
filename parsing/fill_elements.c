@@ -16,26 +16,25 @@ int		ft_fill_elements(char **line_split, t_game_file *game_file)
 {
 	int	result;
 
-	result = ft_check_resolution(line_split, &game_file->resolution)
-	&& ft_check_ceiling(line_split, &game_file->ceiling)
-	&& ft_check_floor(line_split, &game_file->floor)
-	&& ft_check_north_path(line_split, &game_file->no_path)
-	&& ft_check_south_path(line_split, &game_file->so_path)
-	&& ft_check_east_path(line_split, &game_file->ea_path)
-	&& ft_check_west_path(line_split, &game_file->we_path)
-	&& ft_check_sprite_path(line_split, &game_file->sprite_path);
-	// && ft_check_other_elements(line_split);
+	result = ft_check_valid_file_elements(line_split) &&
+		ft_check_resolution(line_split, &game_file->resolution) &&
+		ft_check_ceiling(line_split, &game_file->ceiling) &&
+		ft_check_floor(line_split, &game_file->floor) &&
+		ft_check_north_path(line_split, &game_file->no_path) &&
+		ft_check_south_path(line_split, &game_file->so_path) &&
+		ft_check_east_path(line_split, &game_file->ea_path) &&
+		ft_check_west_path(line_split, &game_file->we_path) &&
+		ft_check_sprite_path(line_split, &game_file->sprite_path);
 	return (result);
 }
 
-int		ft_check_other_elements(char **line)
+int		ft_check_valid_file_elements(char **line)
 {
-	if (line[0] && ((ft_strcmp(line[0], "C") != 0) ||
-		(ft_strcmp(line[0], "F") != 0) || (ft_strcmp(line[0], "R") != 0) ||
-		(ft_strcmp(line[0], "NO") != 0) || (ft_strcmp(line[0], "SO") != 0) ||
-		(ft_strcmp(line[0], "WE") != 0) || (ft_strcmp(line[0], "EA") != 0) ||
-		(ft_strcmp(line[0], "S") != 0)))
-			return (ft_put_error("Different elements are not allowed"));
-		return (1);
+	if (!line[0] || ft_strcmp(line[0], "C") == 0 ||
+		ft_strcmp(line[0], "F") == 0 || ft_strcmp(line[0], "R") == 0 ||
+		ft_strcmp(line[0], "NO") == 0 || ft_strcmp(line[0], "SO") == 0 ||
+		ft_strcmp(line[0], "WE") == 0 || ft_strcmp(line[0], "EA") == 0 ||
+		ft_strcmp(line[0], "S") == 0)
+			return (1);
+	return (ft_put_error("Different elements are not allowed"));
 }
-//poner funcion que valide que no hayan otros elementos diferentes en el mapa PENDIENTE

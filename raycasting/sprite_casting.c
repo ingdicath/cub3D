@@ -61,7 +61,7 @@ void				ft_calc_dist_sprite(t_map *map, t_position current_pos)
 	{
 		relative.x = current_pos.x - map->sprites[i].position.x;
 		relative.y = current_pos.y - map->sprites[i].position.y;
-		map->sprites[i].distance = pow(relative.x, 2) + pow(relative.y, 2);
+		map->sprites[i].distance = relative.x * relative.x + relative.y * relative.y;
 		i++;
 	}
 }
@@ -145,6 +145,7 @@ void			ft_vertical_stripes(t_sprite_cast *s_cast, t_screen screen,
 			ft_draw_stripes(s_cast, screen, &tex, stripe);
 		stripe++;
 	}
+	
 }
 
 void			ft_draw_stripes(t_sprite_cast *s_cast, t_screen screen,

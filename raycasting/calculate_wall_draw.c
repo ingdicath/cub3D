@@ -27,10 +27,10 @@ void	ft_calc_wall_pos(t_ray *ray, t_wall *wall, t_position current)
 	else
 		ray->wall_x = current.x + ray->perpwalldist * ray->dir.x;
 	ray->wall_x -= floor(ray->wall_x);
-	wall->pos.x = (int)(ray->wall_x * (double)TEXTURE_WIDTH);
+	wall->pos.x = (int)(ray->wall_x * TEXTURE_WIDTH);
 	if ((ray->side == 0 && ray->dir.x > 0)
 		|| (ray->side == 1 && ray->dir.y < 0))
-		wall->pos.x = TEXTURE_WIDTH - wall->pos.x - 1;
+		wall->pos.x = (int)(TEXTURE_WIDTH - wall->pos.x - 1);
 }
 
 /*
@@ -41,10 +41,12 @@ void	ft_calc_wall_pos(t_ray *ray, t_wall *wall, t_position current)
 void	ft_calc_draw_limits(t_ray *ray, t_size resolution)
 {
 	ray->line_height = (int)(resolution.height / ray->perpwalldist);
-	ray->draw_start = -ray->line_height / 2 + resolution.height / 2;
+	ray->draw_start = resolution.height / 2 - ray->line_height / 2;
 	if (ray->draw_start < 0)
 		ray->draw_start = 0;
-	ray->draw_end = (ray->line_height / 2) + (resolution.height / 2);
+	ray->draw_end = resolution.height / 2 + ray->line_height / 2;
+	if (ray->draw_end < 0) // Borrar?
+		ray->draw_end = resolution.height; // Borrar?
 	if (ray->draw_end >= resolution.height)
 		ray->draw_end = resolution.height - 1;
 }

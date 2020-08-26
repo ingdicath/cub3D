@@ -26,8 +26,8 @@
 ** ----------- Speed & moves --------------------------------------------------
 */
 
-# define ROTATE_SPEED 0.03
-# define MOVE_SPEED 0.07
+# define ROTATE_SPEED 0.10
+# define MOVE_SPEED 0.25
 
 /*
 ** ----------- Colors ---------------------------------------------------------
@@ -261,7 +261,7 @@ int				ft_check_east_path(char **line, char **east_path);
 int				ft_check_south_path(char **line, char **south_path);
 int				ft_check_sprite_path(char **line, char **sprite_path);
 int				ft_check_complete_elements(t_game_file *mapfile);
-int				ft_check_other_elements(char **line);
+int				ft_check_valid_file_elements(char **line);
 int				ft_array_size(char **array);
 int				ft_check_path(char *str);
 int				ft_check_extension(char *file_name, char *valid_ext);

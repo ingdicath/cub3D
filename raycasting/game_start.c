@@ -29,9 +29,13 @@ int			ft_play_game(t_game *game)
 {
 	if (ft_is_moving(game->player.move, game->player.rotate))
 	{
+		mlx_put_image_to_window(game->screen.mlx, game->screen.window,
+		game->screen.win_data.image, 0, 0);
 		ft_manage_movements(game->map, &game->player);
 		ft_render_map(game);
+
 	}
+
 	return (0);
 }
 

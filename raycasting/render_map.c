@@ -27,8 +27,8 @@ void		ft_render_map(t_game *game)
 		ft_calc_wall_pos(&game->player.ray, &game->screen.wall,
 			game->player.current_pos);
 		ft_draw_walls(&game->player.ray, &game->screen, x);
-		game->map.zbuffer[x] = game->player.ray.perpwalldist;
 		ft_draw_floor_ceiling(&game->screen, game->player.ray, x);
+		game->map.zbuffer[x] = game->player.ray.perpwalldist;
 		x++;
 	}
 	ft_render_sprites(game);
@@ -48,8 +48,8 @@ void		ft_set_ray_position(t_game *game, int x)
 			game->player.plane.y * ray->camera_x;
 	ray->map.x = (int)game->player.current_pos.x;
 	ray->map.y = (int)game->player.current_pos.y;
-	ray->deltadist.x = fabs(1 / ray->dir.x);
-	ray->deltadist.y = fabs(1 / ray->dir.y);
+	ray->deltadist.x = fabs(1.0 / ray->dir.x);
+	ray->deltadist.y = fabs(1.0 / ray->dir.y);
 }
 
 void		ft_calc_side_dist(t_position current, t_ray *ray)
@@ -103,7 +103,7 @@ void		ft_perform_dda(t_map map, t_ray *ray)
 		}
 		x = (int)ray->map.x;
 		y = (int)ray->map.y;
-		if (map.matrix[y][x] == '1')
+		if (ray->map.y < 0 || ray->map.x < 0 || map.matrix[y][x] == '1')
 			hit = 1;
 	}
 }

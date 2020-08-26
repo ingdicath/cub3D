@@ -27,9 +27,6 @@ int			ft_read_file(char *file_name, t_game_file *file)
 	while (ret > 0 && valid)
 	{
 		ret = get_next_line(fd, &line);
-
-		// printf("valor ret %d\n", ret);
-
 		if (ret < 0)
 			return (ft_put_error("file not found"));
 		if (!ft_read_line(file, line))
@@ -37,6 +34,10 @@ int			ft_read_file(char *file_name, t_game_file *file)
 		free(line);
 	}
 	close(fd);
+	if (!ft_check_complete_elements(file))
+		return (ft_put_error("Wrong scene map. Check to continue"));
+	if (file->map.matrix == NULL)
+		return (ft_put_error("No map. Complete to continue"));
 	return (valid);
 }
 
