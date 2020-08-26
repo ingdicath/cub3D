@@ -12,6 +12,7 @@
 
 #include "../cub3d.h"
 
+//borrar
 void	print_map(char **map)
 {
 	int i = 0;
@@ -44,7 +45,7 @@ int		ft_flood_fill(char **matrix, int x, int y)
 	res = 1;
 	if (!res && matrix[y][x] != '+' && !ft_check_valid_char(matrix[y][x]))
 		return (0);
-	if (matrix[y][x] == '1' || matrix[y][x] == '2'|| matrix[y][x] == '+')
+	if (matrix[y][x] == '1' || matrix[y][x] == '2' || matrix[y][x] == '+')
 		return (res);
 	else if (matrix[y][x] == '0')
 	{

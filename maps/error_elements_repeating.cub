@@ -3,10 +3,11 @@
   R  800 600
 
 WE ./textures/colorstone.xpm
-NO ./textures/wood.xpm
-SO ./textures/greystone.xpm
-EA ./textures/mossy.xpm
+NO        ./textures/wood.xpm
+SO    ./textures/greystone.xpm
+EA       ./textures/mossy.xpm
 
+F                                255, 255, 255
 
 
 S  ./textures/barrel.xpm

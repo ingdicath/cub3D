@@ -6,7 +6,7 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/25 09:46:01 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/25 13:09:53 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/26 09:11:36 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,18 @@ int		ft_fill_elements(char **line_split, t_game_file *game_file)
 	&& ft_check_east_path(line_split, &game_file->ea_path)
 	&& ft_check_west_path(line_split, &game_file->we_path)
 	&& ft_check_sprite_path(line_split, &game_file->sprite_path);
+	// && ft_check_other_elements(line_split);
 	return (result);
 }
 
-
-//poner funcion que valide que no hayan otros elementos diferentes en el mapa
+int		ft_check_other_elements(char **line)
+{
+	if (line[0] && ((ft_strcmp(line[0], "C") != 0) ||
+		(ft_strcmp(line[0], "F") != 0) || (ft_strcmp(line[0], "R") != 0) ||
+		(ft_strcmp(line[0], "NO") != 0) || (ft_strcmp(line[0], "SO") != 0) ||
+		(ft_strcmp(line[0], "WE") != 0) || (ft_strcmp(line[0], "EA") != 0) ||
+		(ft_strcmp(line[0], "S") != 0)))
+			return (ft_put_error("Different elements are not allowed"));
+		return (1);
+}
+//poner funcion que valide que no hayan otros elementos diferentes en el mapa PENDIENTE

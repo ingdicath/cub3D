@@ -6,7 +6,7 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/29 11:20:00 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/25 17:00:26 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/26 09:03:56 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,6 +261,7 @@ int				ft_check_east_path(char **line, char **east_path);
 int				ft_check_south_path(char **line, char **south_path);
 int				ft_check_sprite_path(char **line, char **sprite_path);
 int				ft_check_complete_elements(t_game_file *mapfile);
+int				ft_check_other_elements(char **line);
 int				ft_array_size(char **array);
 int				ft_check_path(char *str);
 int				ft_check_extension(char *file_name, char *valid_ext);
@@ -274,8 +275,8 @@ int				ft_set_sprites_and_orientation(t_map *map);
 int				ft_check_map(t_map map);
 int				ft_flood_fill(char **matrix, int x, int y);
 int				ft_uncovered_map(char **matrix);
-int 			ft_read_line(t_game_file *file, char *line);
-int 			ft_parsing(int argc, char **argv, t_game_file *file,
+int				ft_read_line(t_game_file *file, char *line);
+int				ft_parsing(int argc, char **argv, t_game_file *file,
 					int *screenshot);
 
 /*
@@ -341,6 +342,6 @@ int				ft_memory_space_sprites(t_map *map);
 
 void			printfs(t_game_file *mapfile);//BORRAR
 void			print_map(char **map);//BORRAR
-void 			print_array(t_sprite *sprites, int x);
+void			print_array(t_sprite *sprites, int x);
 
 #endif

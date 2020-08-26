@@ -6,18 +6,18 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/25 09:07:06 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/25 12:42:10 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/26 13:23:38 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-int 		ft_parsing(int argc, char **argv, t_game_file *file, int *scrshot)
+int			ft_parsing(int argc, char **argv, t_game_file *file, int *scrshot)
 {
 	int		res;
 
 	ft_reset_input(file);
-	res = ft_check_args(argc, argv, scrshot) && 
+	res = ft_check_args(argc, argv, scrshot) &&
 		ft_read_file(argv[1], file) &&
 		ft_set_sprites_and_orientation(&file->map) &&
 		ft_check_map(file->map);
@@ -28,7 +28,7 @@ int			ft_check_args(int argc, char **argv, int *screenshot)
 {
 	int		error;
 
-	*screenshot = 0; 
+	*screenshot = 0;
 	error = 1;
 	if (argc < 2)
 		return (ft_put_error("at least one argument was expected"));
@@ -77,5 +77,13 @@ int			ft_check_path(char *str)
 	if (ret < 0)
 		return (ft_put_error("file does not exist."));
 	close(ret);
+	return (1);
+}
+
+int			ft_check_valid_char(char c)
+{
+	if (c != '0' && c != '1' && c != '2' && c != ' ' && c != 'N' && c != 'S' &&
+			c != 'W' && c != 'E')
+		return (0);
 	return (1);
 }

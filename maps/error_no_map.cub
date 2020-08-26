@@ -1,0 +1,22 @@
+    
+          
+  R  800 600
+
+WE ./textures/colorstone.xpm
+NO ./textures/wood.xpm
+SO ./textures/greystone.xpm
+EA ./textures/mossy.xpm
+
+
+
+S  ./textures/barrel.xpm
+
+
+
+
+F    101, 28, 120
+
+
+C                      48, 179, 180
+
+

@@ -54,7 +54,7 @@ void			ft_move_right(t_map map, t_player *player)
 		player->current_pos.x = new_pos.x;
 }
 
-void			ft_move_left(t_map map, t_player *player)// tarea factorizar
+void			ft_move_left(t_map map, t_player *player)
 {
 	t_position	new_pos;
 

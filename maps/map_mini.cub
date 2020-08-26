@@ -1,0 +1,30 @@
+    
+          
+  R  800 600
+
+WE ./textures/red.xpm
+NO ./textures/green.xpm
+SO ./textures/blue.xpm
+EA ./textures/yellow.xpm
+
+
+
+S  ./textures/barrel.xpm
+
+
+
+
+
+F    101, 28, 120
+
+
+C                      48, 179, 194
+          
+
+
+
+
+
+111
+1E1
+111

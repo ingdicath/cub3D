@@ -12,7 +12,7 @@
 
 #ifndef LIBFT_H
 # define LIBFT_H
-# define BUFFER_SIZE 32 //get get_next_line
+# define BUFFER_SIZE 32
 # include <unistd.h>
 # include <stdlib.h>
 

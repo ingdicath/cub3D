@@ -24,7 +24,8 @@ void		ft_render_map(t_game *game)
 		ft_perform_dda(game->map, &game->player.ray);
 		ft_calc_wall_dist(&game->player.ray, game->player.current_pos);
 		ft_calc_draw_limits(&game->player.ray, game->screen.resolution);
-		ft_calc_wall_pos(&game->player.ray, &game->screen.wall, game->player.current_pos); // REVISAR SI CAMBIA CONSTANTE POR TEXTURA
+		ft_calc_wall_pos(&game->player.ray, &game->screen.wall,
+			game->player.current_pos);
 		ft_draw_walls(&game->player.ray, &game->screen, x);
 		game->map.zbuffer[x] = game->player.ray.perpwalldist;
 		ft_draw_floor_ceiling(&game->screen, game->player.ray, x);

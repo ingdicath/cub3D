@@ -2,10 +2,10 @@
           
   R  800 600
 
-WE ./textures/colorstone.xpm
+WE                  ./textures/colorstone.xpm
 NO ./textures/wood.xpm
-SO ./textures/greystone.xpm
-EA ./textures/mossy.xpm
+
+EA                                              ./textures/mossy.xpm
 
 
 

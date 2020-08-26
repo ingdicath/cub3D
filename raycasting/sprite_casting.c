@@ -118,22 +118,14 @@ void				ft_calc_sprite_limits(t_sprite_cast *s_cast,
 		s_cast->draw_end.x = resolution.width - 1.0;
 }
 
-
 /*
-**
-**
-**
-
+** Loop through every vertical stripe of the sprite on screen
+** the conditions in the if are:
+** 	1) it's in front of camera plane so you don't see things behind you
+**  2) it's on the screen (left)
+**  3) it's on the screen (right)
+**  4) ZBuffer, with perpendicular distance
 */
-
-
-
-  //loop through every vertical stripe of the sprite on screen
-   //the conditions in the if are:
-        //1) it's in front of camera plane so you don't see things behind you
-        //2) it's on the screen (left)
-        //3) it's on the screen (right)
-        //4) ZBuffer, with perpendicular distance
 
 void			ft_vertical_stripes(t_sprite_cast *s_cast, t_screen screen,
 					double *zbuffer)
@@ -145,24 +137,25 @@ void			ft_vertical_stripes(t_sprite_cast *s_cast, t_screen screen,
 	while (stripe < s_cast->draw_end.x)
 	{
 		tex.x = (int)(256 * (stripe - (-s_cast->size.width / 2 +
-			s_cast->screen_x)) * screen.sprite.width / s_cast->size.width) / 256;  //revisar valor quemado
-		if (s_cast->transform.y > 0 && stripe > 0 && stripe < screen.resolution.width
-			&& s_cast->transform.y < zbuffer[stripe])
-				ft_draw_stripes(s_cast, screen, &tex, stripe);
+			s_cast->screen_x)) *
+		screen.sprite.width / s_cast->size.width) / 256;
+		if (s_cast->transform.y > 0 && stripe > 0 &&
+			stripe < screen.resolution.width &&
+			s_cast->transform.y < zbuffer[stripe])
+			ft_draw_stripes(s_cast, screen, &tex, stripe);
 		stripe++;
 	}
 }
 
-void 			ft_draw_stripes(t_sprite_cast *s_cast, t_screen screen, t_position *tex, int stripe)
+void			ft_draw_stripes(t_sprite_cast *s_cast, t_screen screen,
+					t_position *tex, int stripe)
 {
-	int 		color;
-	int 		y;
-	int 		d;
+	int			color;
+	int			y;
+	int			d;
 
 	y = s_cast->draw_start.y;
-
 	// printf("y, %d draw_end.y, %f\n", y , s_cast->draw_end.y );
-
 	while (y < s_cast->draw_end.y)
 	{
 		d = y * 256 - screen.resolution.height * 128 +
@@ -170,7 +163,7 @@ void 			ft_draw_stripes(t_sprite_cast *s_cast, t_screen screen, t_position *tex,
 		tex->y = ((d * screen.sprite.height) / s_cast->size.height) / 256;
 		color = ft_get_color(screen.sprite, *tex);
 		if ((color & 0x00FFFFFF) != 0)
-			ft_put_pixel(&screen.win_data, stripe, y, color);	
+			ft_put_pixel(&screen.win_data, stripe, y, color);
 		y++;
 	}
 }

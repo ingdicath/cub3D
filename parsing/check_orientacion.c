@@ -34,7 +34,6 @@ int				ft_set_sprites_and_orientation(t_map *map)
 		}
 		i++;
 	}
-	// print_array	(map->sprites, map->num_sprites); // borrar
 	if (map->orientation == '\0')
 		return (ft_put_error("check orientation in the map"));
 	return (1);

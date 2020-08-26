@@ -6,7 +6,7 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/25 09:48:45 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/25 13:13:15 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/26 13:50:47 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int			ft_read_file(char *file_name, t_game_file *file)
 {
 	int		ret;
 	int		fd;
-	int 	valid;
+	int		valid;
 	char	*line;
 
 	valid = 1;
@@ -27,6 +27,9 @@ int			ft_read_file(char *file_name, t_game_file *file)
 	while (ret > 0 && valid)
 	{
 		ret = get_next_line(fd, &line);
+
+		// printf("valor ret %d\n", ret);
+
 		if (ret < 0)
 			return (ft_put_error("file not found"));
 		if (!ft_read_line(file, line))
@@ -37,7 +40,7 @@ int			ft_read_file(char *file_name, t_game_file *file)
 	return (valid);
 }
 
-int ft_read_line(t_game_file *file, char *line)
+int			ft_read_line(t_game_file *file, char *line)
 {
 	char	**line_split;
 
@@ -57,7 +60,6 @@ int ft_read_line(t_game_file *file, char *line)
 	}
 	return (1);
 }
-
 
 int			ft_check_complete_elements(t_game_file *game_file)
 {
@@ -89,14 +91,6 @@ int			ft_count_sprites(char *line, t_map *map)
 	return (1);
 }
 
-int			ft_check_valid_char(char c)
-{
-	if (c != '0' && c != '1' && c != '2' && c != ' ' && c != 'N' && c != 'S' &&
-			c != 'W' && c != 'E')
-		return (0);
-	return (1);
-}
-
 char		**ft_join_lines(char **matrix, char *new_line)
 {
 	int		rows;
@@ -118,5 +112,4 @@ char		**ft_join_lines(char **matrix, char *new_line)
 	rows++;
 	new_matrix[rows] = NULL;
 	return (new_matrix);
-	// toca hacer free de la matrix
 }

@@ -6,29 +6,11 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/25 09:51:02 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/25 13:16:39 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/26 08:41:58 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
-
-int			ft_is_moving(t_movements move, t_rotations rotate)
-{
-	return (move.front || move.back || move.left
-		|| move.right || rotate.right || rotate.left);
-}
-
-int			ft_play_game(t_game *game)
-{
-	if (ft_is_moving(game->player.move, game->player.rotate))
-	{
-		ft_manage_movements(game->map, &game->player);
-		ft_render_map(game);
-		// printf("posicion %f %f\n", game->player.current_pos.x, game->player.current_pos.y);
-		// printf("plano %f %f\n", game->player.plane.x, game->player.plane.y);
-	}
-	return (0);
-}
 
 int			ft_start_game(t_game_file file)
 {
@@ -41,4 +23,20 @@ int			ft_start_game(t_game_file file)
 	mlx_loop_hook(game.screen.mlx, &ft_play_game, &game);
 	mlx_loop(game.screen.mlx);
 	return (0);
+}
+
+int			ft_play_game(t_game *game)
+{
+	if (ft_is_moving(game->player.move, game->player.rotate))
+	{
+		ft_manage_movements(game->map, &game->player);
+		ft_render_map(game);
+	}
+	return (0);
+}
+
+int			ft_is_moving(t_movements move, t_rotations rotate)
+{
+	return (move.front || move.back || move.left
+		|| move.right || rotate.right || rotate.left);
 }

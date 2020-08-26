@@ -9,7 +9,7 @@ EA ./textures/yellow.xpm
 
 
 
-S  ./textures/Gold0.xpm
+S  ./textures/barrel.xpm
 
 
 
@@ -20,7 +20,7 @@ F    101, 28, 120
 
 C                      48, 179, 194
           
-				
+
 
 
 

@@ -25,7 +25,7 @@ static void		ft_clean_memory(char **str, size_t index)
 	free(str);
 }
 
-static size_t			ft_count_words(char const *s, char c)
+static size_t	ft_count_words(char const *s, char c)
 {
 	size_t		i;
 	size_t		res;
