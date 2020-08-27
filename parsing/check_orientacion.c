@@ -82,14 +82,3 @@ int				ft_check_unique_orientation(t_map *map, int i, int j)
 	}
 	return (1);
 }
-
-// borrar
-void			print_array(t_sprite *sprites, int x)
-{
-	while (x > 0)
-	{
-		printf("pos x%f , pos y%f , distance %f \n", sprites->position.x, sprites->position.y, sprites->distance);
-		sprites++;
-		x--;
-	}
-}

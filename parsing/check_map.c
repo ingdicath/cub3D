@@ -12,26 +12,12 @@
 
 #include "../cub3d.h"
 
-//borrar
-void	print_map(char **map)
-{
-	int i = 0;
-	while (map[i] != NULL)
-	{
-		// printf("mapa:) %s\n",map[i]);
-		i++;
-	}
-}
-
 int		ft_check_map(t_map map)
 {
 	int	res;
 
-	//print_map(map.matrix); //borrar
 	res = ft_flood_fill(map.matrix, map.start_pos.x, map.start_pos.y)
-	//print_map(map.matrix); //borrar
 	&& ft_uncovered_map(map.matrix);
-	// print_map(map.matrix); //borrar
 	if (!res)
 		return (ft_put_error("Invalid map"));
 	return (res);
@@ -41,7 +27,6 @@ int		ft_flood_fill(char **matrix, int x, int y)
 {
 	int	res;
 
-	// printf("pos x %d, pos y %d\n", x, y);
 	res = 1;
 	if (!res && matrix[y][x] != '+' && !ft_check_valid_char(matrix[y][x]))
 		return (0);
@@ -80,7 +65,6 @@ int		ft_uncovered_map(char **matrix)
 		{
 			if (matrix[i][j] == '0')
 			{
-				// print_map(matrix); //borrar
 				if (!ft_flood_fill(matrix, j, i))
 					return (0);
 			}

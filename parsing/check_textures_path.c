@@ -21,7 +21,7 @@ int		ft_check_north_path(char **line, char **north_path)
 		if (!line[1])
 			return (ft_put_error("invalid arguments for NO texture"));
 		if (line[2])
-			return (ft_put_error("more arguments than expected for NO text."));	
+			return (ft_put_error("more arguments than expected for NO text."));
 		if (ft_check_path(line[1]))
 			*north_path = line[1];
 	}

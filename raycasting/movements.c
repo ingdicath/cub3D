@@ -36,16 +36,9 @@ void			ft_move_back(t_map map, t_player *player)
 
 	new_pos.x = player->current_pos.x - player->orientation.x * MOVE_SPEED;
 	new_pos.y = player->current_pos.y - player->orientation.y * MOVE_SPEED;
-	
-	int x = (int)floor((new_pos.x));
-	int y = (int)floor((new_pos.y));
-
-	if( x > 0 && map.matrix[(int)new_pos.y][x] != '\0'  
-		&&	map.matrix[(int)new_pos.y][(int)player->current_pos.x] == '+')
+	if (map.matrix[(int)new_pos.y][(int)player->current_pos.x] == '+')
 		player->current_pos.y = new_pos.y;
-	
-	if (y > 0 && map.matrix[y] != NULL  &&
-		map.matrix[(int)player->current_pos.y][(int)new_pos.x] == '+')
+	if (map.matrix[(int)player->current_pos.y][(int)new_pos.x] == '+')
 		player->current_pos.x = new_pos.x;
 }
 

@@ -6,7 +6,7 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/25 09:49:44 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/25 10:04:05 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/27 08:48:39 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,16 @@ void	ft_calc_draw_limits(t_ray *ray, t_size resolution)
 	if (ray->draw_start < 0)
 		ray->draw_start = 0;
 	ray->draw_end = resolution.height / 2 + ray->line_height / 2;
-	if (ray->draw_end < 0) // Borrar?
-		ray->draw_end = resolution.height; // Borrar?
+	if (ray->draw_end < 0)
+		ray->draw_end = resolution.height;
 	if (ray->draw_end >= resolution.height)
 		ray->draw_end = resolution.height - 1;
 }
 
 /*
 ** Creating the raycasting
-** int hit = 0; //was there a wall hit?
-** int side; //was a NS or a EW wall hit?
+** int hit = 0; was there a wall hit?
+** int side; was a NS or a EW wall hit?
 ** Calculate distance projected on camera direction
 **    (Euclidean distance will give fisheye effect!)
 ** perpWallDist: the length of this line is the value to compute now,
@@ -71,8 +71,4 @@ void	ft_calc_wall_dist(t_ray *ray, t_position current)
 	else
 		ray->perpwalldist = (ray->map.y - current.y +
 			(1 - ray->step.y) / 2) / ray->dir.y;
-	if (ray->perpwalldist < 1)
-		ray->perpwalldist = 1;
-	else
-		ray->perpwalldist = ray->perpwalldist;
 }

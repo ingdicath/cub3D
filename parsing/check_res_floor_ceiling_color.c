@@ -35,7 +35,7 @@ int			ft_array_size(char **array)
 }
 
 /*
-** width or height bigger than 16384 for screenshot rendering
+** The maximum max resolution mlx can handle is 16384.
 */
 
 int			ft_check_resolution(char **line, t_size *resolution)
@@ -67,7 +67,7 @@ int			ft_check_ceiling(char **line, t_color *ceiling)
 		if (!line[1] || !line[2] || !line[3])
 			return (ft_put_error("missing arguments for ceiling"));
 		if (line[4])
-			return (ft_put_error("more arguments for ceiling than expected."));	
+			return (ft_put_error("more arguments for ceiling than expected."));
 		if (!ft_check_valid_color(line[1]) || !ft_check_valid_color(line[2])
 			|| !ft_isnumber(line[3]))
 			return (ft_put_error("ceiling: check numbers or missing commas"));
