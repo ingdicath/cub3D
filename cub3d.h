@@ -6,7 +6,7 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/29 11:20:00 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/26 09:03:56 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/27 14:50:26 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,15 +70,6 @@ typedef enum	e_masks
 {
 	PRESS_MASK = 1, RELEASE_MASK = 2, NOTIFY_MASK = 3
 }				t_masks;
-
-/*
-** ----------- Sprites constants ----------------------------------------------
-*/
-
-typedef enum	e_sp_constants
-{
-	V_MOVE = 0, U_DIV = 1, V_DIV = 1
-}				t_sp_constants;
 
 /*
 ** ----------- Util constants -------------------------------------------------

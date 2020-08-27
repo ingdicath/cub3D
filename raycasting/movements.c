@@ -6,7 +6,7 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/25 09:54:06 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/25 13:23:19 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/27 17:18:49 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,19 +66,41 @@ void			ft_move_left(t_map map, t_player *player)
 		player->current_pos.x = new_pos.x;
 }
 
-int				ft_manage_movements(t_map map, t_player *player)
+/*
+** both camera direction and camera plane must be rotated
+*/
+
+void		ft_turn_left(t_player *player)
 {
-	if (player->move.front == 1)
-		ft_move_front(map, player);
-	if (player->move.back == 1)
-		ft_move_back(map, player);
-	if (player->move.left == 1)
-		ft_move_left(map, player);
-	if (player->move.right == 1)
-		ft_move_right(map, player);
-	if (player->rotate.left == 1)
-		ft_turn_left(player);
-	if (player->rotate.right == 1)
-		ft_turn_right(player);
-	return (0);
+	double	old_dir_x;
+	double	old_plane_x;
+
+	old_dir_x = player->orientation.x;
+	old_plane_x = player->plane.x;
+	player->orientation.x = player->orientation.x * cos(-ROTATE_SPEED)
+		- player->orientation.y * sin(-ROTATE_SPEED);
+	player->orientation.y = old_dir_x * sin(-ROTATE_SPEED) +
+		player->orientation.y * cos(-ROTATE_SPEED);
+	player->plane.x = player->plane.x * cos(-ROTATE_SPEED)
+		- player->plane.y * sin(-ROTATE_SPEED);
+	player->plane.y = old_plane_x * sin(-ROTATE_SPEED) +
+		player->plane.y * cos(-ROTATE_SPEED);
 }
+
+void		ft_turn_right(t_player *player)
+{
+	double	old_dir_x;
+	double	old_plane_x;
+
+	old_dir_x = player->orientation.x;
+	old_plane_x = player->plane.x;
+	player->orientation.x = player->orientation.x * cos(ROTATE_SPEED)
+		- player->orientation.y * sin(ROTATE_SPEED);
+	player->orientation.y = old_dir_x * sin(ROTATE_SPEED) +
+		player->orientation.y * cos(ROTATE_SPEED);
+	player->plane.x = player->plane.x * cos(ROTATE_SPEED)
+		- player->plane.y * sin(ROTATE_SPEED);
+	player->plane.y = old_plane_x * sin(ROTATE_SPEED) +
+		player->plane.y * cos(ROTATE_SPEED);
+}
+

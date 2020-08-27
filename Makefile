@@ -6,7 +6,7 @@
 #    By: dsalaman <dsalaman@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/07/07 08:57:54 by dsalaman      #+#    #+#                  #
-#    Updated: 2020/08/25 13:48:54 by dsalaman      ########   odam.nl          #
+#    Updated: 2020/08/27 17:16:39 by dsalaman      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,14 +33,14 @@ BMP = cub3d_screenshot.bmp
 SRC = parsing/check_args_path.c parsing/check_textures_path.c\
 	parsing/check_res_floor_ceiling_color.c parsing/read_map.c\
 	parsing/check_orientacion.c parsing/fill_elements.c\
-	parsing/initialize_structures.c raycasting/game_start.c\
+	parsing/initialize_structures.c raycasting/start_game.c\
 	raycasting/set_game.c raycasting/render_map.c\
-	raycasting/calculate_wall_draw.c raycasting/draw_walls.c\
+	raycasting/render_walls.c raycasting/drawer.c\
 	raycasting/movements.c raycasting/rotations.c\
-	raycasting/keys_actions.c raycasting/draw_floor_ceiling.c\
+	raycasting/actions.c raycasting/render_floor_ceiling.c\
 	raycasting/screenshot.c raycasting/write_bytes.c main.c\
-	raycasting/sprite_casting.c parsing/check_map.c\
-	raycasting/set_orientation.c
+	raycasting/render_sprites.c parsing/check_map.c\
+	raycasting/set_utils.c raycasting/sprite_utils.c
 
 OBJECTS = $(SRC:.c=.o)
 

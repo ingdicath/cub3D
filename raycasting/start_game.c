@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   game_start.c                                       :+:    :+:            */
+/*   start_game.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/25 09:51:02 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/26 08:41:58 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/27 17:18:08 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,21 @@ int			ft_is_moving(t_movements move, t_rotations rotate)
 {
 	return (move.front || move.back || move.left
 		|| move.right || rotate.right || rotate.left);
+}
+
+int			ft_manage_movements(t_map map, t_player *player)
+{
+	if (player->move.front == 1)
+		ft_move_front(map, player);
+	if (player->move.back == 1)
+		ft_move_back(map, player);
+	if (player->move.left == 1)
+		ft_move_left(map, player);
+	if (player->move.right == 1)
+		ft_move_right(map, player);
+	if (player->rotate.left == 1)
+		ft_turn_left(player);
+	if (player->rotate.right == 1)
+		ft_turn_right(player);
+	return (0);
 }
