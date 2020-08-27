@@ -16,12 +16,15 @@ int			ft_check_valid_color(char *color)
 {
 	int		len;
 	char	*temp;
-
+	int		res;
+	
+	res = 0;
 	len = ft_strlen(color);
 	temp = ft_substr(color, 0, len - 1);
 	if (color[len - 1] == ',' && ft_isnumber(temp))
-		return (1);
-	return (0);
+		res = 1;
+	free(temp);
+	return (res);
 }
 
 int			ft_array_size(char **array)

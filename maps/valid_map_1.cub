@@ -3,26 +3,26 @@
   R  1000 800
 
 
-WE         ./textures/colorstone.xpm
+WE         ./textures/greystone.xpm
 NO ./textures/wood.xpm
-SO ./textures/greystone.xpm
-EA ./textures/mossy.xpm
+SO ./textures/colorstone.xpm
+EA ./textures/dog_4.xpm
 
 
 
-S ./textures/barrel.png
+S ./textures/sprite_cat_1.xpm
 
-F     220,   100,   244
+F     101,   28,   120
 
 
-C                      249,                    225,             10
+C                      48,                    179,             194
 
 
 
         1111111111111111111111111
         1000000000110000000000001
         1011000001110000002000001
-        1001000000000000000000001
+        1001000000000000000002001
 111111111011000001110000000000001
 100000000011000001110111111111111
 11110111111111011100000000001

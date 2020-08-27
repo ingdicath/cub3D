@@ -16,7 +16,7 @@ HEADERS = cub3d.h
 
 CC = gcc
 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -fsanitize=address
 
 MLX_FLAGS = -Lmlx -lmlx -framework OpenGL -framework AppKit
 
@@ -36,11 +36,11 @@ SRC = parsing/check_args_path.c parsing/check_textures_path.c\
 	parsing/initialize_structures.c raycasting/start_game.c\
 	raycasting/set_game.c raycasting/render_map.c\
 	raycasting/render_walls.c raycasting/drawer.c\
-	raycasting/movements.c raycasting/rotations.c\
+	raycasting/movements.c raycasting/set_utils.c raycasting/sprite_utils.c\
 	raycasting/actions.c raycasting/render_floor_ceiling.c\
 	raycasting/screenshot.c raycasting/write_bytes.c main.c\
 	raycasting/render_sprites.c parsing/check_map.c\
-	raycasting/set_utils.c raycasting/sprite_utils.c
+	
 
 OBJECTS = $(SRC:.c=.o)
 

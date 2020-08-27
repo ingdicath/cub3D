@@ -37,6 +37,7 @@ int	ft_close_game(t_game *game)
 		mlx_destroy_window(game->screen.mlx, game->screen.window);
 	if (game->screen.win_data.image)
 		mlx_destroy_image(game->screen.mlx, game->screen.win_data.image);
+	ft_free_memory(&game->map);
 	exit(0);
 }
 
@@ -55,4 +56,11 @@ int	ft_key_release(int keycode, t_game *game)
 	if (keycode == RIGHT)
 		game->player.rotate.right = 0;
 	return (0);
+}
+
+void	ft_free_memory(t_map *map)
+{
+	free(map->matrix);
+	free(map->zbuffer);
+	free(map->sprites);
 }

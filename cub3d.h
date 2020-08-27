@@ -27,7 +27,7 @@
 */
 
 # define ROTATE_SPEED 0.04
-# define MOVE_SPEED 0.03
+# define MOVE_SPEED 0.13
 
 /*
 ** ----------- Colors ---------------------------------------------------------
@@ -49,7 +49,6 @@
 # include <math.h>
 # include "mlx/mlx.h"
 # include "libft/libft.h"
-# include <stdio.h> // BORRAR
 
 /*
 ** ----------- Actions constants ----------------------------------------------
@@ -77,8 +76,7 @@ typedef enum	e_masks
 
 typedef enum	e_sizes
 {
-	TEXTURE_WIDTH = 64, TEXTURE_HEIGHT = 64, ONE_BYTE = 1, TWO_BYTES = 2,
-	FOUR_BYTES = 4, EIGHT_BITS = 8
+	ONE_BYTE = 1, TWO_BYTES = 2, FOUR_BYTES = 4, EIGHT_BITS = 8
 }				t_sizes;
 
 typedef enum	e_bmp
@@ -289,19 +287,17 @@ void			ft_calc_side_dist(t_position current, t_ray *ray);
 void			ft_perform_dda(t_map map, t_ray *ray);
 void			ft_calc_wall_dist(t_ray *ray, t_position current);
 void			ft_calc_draw_limits(t_ray *ray, t_size resolution);
-void			ft_calc_wall_pos(t_ray *ray, t_wall *wall, t_position current);
+void			ft_calc_wall_pos(t_ray *ray, t_screen *screen,
+					t_position current);
 void			ft_draw_walls(t_ray *ray, t_screen *screen, int x);
 t_texture		ft_get_textures(t_screen screen, t_ray *ray);
 void			ft_clean_game(t_screen *screen, t_player *player, t_map *map);
 void			ft_put_pixel(t_texture *texture, int x, int y, int color);
 int				ft_get_color(t_texture texture, t_position position);
 void			ft_set_ray_position(t_game *game, int x);
-void			ft_move_front(t_map map, t_player *player);
-void			ft_move_back(t_map map, t_player *player);
-void			ft_move_right(t_map map, t_player *player);
-void			ft_move_left(t_map map, t_player *player);
-void			ft_turn_right(t_player *player);
-void			ft_turn_left(t_player *player);
+void			ft_back_front_move(t_map map, t_player *player, int move);
+void			ft_left_right_move(t_map map, t_player *player, int move);
+void			ft_rotate_move(t_player *player, int turn);
 int				ft_manage_movements(t_map map, t_player *player);
 int				ft_rgb_calculator(int r, int g, int b);
 void			ft_set_floor_ceiling(t_game_file file, t_screen *screen);
@@ -325,14 +321,6 @@ void			ft_sort_sprites(t_map *map, t_position current_pos);
 void			ft_calc_dist_sprite (t_map *map, t_position current_pos);
 int				ft_resize_resolution(t_screen *screen);
 int				ft_calc_sprite_variables(t_map *map, int i, int j, int k);
-int				ft_memory_space_sprites(t_map *map);
-
-/*
-** ---------- DELETEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE ---------------
-*/
-
-void			printfs(t_game_file *mapfile);//BORRAR
-void			print_map(char **map);//BORRAR
-void			print_array(t_sprite *sprites, int x);
+void			ft_free_memory(t_map *map);
 
 #endif

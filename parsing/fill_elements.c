@@ -36,5 +36,5 @@ int		ft_check_valid_file_elements(char **line)
 		ft_strcmp(line[0], "WE") == 0 || ft_strcmp(line[0], "EA") == 0 ||
 		ft_strcmp(line[0], "S") == 0)
 		return (1);
-	return (ft_put_error("Different elements are not allowed"));
+	return (ft_put_error("Missing or invalid element"));
 }

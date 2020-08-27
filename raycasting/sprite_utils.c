@@ -15,21 +15,25 @@
 void			ft_sort_sprites(t_map *map, t_position current_pos)
 {
 	int			i;
+	int			j;
 	t_sprite	temp;
 
 	i = 0;
 	ft_calc_dist_sprite(map, current_pos);
 	while (i < map->num_sprites)
 	{
-		if (map->sprites[i].distance < map->sprites[i + 1].distance)
+		j = i + 1;
+		while (j < map->num_sprites)
 		{
-			temp = map->sprites[i];
-			map->sprites[i] = map->sprites[i + 1];
-			map->sprites[i + 1] = temp;
-			i = 0;
+			if (map->sprites[i].distance < map->sprites[j].distance)
+			{
+				temp = map->sprites[i];
+				map->sprites[i] = map->sprites[j];
+				map->sprites[j] = temp;
+			}
+			j++;
 		}
-		else
-			i++;
+		i++;
 	}
 }
 

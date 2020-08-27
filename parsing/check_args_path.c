@@ -60,6 +60,7 @@ int			ft_check_extension(char *file_name, char *valid_ext)
 	temp = ft_substr(file_name, (name_size - ext_size), name_size);
 	if (ft_strcmp(temp, valid_ext) == 0)
 		return (1);
+	free(temp);
 	return (0);
 }
 

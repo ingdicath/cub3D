@@ -45,17 +45,17 @@ int			ft_is_moving(t_movements move, t_rotations rotate)
 
 int			ft_manage_movements(t_map map, t_player *player)
 {
-	if (player->move.front == 1)
-		ft_move_front(map, player);
-	if (player->move.back == 1)
-		ft_move_back(map, player);
-	if (player->move.left == 1)
-		ft_move_left(map, player);
-	if (player->move.right == 1)
-		ft_move_right(map, player);
-	if (player->rotate.left == 1)
-		ft_turn_left(player);
-	if (player->rotate.right == 1)
-		ft_turn_right(player);
+	if (player->move.front)
+		ft_back_front_move(map, player, player->move.front);
+	if (player->move.back)
+		ft_back_front_move(map, player, -player->move.back);
+	if (player->move.left)
+		ft_left_right_move(map, player, -player->move.left);
+	if (player->move.right)
+		ft_left_right_move(map, player, player->move.right);
+	if (player->rotate.left)
+		ft_rotate_move(player, -player->rotate.left);
+	if (player->rotate.right)
+		ft_rotate_move(player, player->rotate.right);
 	return (0);
 }

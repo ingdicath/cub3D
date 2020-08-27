@@ -60,17 +60,20 @@ void	ft_calc_draw_limits(t_ray *ray, t_size resolution)
 **	out of wall_x.
 */
 
-void	ft_calc_wall_pos(t_ray *ray, t_wall *wall, t_position current)
-{
+void	ft_calc_wall_pos(t_ray *ray, t_screen *screen, t_position current)
+{	
+	t_texture	texture;
+
+	texture = ft_get_textures(*screen, ray);
 	if (ray->side == 0)
 		ray->wall_x = current.y + ray->perpwalldist * ray->dir.y;
 	else
 		ray->wall_x = current.x + ray->perpwalldist * ray->dir.x;
 	ray->wall_x -= floor(ray->wall_x);
-	wall->pos.x = (int)(ray->wall_x * TEXTURE_WIDTH);
+	screen->wall.pos.x = (int)(ray->wall_x * texture.width);
 	if ((ray->side == 0 && ray->dir.x > 0)
 		|| (ray->side == 1 && ray->dir.y < 0))
-		wall->pos.x = (int)(TEXTURE_WIDTH - wall->pos.x - 1);
+		screen->wall.pos.x = (int)(texture.width - screen->wall.pos.x - 1);
 }
 
 /*
@@ -87,15 +90,15 @@ void			ft_draw_walls(t_ray *ray, t_screen *screen, int x)
 	int			color;
 	t_texture	texture;
 
-	screen->wall.step = 1.0 * TEXTURE_HEIGHT / ray->line_height;
+	texture = ft_get_textures(*screen, ray);
+	screen->wall.step = 1.0 * texture.height / ray->line_height;
 	screen->wall.start_pos = (ray->draw_start - screen->resolution.height / 2 +
 		ray->line_height / 2) * screen->wall.step;
 	y = ray->draw_start;
 	while (y < ray->draw_end)
 	{
-		screen->wall.pos.y = (int)screen->wall.start_pos & (TEXTURE_HEIGHT - 1);
-		screen->wall.start_pos += screen->wall.step;
-		texture = ft_get_textures(*screen, ray);
+		screen->wall.pos.y = (int)screen->wall.start_pos & (texture.height - 1);
+		screen->wall.start_pos += screen->wall.step;	
 		color = ft_get_color(texture, screen->wall.pos);
 		if (ray->side == 1)
 			color = (color >> 1) & DARKER;

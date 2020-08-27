@@ -24,7 +24,7 @@ void		ft_render_map(t_game *game)
 		ft_perform_dda(game->map, &game->player.ray);
 		ft_calc_wall_dist(&game->player.ray, game->player.current_pos);
 		ft_calc_draw_limits(&game->player.ray, game->screen.resolution);
-		ft_calc_wall_pos(&game->player.ray, &game->screen.wall,
+		ft_calc_wall_pos(&game->player.ray, &game->screen,
 			game->player.current_pos);
 		ft_draw_walls(&game->player.ray, &game->screen, x);
 		ft_draw_floor_ceiling(&game->screen, game->player.ray, x);
@@ -103,7 +103,7 @@ void		ft_perform_dda(t_map map, t_ray *ray)
 		}
 		x = (int)ray->map.x;
 		y = (int)ray->map.y;
-		if (ray->map.y < 0 || ray->map.x < 0 || map.matrix[y][x] == '1')
+		if (y < 0 || x < 0 || map.matrix[y][x] == '1')
 			hit = 1;
 	}
 }

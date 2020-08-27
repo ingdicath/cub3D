@@ -18,7 +18,9 @@ int				ft_set_sprites_and_orientation(t_map *map)
 	int			j;
 	int			k;
 
-	ft_memory_space_sprites(map);
+	map->sprites =  (t_sprite *)malloc(sizeof(t_sprite) * map->num_sprites);
+	if (map->sprites == NULL)
+		return (0);
 	i = 0;
 	k = 0;	
 	while (map->matrix[i] != NULL)
@@ -39,16 +41,6 @@ int				ft_set_sprites_and_orientation(t_map *map)
 	return (1);
 }
 
-int				ft_memory_space_sprites(t_map *map)
-{
-	t_sprite	*sprites;
-
-	sprites = (t_sprite *)malloc(sizeof(t_sprite) * map->num_sprites); //LIBERA
-	if (sprites == NULL)
-		return (0);
-	map->sprites = sprites;
-	return (1);
-}
 
 /*
 ** map->start_pos.x = j and map->start_pos.y = i,  it was changed to simulate

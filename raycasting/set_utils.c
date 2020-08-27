@@ -35,9 +35,11 @@ int	ft_set_texture(void *mlx, char *path, t_texture *texture)
 	if (ft_check_extension(path, XPM))
 		texture->image = mlx_xpm_file_to_image(mlx, path,
 			&texture->width, &texture->height);
-	else if (ft_check_extension(path, PNG))
+	else if (ft_check_extension(path, PNG)){
+		printf("%s\n", path );
 		texture->image = mlx_png_file_to_image(mlx, path,
 			&texture->width, &texture->height);
+	}
 	if (texture->image == NULL)
 		return (ft_put_error("invalid path for texture"));
 	texture->address = mlx_get_data_addr(texture->image,
