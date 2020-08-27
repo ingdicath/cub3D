@@ -26,8 +26,8 @@
 ** ----------- Speed & moves --------------------------------------------------
 */
 
-# define ROTATE_SPEED 0.10
-# define MOVE_SPEED 0.25
+# define ROTATE_SPEED 0.04
+# define MOVE_SPEED 0.03
 
 /*
 ** ----------- Colors ---------------------------------------------------------

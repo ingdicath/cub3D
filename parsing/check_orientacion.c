@@ -19,15 +19,15 @@ int				ft_set_sprites_and_orientation(t_map *map)
 	int			k;
 
 	ft_memory_space_sprites(map);
-	k = 0;
 	i = 0;
+	k = 0;	
 	while (map->matrix[i] != NULL)
 	{
 		j = 0;
 		while (map->matrix[i][j] != '\0')
 		{
 			if (!ft_check_unique_orientation(map, i, j))
-				return (0);
+				return (ft_put_error("more than one player in the map"));
 			else if (ft_calc_sprite_variables(map, i, j, k))
 				k++;
 			j++;
