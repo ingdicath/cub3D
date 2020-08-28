@@ -1,23 +1,12 @@
-    
-          
-  R  1000 800
-
-
-WE         ./textures/colorstone.xpm
+R 1000 800
+WE ./textures/colorstone.xpm
 NO ./textures/wood.xpm
 SO ./textures/greystone.xpm
-EA ./textures/mossy.xpm
-
-
+EA ./textures/dog_4.xpm
 
 S ./textures/barrel.png
-
-F     220,   100,   244
-
-
-C                      249,                    225,             10
-
-
+F 220,100,244
+C 249,225,10
 
         1111111111111111111111111
         1000000000110000000000001

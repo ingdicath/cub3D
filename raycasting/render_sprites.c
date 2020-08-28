@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   sprite_casting.c                                   :+:    :+:            */
+/*   render_sprites.c                                   :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/25 08:29:41 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/27 17:15:01 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/28 10:27:46 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,11 @@ void				ft_calc_sprite_limits(t_sprite_cast *s_cast,
 **  4) ZBuffer, with perpendicular distance
 */
 
-void			ft_vertical_stripes(t_sprite_cast *s_cast, t_screen screen,
-					double *zbuffer)
+void				ft_vertical_stripes(t_sprite_cast *s_cast, t_screen screen,
+						double *zbuffer)
 {
-	int			stripe;
-	t_position	tex;
+	int				stripe;
+	t_position		tex;
 
 	stripe = s_cast->draw_start.x;
 	while (stripe < s_cast->draw_end.x)
@@ -107,15 +107,14 @@ void			ft_vertical_stripes(t_sprite_cast *s_cast, t_screen screen,
 			ft_draw_stripes(s_cast, screen, &tex, stripe);
 		stripe++;
 	}
-	
 }
 
-void			ft_draw_stripes(t_sprite_cast *s_cast, t_screen screen,
-					t_position *tex, int stripe)
+void				ft_draw_stripes(t_sprite_cast *s_cast, t_screen screen,
+						t_position *tex, int stripe)
 {
-	int			color;
-	int			y;
-	int			d;
+	int				color;
+	int				y;
+	int				d;
 
 	y = s_cast->draw_start.y;
 	while (y < s_cast->draw_end.y)

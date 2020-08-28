@@ -6,12 +6,11 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/25 09:48:02 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/25 13:08:38 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/28 10:17:25 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
-
 
 int			ft_array_size(char **array)
 {
@@ -49,10 +48,10 @@ int			ft_check_resolution(char **line, t_size *resolution)
 
 int			ft_check_ceiling(char **line, t_color *ceiling)
 {
-	char ** header;
+	char	**header;
 
 	header = ft_split(line[0], ' ');
-	if (header[0] && (ft_strcmp(header[0], "C") == 0))
+	if (header[0] && (ft_strcmp_trim(header[0], "C") == 0))
 	{
 		if (ceiling->red >= 0 || ceiling->green >= 0 || ceiling->blue >= 0)
 			return (ft_put_error("argument(s) already for ceiling exist(s)"));
@@ -74,10 +73,10 @@ int			ft_check_ceiling(char **line, t_color *ceiling)
 
 int			ft_check_floor(char **line, t_color *floor)
 {
-	char ** header;
-	
+	char	**header;
+
 	header = ft_split(line[0], ' ');
-	if (header[0] && (ft_strcmp(header[0], "F") == 0))
+	if (header[0] && (ft_strcmp_trim(header[0], "F") == 0))
 	{
 		if (floor->red >= 0 || floor->green >= 0 || floor->blue >= 0)
 			return (ft_put_error("argument(s) already for floor exist(s)"));

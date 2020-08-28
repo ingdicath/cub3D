@@ -6,7 +6,7 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/25 09:48:45 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/26 13:50:47 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/28 10:15:49 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ int			ft_read_file(char *file_name, t_game_file *file)
 
 int			ft_read_line(t_game_file *file, char *line)
 {
-	
-
 	if (ft_check_complete_elements(file))
 	{
 		if (ft_isemptyline(line) && file->map.matrix == NULL)

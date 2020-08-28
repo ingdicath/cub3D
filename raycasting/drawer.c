@@ -1,18 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   draw_walls.c                                       :+:    :+:            */
+/*   drawer.c                                           :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/25 09:52:26 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/27 16:56:57 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/28 10:24:26 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
-
-
 
 t_texture		ft_get_textures(t_screen screen, t_ray *ray)
 {
@@ -54,6 +52,3 @@ void			ft_put_pixel(t_texture *texture, int x, int y, int color)
 		x * (texture->bits_per_pixel / EIGHT_BITS));
 	*(unsigned int*)dst = color;
 }
-
-
-

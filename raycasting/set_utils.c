@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   set_orientation.c                                  :+:    :+:            */
+/*   set_utils.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/25 13:48:24 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/27 17:06:27 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/28 10:23:41 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ int	ft_set_texture(void *mlx, char *path, t_texture *texture)
 	if (ft_check_extension(path, XPM))
 		texture->image = mlx_xpm_file_to_image(mlx, path,
 			&texture->width, &texture->height);
-	else if (ft_check_extension(path, PNG)){
+	else if (ft_check_extension(path, PNG))
+	{
 		texture->image = mlx_png_file_to_image(mlx, path,
 			&texture->width, &texture->height);
 	}

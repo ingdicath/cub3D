@@ -6,7 +6,7 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/25 09:45:18 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/27 16:32:42 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/28 10:03:39 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ int				ft_set_sprites_and_orientation(t_map *map)
 	int			j;
 	int			k;
 
-	map->sprites =  (t_sprite *)malloc(sizeof(t_sprite) * map->num_sprites);
+	map->sprites = (t_sprite *)malloc(sizeof(t_sprite) * map->num_sprites);
 	if (map->sprites == NULL)
 		return (0);
 	i = 0;
-	k = 0;	
+	k = 0;
 	while (map->matrix[i] != NULL)
 	{
 		j = 0;
@@ -40,7 +40,6 @@ int				ft_set_sprites_and_orientation(t_map *map)
 		return (ft_put_error("check orientation in the map"));
 	return (1);
 }
-
 
 /*
 ** map->start_pos.x = j and map->start_pos.y = i,  it was changed to simulate

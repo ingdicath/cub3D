@@ -6,7 +6,7 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/29 11:20:00 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/27 14:50:26 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/28 10:31:30 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,14 @@
 # define CUB3D_H
 
 /*
-** ----------- Extensions & BMP name file -------------------------------------
+** ----------- Extensions, BMP name file & White spaces -----------------------
 */
 
 # define CUB ".cub"
 # define XPM ".xpm"
 # define PNG ".png"
 # define SCREENSHOT "cub3d_screenshot.bmp"
-
 # define WHITE_SPACE " \t\n\v\f\r"
-
 
 /*
 ** ----------- Speed & moves --------------------------------------------------
@@ -47,7 +45,6 @@
 */
 
 # include <stdlib.h>
-# include <stdio.h> //BORRAR
 # include <unistd.h>
 # include <fcntl.h>
 # include <math.h>

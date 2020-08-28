@@ -6,7 +6,7 @@
 #    By: dsalaman <dsalaman@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/07/07 08:57:54 by dsalaman      #+#    #+#                  #
-#    Updated: 2020/08/27 17:16:39 by dsalaman      ########   odam.nl          #
+#    Updated: 2020/08/28 10:05:05 by dsalaman      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ HEADERS = cub3d.h
 
 CC = gcc
 
-FLAGS = -Wall -Wextra -Werror -fsanitize=address
+FLAGS = -Wall -Wextra -Werror
 
 MLX_FLAGS = -Lmlx -lmlx -framework OpenGL -framework AppKit
 

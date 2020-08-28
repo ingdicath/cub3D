@@ -6,7 +6,7 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/25 09:53:13 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/27 17:23:13 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/28 10:29:53 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void			ft_calc_dist_sprite(t_map *map, t_position current_pos)
 	{
 		relative.x = current_pos.x - map->sprites[i].position.x;
 		relative.y = current_pos.y - map->sprites[i].position.y;
-		map->sprites[i].distance = relative.x * relative.x + relative.y * relative.y;
+		map->sprites[i].distance = relative.x * relative.x + relative.y *
+			relative.y;
 		i++;
 	}
 }

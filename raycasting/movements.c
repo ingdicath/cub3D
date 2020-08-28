@@ -6,7 +6,7 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/25 09:54:06 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/27 17:18:49 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/28 10:28:12 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ void			ft_left_right_move(t_map map, t_player *player, int move)
 		player->current_pos.x = new_pos.x;
 }
 
-void		ft_rotate_move(t_player *player, int turn)
+void			ft_rotate_move(t_player *player, int turn)
 {
-	double	old_dir_x;
-	double	old_plane_x;
+	double		old_dir_x;
+	double		old_plane_x;
 
 	old_dir_x = player->orientation.x;
 	old_plane_x = player->plane.x;

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   calculate_wall_draw.c                              :+:    :+:            */
+/*   render_walls.c                                     :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/25 09:49:44 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/27 16:53:58 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/28 10:22:29 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 ** walls look rounded.
 */
 
-void	ft_calc_wall_dist(t_ray *ray, t_position current)
+void			ft_calc_wall_dist(t_ray *ray, t_position current)
 {
 	if (ray->side == 0)
 		ray->perpwalldist = (ray->map.x - current.x +
@@ -39,7 +39,7 @@ void	ft_calc_wall_dist(t_ray *ray, t_position current)
 ** Calculate lowest and highest pixel to fill in current stripe.
 */
 
-void	ft_calc_draw_limits(t_ray *ray, t_size resolution)
+void			ft_calc_draw_limits(t_ray *ray, t_size resolution)
 {
 	ray->line_height = (int)(resolution.height / ray->perpwalldist);
 	ray->draw_start = resolution.height / 2 - ray->line_height / 2;
@@ -60,8 +60,9 @@ void	ft_calc_draw_limits(t_ray *ray, t_size resolution)
 **	out of wall_x.
 */
 
-void	ft_calc_wall_pos(t_ray *ray, t_screen *screen, t_position current)
-{	
+void			ft_calc_wall_pos(t_ray *ray, t_screen *screen,
+					t_position current)
+{
 	t_texture	texture;
 
 	texture = ft_get_textures(*screen, ray);
@@ -98,7 +99,7 @@ void			ft_draw_walls(t_ray *ray, t_screen *screen, int x)
 	while (y < ray->draw_end)
 	{
 		screen->wall.pos.y = (int)screen->wall.start_pos & (texture.height - 1);
-		screen->wall.start_pos += screen->wall.step;	
+		screen->wall.start_pos += screen->wall.step;
 		color = ft_get_color(texture, screen->wall.pos);
 		if (ray->side == 1)
 			color = (color >> 1) & DARKER;

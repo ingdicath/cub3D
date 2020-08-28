@@ -6,7 +6,7 @@
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/25 09:46:37 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/25 13:09:23 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/28 09:55:39 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		ft_check_north_path(char **line, char **north_path)
 {
-	if (line[0] && (ft_strcmp(line[0], "NO") == 0))
+	if (line[0] && (ft_strcmp_trim(line[0], "NO") == 0))
 	{
 		if (*north_path != NULL)
 			return (ft_put_error("argument(s) already for NO exist(s)"));
@@ -30,7 +30,7 @@ int		ft_check_north_path(char **line, char **north_path)
 
 int		ft_check_south_path(char **line, char **south_path)
 {
-	if (line[0] && (ft_strcmp(line[0], "SO") == 0))
+	if (line[0] && (ft_strcmp_trim(line[0], "SO") == 0))
 	{
 		if (*south_path != NULL)
 			return (ft_put_error("argument(s) already for SO exist(s)"));
@@ -46,7 +46,7 @@ int		ft_check_south_path(char **line, char **south_path)
 
 int		ft_check_west_path(char **line, char **west_path)
 {
-	if (line[0] && (ft_strcmp(line[0], "WE") == 0))
+	if (line[0] && (ft_strcmp_trim(line[0], "WE") == 0))
 	{
 		if (*west_path != NULL)
 			return (ft_put_error("argument(s) already for WE exist(s)"));
@@ -62,7 +62,7 @@ int		ft_check_west_path(char **line, char **west_path)
 
 int		ft_check_east_path(char **line, char **east_path)
 {
-	if (line[0] && (ft_strcmp(line[0], "EA") == 0))
+	if (line[0] && (ft_strcmp_trim(line[0], "EA") == 0))
 	{
 		if (*east_path != NULL)
 			return (ft_put_error("argument(s) already for EA exist(s)"));
@@ -78,7 +78,7 @@ int		ft_check_east_path(char **line, char **east_path)
 
 int		ft_check_sprite_path(char **line, char **sprite_path)
 {
-	if (line[0] && (ft_strcmp(line[0], "S") == 0))
+	if (line[0] && (ft_strcmp_trim(line[0], "S") == 0))
 	{
 		if (*sprite_path != NULL)
 			return (ft_put_error("argument(s) already for sprite exist(s)"));

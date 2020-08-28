@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   keys_actions.c                                     :+:    :+:            */
+/*   actions.c                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: dsalaman <dsalaman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/25 09:51:42 by dsalaman      #+#    #+#                 */
-/*   Updated: 2020/08/25 13:17:59 by dsalaman      ########   odam.nl         */
+/*   Updated: 2020/08/28 10:29:16 by dsalaman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-int	ft_key_press(int keycode, t_game *game)
+int		ft_key_press(int keycode, t_game *game)
 {
 	if (keycode == ESC)
 		ft_close_game(game);
@@ -31,7 +31,7 @@ int	ft_key_press(int keycode, t_game *game)
 	return (0);
 }
 
-int	ft_close_game(t_game *game)
+int		ft_close_game(t_game *game)
 {
 	if (game->screen.window)
 		mlx_destroy_window(game->screen.mlx, game->screen.window);
@@ -41,7 +41,7 @@ int	ft_close_game(t_game *game)
 	exit(0);
 }
 
-int	ft_key_release(int keycode, t_game *game)
+int		ft_key_release(int keycode, t_game *game)
 {
 	if (keycode == KEY_W)
 		game->player.move.front = 0;
