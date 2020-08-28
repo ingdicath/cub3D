@@ -29,7 +29,7 @@ int			ft_array_size(char **array)
 
 int			ft_check_resolution(char **line, t_size *resolution)
 {
-	if (line[0] && (ft_strcmp(line[0], "R") == 0))
+	if (line[0] && (ft_strcmp_trim(line[0], "R") == 0))
 	{
 		if (resolution->width >= 0 || resolution->height >= 0)
 			return (ft_put_error("argument(s) for RES already exist(s)"));
@@ -94,5 +94,6 @@ int			ft_check_floor(char **line, t_color *floor)
 		if (floor->red > 255 || floor->green > 255 || floor->blue > 255)
 			return (ft_put_error("floor: color value must be maximum 255"));
 	}
+	free(header);
 	return (1);
 }

@@ -37,7 +37,7 @@ int		ft_fill_elements(char *line, t_game_file *game_file)
 int		ft_check_valid_file_elements(char **line)
 {
 	if (!line[0] || ft_strcmp(line[0], "C") == 0 ||
-		ft_strcmp(line[0], "F") == 0 || ft_strcmp(line[0], "R") == 0 ||
+		ft_strcmp(line[0], "F") == 0 || ft_strcmp_trim(line[0], "R") == 0 ||
 		ft_strcmp(line[0], "NO") == 0 || ft_strcmp(line[0], "SO") == 0 ||
 		ft_strcmp(line[0], "WE") == 0 || ft_strcmp(line[0], "EA") == 0 ||
 		ft_strcmp(line[0], "S") == 0)
