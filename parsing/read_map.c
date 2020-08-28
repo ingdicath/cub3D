@@ -43,18 +43,18 @@ int			ft_read_file(char *file_name, t_game_file *file)
 
 int			ft_read_line(t_game_file *file, char *line)
 {
-	if (ft_check_complete_elements(file))
+	if (!ft_check_complete_elements(file))
+	{
+		if (!ft_fill_elements(line, file))
+			return (ft_put_error("check map elements"));
+	}
+	else
 	{
 		if (ft_isemptyline(line) && file->map.matrix == NULL)
 			return (1);
 		if (!ft_count_sprites(line, &file->map))
 			return (ft_put_error("invalid character in the map"));
 		file->map.matrix = ft_join_lines(file->map.matrix, line);
-	}
-	else
-	{
-		if (!ft_fill_elements(line, file))
-			return (ft_put_error("check map elements"));
 	}
 	return (1);
 }
@@ -109,5 +109,6 @@ char		**ft_join_lines(char **matrix, char *new_line)
 	new_matrix[rows] = ft_strdup(new_line);
 	rows++;
 	new_matrix[rows] = NULL;
+	free(matrix);
 	return (new_matrix);
 }
