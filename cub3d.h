@@ -244,7 +244,6 @@ typedef struct	s_game
 
 void			ft_reset_input(t_game_file *mapfile);
 int				ft_read_file(char *file_name, t_game_file *file);
-int				ft_check_valid_color(char *color);
 int				ft_check_resolution(char **line, t_size *resolution);
 int				ft_check_ceiling(char **line, t_color *ceiling);
 int				ft_check_floor(char **line, t_color *floor);

@@ -12,20 +12,6 @@
 
 #include "../cub3d.h"
 
-int			ft_check_valid_color(char *color)
-{
-	int		len;
-	char	*temp;
-	int		res;
-	
-	res = 0;
-	len = ft_strlen(color);
-	temp = ft_substr(color, 0, len - 1);
-	if (color[len - 1] == ',' && ft_isnumber(temp))
-		res = 1;
-	free(temp);
-	return (res);
-}
 
 int			ft_array_size(char **array)
 {
@@ -65,10 +51,7 @@ int			ft_check_ceiling(char **line, t_color *ceiling)
 {
 	char ** header;
 
-	if(ft_array_size(line) > 1)
-		header = ft_split(line[0], ' ');
-	else 
-		header = line;
+	header = ft_split(line[0], ' ');
 	if (header[0] && (ft_strcmp(header[0], "C") == 0))
 	{
 		if (ceiling->red >= 0 || ceiling->green >= 0 || ceiling->blue >= 0)
@@ -92,12 +75,9 @@ int			ft_check_ceiling(char **line, t_color *ceiling)
 int			ft_check_floor(char **line, t_color *floor)
 {
 	char ** header;
-
-	if(ft_array_size(line) > 1)
-		header = ft_split(line[0], ' ');
-	else 
-		header = line;
-	if (header[0] && (ft_strcmp(header[0], "C") == 0))
+	
+	header = ft_split(line[0], ' ');
+	if (header[0] && (ft_strcmp(header[0], "F") == 0))
 	{
 		if (floor->red >= 0 || floor->green >= 0 || floor->blue >= 0)
 			return (ft_put_error("argument(s) already for floor exist(s)"));
