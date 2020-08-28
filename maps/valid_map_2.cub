@@ -4,7 +4,7 @@ NO ./textures/wood.xpm
 SO ./textures/greystone.xpm
 EA ./textures/dog.xpm
 
-S ./textures/sprite_tennis_ball.png
+S ./textures/sprite_tennis_ball.xpm
 F 220,100,244
 C 255,255,230
 

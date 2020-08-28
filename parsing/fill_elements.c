@@ -30,10 +30,11 @@ int			ft_fill_elements(char *line, t_game_file *game_file)
 		ft_check_sprite_path(line_split, &game_file->sprite_path);
 	split_comma = ft_split(line, ',');
 	if (ft_array_size(split_comma) > 1)
-		result = result && ft_check_ceiling(split_comma, &game_file->ceiling) &&
+		result = result && 
+			ft_check_ceiling(split_comma, &game_file->ceiling) &&
 			ft_check_floor(split_comma, &game_file->floor);
-	free(line_split);
-	free(split_comma);
+	ft_free_array(line_split);
+	ft_free_array(split_comma);
 	free(temp);
 	return (result);
 }
@@ -59,7 +60,9 @@ void		ft_free_array(char **array)
 	i = 0;
 	while (array[i])
 	{
+		
 		free(array[i]);
 		i++;
 	}
+	free(array);
 }

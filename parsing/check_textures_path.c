@@ -23,7 +23,7 @@ int		ft_check_north_path(char **line, char **north_path)
 		if (line[2])
 			return (ft_put_error("more arguments than expected for NO text."));
 		if (ft_check_path(line[1]))
-			*north_path = line[1];
+			*north_path = ft_strdup(line[1]);
 	}
 	return (1);
 }
@@ -39,7 +39,7 @@ int		ft_check_south_path(char **line, char **south_path)
 		if (line[2])
 			return (ft_put_error("more arguments than expected for SO text."));
 		if (ft_check_path(line[1]))
-			*south_path = line[1];
+			*south_path = ft_strdup(line[1]);
 	}
 	return (1);
 }
@@ -55,7 +55,7 @@ int		ft_check_west_path(char **line, char **west_path)
 		if (line[2])
 			return (ft_put_error("more arguments than expected for WE text."));
 		if (ft_check_path(line[1]))
-			*west_path = line[1];
+			*west_path = ft_strdup(line[1]);
 	}
 	return (1);
 }
@@ -71,7 +71,7 @@ int		ft_check_east_path(char **line, char **east_path)
 		if (line[2])
 			return (ft_put_error("more arguments than expected for EA text."));
 		if (ft_check_path(line[1]))
-			*east_path = line[1];
+			*east_path = ft_strdup(line[1]);
 	}
 	return (1);
 }
@@ -87,7 +87,7 @@ int		ft_check_sprite_path(char **line, char **sprite_path)
 		if (line[2])
 			return (ft_put_error("more arguments than expected for texture"));
 		if (ft_check_path(line[1]))
-			*sprite_path = line[1];
+			*sprite_path = ft_strdup(line[1]);
 	}
 	return (1);
 }

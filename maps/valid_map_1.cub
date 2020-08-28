@@ -10,7 +10,7 @@ EA ./textures/dog_4.xpm
 
 
 
-        S ./textures/sprite_cat_in_box.png
+        S ./textures/barrel.xpm
 
 	F 		101, 	 28, 120
 

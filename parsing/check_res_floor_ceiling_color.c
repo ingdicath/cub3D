@@ -68,7 +68,7 @@ int			ft_check_ceiling(char **line, t_color *ceiling)
 		if (ceiling->red > 255 || ceiling->green > 255 || ceiling->blue > 255)
 			return (ft_put_error("ceiling: color value must be maximum 255"));
 	}
-	free(header);
+	ft_free_array(header);
 	return (1);
 }
 
@@ -94,6 +94,6 @@ int			ft_check_floor(char **line, t_color *floor)
 		if (floor->red > 255 || floor->green > 255 || floor->blue > 255)
 			return (ft_put_error("floor: color value must be maximum 255"));
 	}
-	free(header);
+	ft_free_array(header);
 	return (1);
 }

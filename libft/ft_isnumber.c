@@ -20,15 +20,16 @@ int			ft_isnumber(char *str)
 
 	white_spaces = " \t\n\v\f\r";
 	no_space = ft_strtrim(str, white_spaces);
-	if (!no_space)
-		return (0);
 	i = 0;
 	if (no_space[i] == '-')
 		i++;
 	while (no_space[i] != '\0')
 	{
 		if (no_space[i] < '0' || no_space[i] > '9')
+		{
+			free(no_space);
 			return (0);
+		}
 		i++;
 	}
 	free(no_space);
