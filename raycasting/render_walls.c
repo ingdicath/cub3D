@@ -13,9 +13,6 @@
 #include "../cub3d.h"
 
 /*
-** Creating the raycasting
-** int hit = 0; was there a wall hit?
-** int side; was a NS or a EW wall hit?
 ** Calculate distance projected on camera direction
 **    (Euclidean distance will give fisheye effect!)
 ** perpWallDist: the length of this line is the value to compute now,
@@ -78,11 +75,8 @@ void			ft_calc_wall_pos(t_ray *ray, t_screen *screen,
 }
 
 /*
-** - texture->step_size = How much to increase the texture coordinate
-**	 per screen pixel.
-** - texture->start_pos = Starting texture coordinate.
-** - DARKER; make color darker for y-sides: R, G and B byte each divided
-** 	 through two with a "shift" and an "and"
+** DARKER makes color darker for y-sides: R, G and B byte each divided
+** through two with a "shift" and an "and".
 */
 
 void			ft_draw_walls(t_ray *ray, t_screen *screen, int x)

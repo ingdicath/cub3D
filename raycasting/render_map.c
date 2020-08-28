@@ -77,7 +77,12 @@ void		ft_calc_side_dist(t_position current, t_ray *ray)
 }
 
 /*
-** map.matrix[y][x] in this order of x and y, North face up
+** 'map.matrix[y][x]' in this order of 'x' and 'y', North face up.
+**
+** DDA or "Digital Differential Analysis" is a fast algorithm used on
+** square grids to find which squares a line hits. It can also use it to find
+** which squares of the map our ray hits, and stop the algorithm once
+** a square that is a wall is hit.
 */
 
 void		ft_perform_dda(t_map map, t_ray *ray)

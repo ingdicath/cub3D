@@ -57,10 +57,3 @@ int		ft_key_release(int keycode, t_game *game)
 		game->player.rotate.right = 0;
 	return (0);
 }
-
-void	ft_free_memory(t_map *map)
-{
-	free(map->matrix);
-	free(map->zbuffer);
-	free(map->sprites);
-}

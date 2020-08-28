@@ -52,17 +52,3 @@ int			ft_check_valid_file_elements(char **line)
 		return (1);
 	return (ft_put_error("Missing or invalid element"));
 }
-
-void		ft_free_array(char **array)
-{
-	int i;
-
-	i = 0;
-	while (array[i])
-	{
-		
-		free(array[i]);
-		i++;
-	}
-	free(array);
-}

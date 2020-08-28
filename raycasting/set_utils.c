@@ -12,7 +12,7 @@
 
 #include "../cub3d.h"
 
-int	ft_resize_resolution(t_screen *screen)
+int		ft_resize_resolution(t_screen *screen)
 {
 	mlx_get_screen_size(screen->mlx, &screen->max_res.width,
 		&screen->max_res.height);
@@ -25,12 +25,12 @@ int	ft_resize_resolution(t_screen *screen)
 	return (1);
 }
 
-int	ft_rgb_calculator(int r, int g, int b)
+int		ft_rgb_calculator(int r, int g, int b)
 {
 	return (r * RED_BIT + g * GREEN_BIT + b);
 }
 
-int	ft_set_texture(void *mlx, char *path, t_texture *texture)
+int		ft_set_texture(void *mlx, char *path, t_texture *texture)
 {
 	if (ft_check_extension(path, XPM))
 		texture->image = mlx_xpm_file_to_image(mlx, path,
@@ -40,6 +40,7 @@ int	ft_set_texture(void *mlx, char *path, t_texture *texture)
 		texture->image = mlx_png_file_to_image(mlx, path,
 			&texture->width, &texture->height);
 	}
+	free(path);
 	if (texture->image == NULL)
 		return (ft_put_error("invalid path for texture"));
 	texture->address = mlx_get_data_addr(texture->image,
@@ -47,4 +48,11 @@ int	ft_set_texture(void *mlx, char *path, t_texture *texture)
 	if (texture->address == NULL)
 		return (ft_put_error("image for texture failure"));
 	return (1);
+}
+
+void	ft_free_memory(t_map *map)
+{
+	ft_free_array(map->matrix);
+	free(map->zbuffer);
+	free(map->sprites);
 }

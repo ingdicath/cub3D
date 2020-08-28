@@ -65,7 +65,7 @@ void		ft_set_header_bitmap(int fd, t_screen *screen)
 }
 
 /*
-** y = screen->resolution.height - 1, '-1' is to include the position zero
+** '-1' is to include the position zero.
 */
 
 void		ft_put_pixel_bitmap(int fd, t_screen *screen)

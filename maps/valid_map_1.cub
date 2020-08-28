@@ -6,16 +6,16 @@
 WE       ./textures/edgar.xpm
 NO   ./textures/wood.xpm
  SO ./textures/colorstone.xpm
-EA ./textures/dog_4.xpm
+EA ./textures/dog.xpm
 
 
 
         S ./textures/barrel.xpm
 
-	F 		101, 	 28, 120
+	F 		100, 	 100, 100
 
 
-C                      48   ,   179    ,             194
+C                      255   ,   255    ,             220
 
 
 

@@ -33,5 +33,7 @@ char	*ft_substr(const char *s, unsigned int start, size_t len);
 int		get_next_line(int fd, char **line);
 char	*ft_strtrim(const char *s1, const char *set);
 int		ft_strcmp_trim(const char *s1, const char *s2);
+void	ft_free_array(char **array);
+int		ft_array_size(char **array);
 
 #endif

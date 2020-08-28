@@ -31,9 +31,9 @@ int					ft_render_sprites(t_game *game)
 }
 
 /*
-** inv_camera  = required for correct matrix multiplication
-** sprite_relative = translate sprite position to relative to camera
-** transform y = //this is actually the depth inside the screen
+** 'inv_camera'  = required for correct matrix multiplication.
+** 'sprite_relative' = translate sprite position to relative to camera.
+** 'transform y' = /this is the depth inside the screen.
 */
 
 void				ft_inverse_camera(t_sprite sprite, t_sprite_cast *s_cast,
@@ -55,8 +55,8 @@ void				ft_inverse_camera(t_sprite sprite, t_sprite_cast *s_cast,
 }
 
 /*
-** Calculate height of the sprite on screen using 'transformY' instead of
-** the real distance prevents fisheye
+** Calculate height of the sprite on screen using 'transform y' instead of
+** the real distance prevents fisheye.
 */
 
 void				ft_calc_sprite_limits(t_sprite_cast *s_cast,
@@ -81,12 +81,8 @@ void				ft_calc_sprite_limits(t_sprite_cast *s_cast,
 }
 
 /*
-** Loop through every vertical stripe of the sprite on screen
-** the conditions in the if are:
-** 	1) it's in front of camera plane so you don't see things behind you
-**  2) it's on the screen (left)
-**  3) it's on the screen (right)
-**  4) ZBuffer, with perpendicular distance
+** ZBuffer is 1D, because it only contains the distance to the wall of
+** every vertical stripe, instead of having this for every pixel.
 */
 
 void				ft_vertical_stripes(t_sprite_cast *s_cast, t_screen screen,

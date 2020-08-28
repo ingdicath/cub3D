@@ -1,11 +1,11 @@
-R 800 600
+R  1200 800
 WE ./textures/edgar.xpm
 NO ./textures/wood.xpm
 SO ./textures/greystone.xpm
 EA ./textures/dog.xpm
 
 S ./textures/sprite_tennis_ball.xpm
-F 220,100,244
+F 92,92,92
 C 255,255,230
 
         1111111111111111111111111

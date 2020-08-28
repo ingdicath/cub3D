@@ -14,8 +14,6 @@
 
 /*
 ** In moves functions, '+' instead '0' is because of the floodfill
-** First if: Here it is checked if the movement goes off the map
-** Second if: If we want north faced in the north and it is the first position
 */
 
 void			ft_back_front_move(t_map map, t_player *player, int move)

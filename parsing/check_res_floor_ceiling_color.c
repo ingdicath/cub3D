@@ -12,16 +12,6 @@
 
 #include "../cub3d.h"
 
-int			ft_array_size(char **array)
-{
-	int		i;
-
-	i = 0;
-	while (array[i])
-		i++;
-	return (i);
-}
-
 /*
 ** The maximum max resolution mlx can handle is 16384.
 */
@@ -82,7 +72,7 @@ int			ft_check_floor(char **line, t_color *floor)
 		if (floor->red >= 0 || floor->green >= 0 || floor->blue >= 0)
 			return (ft_put_error("argument(s) already for floor exist(s)"));
 		if (ft_array_size(line) != 3)
-			return (ft_put_error("Wrong number of arguments for ceiling."));
+			return (ft_put_error("Wrong number of arguments for floor."));
 		if (!ft_isnumber(header[1]) || !ft_isnumber(line[1])
 			|| !ft_isnumber(line[2]))
 			return (ft_put_error("check numbers for floor"));

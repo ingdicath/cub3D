@@ -9,7 +9,7 @@ EA ./textures/yellow.xpm
 
 
 
-S  ./textures/sprite_tennis_ball.png
+S  ./textures/sprite_tennis_ball.xpm
 
 
 
@@ -29,7 +29,7 @@ C                      48, 179, 194
 122222221
 122222221
 122222221
-1222W02211111
+1222W22211111
 1222222222221
 1222222222221
 1211111122221
