@@ -43,7 +43,7 @@ int			ft_read_file(char *file_name, t_game_file *file)
 
 int			ft_read_line(t_game_file *file, char *line)
 {
-	char	**line_split;
+	
 
 	if (ft_check_complete_elements(file))
 	{
@@ -55,8 +55,7 @@ int			ft_read_line(t_game_file *file, char *line)
 	}
 	else
 	{
-		line_split = ft_split(line, ' ');
-		if (!ft_fill_elements(line_split, file))
+		if (!ft_fill_elements(line, file))
 			return (ft_put_error("check map elements"));
 	}
 	return (1);

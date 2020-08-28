@@ -63,20 +63,24 @@ int			ft_check_resolution(char **line, t_size *resolution)
 
 int			ft_check_ceiling(char **line, t_color *ceiling)
 {
-	if (line[0] && (ft_strcmp(line[0], "C") == 0))
+	char ** header;
+
+	if(ft_array_size(line) > 1)
+		header = ft_split(line[0], ' ');
+	else 
+		header = line;
+	if (header[0] && (ft_strcmp(header[0], "C") == 0))
 	{
 		if (ceiling->red >= 0 || ceiling->green >= 0 || ceiling->blue >= 0)
 			return (ft_put_error("argument(s) already for ceiling exist(s)"));
-		if (!line[1] || !line[2] || !line[3])
-			return (ft_put_error("missing arguments for ceiling"));
-		if (line[4])
-			return (ft_put_error("more arguments for ceiling than expected."));
-		if (!ft_check_valid_color(line[1]) || !ft_check_valid_color(line[2])
-			|| !ft_isnumber(line[3]))
-			return (ft_put_error("ceiling: check numbers or missing commas"));
-		ceiling->red = atoi(line[1]);
-		ceiling->green = atoi(line[2]);
-		ceiling->blue = atoi(line[3]);
+		if (ft_array_size(line) != 3)
+			return (ft_put_error("Wrong number of arguments for ceiling."));
+		if (!ft_isnumber(header[1]) || !ft_isnumber(line[1])
+			|| !ft_isnumber(line[2]))
+			return (ft_put_error("check numbers for ceiling"));
+		ceiling->red = atoi(header[1]);
+		ceiling->green = atoi(line[1]);
+		ceiling->blue = atoi(line[2]);
 		if (ceiling->red < 0 || ceiling->green < 0 || ceiling->blue < 0)
 			return (ft_put_error("ceil.: Non negative numbers are expected"));
 		if (ceiling->red > 255 || ceiling->green > 255 || ceiling->blue > 255)
@@ -87,20 +91,24 @@ int			ft_check_ceiling(char **line, t_color *ceiling)
 
 int			ft_check_floor(char **line, t_color *floor)
 {
-	if (line[0] && (ft_strcmp(line[0], "F") == 0))
+	char ** header;
+
+	if(ft_array_size(line) > 1)
+		header = ft_split(line[0], ' ');
+	else 
+		header = line;
+	if (header[0] && (ft_strcmp(header[0], "C") == 0))
 	{
 		if (floor->red >= 0 || floor->green >= 0 || floor->blue >= 0)
 			return (ft_put_error("argument(s) already for floor exist(s)"));
-		if (!line[1] || !line[2] || !line[3])
-			return (ft_put_error("missing arguments for floor"));
-		if (line[4])
-			return (ft_put_error("more arguments for floor than expected"));
-		if (!ft_check_valid_color(line[1]) || !ft_check_valid_color(line[2])
-			|| !ft_isnumber(line[3]))
-			return (ft_put_error("floor: check numbers or missing commas"));
-		floor->red = atoi(line[1]);
-		floor->green = atoi(line[2]);
-		floor->blue = atoi(line[3]);
+		if (ft_array_size(line) != 3)
+			return (ft_put_error("Wrong number of arguments for ceiling."));
+		if (!ft_isnumber(header[1]) || !ft_isnumber(line[1])
+			|| !ft_isnumber(line[2]))
+			return (ft_put_error("check numbers for floor"));
+		floor->red = atoi(header[1]);
+		floor->green = atoi(line[1]);
+		floor->blue = atoi(line[2]);
 		if (floor->red < 0 || floor->green < 0 || floor->blue < 0)
 			return (ft_put_error("floor: Non negative numbers are expected"));
 		if (floor->red > 255 || floor->green > 255 || floor->blue > 255)

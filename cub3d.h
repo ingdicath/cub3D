@@ -22,6 +22,9 @@
 # define PNG ".png"
 # define SCREENSHOT "cub3d_screenshot.bmp"
 
+# define WHITE_SPACE " \t\n\v\f\r"
+
+
 /*
 ** ----------- Speed & moves --------------------------------------------------
 */
@@ -44,6 +47,7 @@
 */
 
 # include <stdlib.h>
+# include <stdio.h> //BORRAR
 # include <unistd.h>
 # include <fcntl.h>
 # include <math.h>
@@ -255,7 +259,7 @@ int				ft_array_size(char **array);
 int				ft_check_path(char *str);
 int				ft_check_extension(char *file_name, char *valid_ext);
 int				ft_check_valid_char(char c);
-int				ft_fill_elements(char **line_split, t_game_file *mapfile);
+int				ft_fill_elements(char *line, t_game_file *mapfile);
 char			**ft_join_lines(char **matrix, char *new_line);
 int				ft_check_unique_orientation(t_map *map, int i, int j);
 int				ft_check_args(int argc, char **argv, int *screenshot);

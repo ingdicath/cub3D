@@ -26,6 +26,8 @@ LIBMLX = libmlx.dylib
 
 LIB_FT = libft
 
+LIB = lib_ft
+
 LIBFT = libft.a
 
 BMP = cub3d_screenshot.bmp
@@ -46,7 +48,7 @@ OBJECTS = $(SRC:.c=.o)
 
 all: $(NAME)
 
-$(LIB_FT):
+$(LIB):
 	@make -C $(LIB_FT)
 	@cp $(LIB_FT)/$(LIBFT) .
 	@echo "libft library created successfully"
@@ -56,7 +58,7 @@ $(LIBMLX):
 	@cp $(MLX)/$(LIBMLX) .
 	@echo "mlx library created successfully"
 
-$(NAME): $(OBJECTS) $(LIBMLX) $(LIB_FT)
+$(NAME): $(OBJECTS) $(LIBMLX) $(LIB)
 	@$(CC) $(FLAGS) $(MLX_FLAGS) -o $(NAME) $(OBJECTS) $(LIBFT)
 	@echo "name rule executed successfully"
 

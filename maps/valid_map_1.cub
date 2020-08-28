@@ -12,10 +12,10 @@ EA ./textures/dog_4.xpm
 
 S ./textures/sprite_cat_1.xpm
 
-F     101,   28,   120
+F 101, 28, 120
 
 
-C                      48,                    179,             194
+C                      48   ,   179    ,             194
 
 
 

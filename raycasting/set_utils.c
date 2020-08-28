@@ -36,7 +36,6 @@ int	ft_set_texture(void *mlx, char *path, t_texture *texture)
 		texture->image = mlx_xpm_file_to_image(mlx, path,
 			&texture->width, &texture->height);
 	else if (ft_check_extension(path, PNG)){
-		printf("%s\n", path );
 		texture->image = mlx_png_file_to_image(mlx, path,
 			&texture->width, &texture->height);
 	}
