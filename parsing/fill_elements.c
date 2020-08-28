@@ -16,8 +16,11 @@ int			ft_fill_elements(char *line, t_game_file *game_file)
 {
 	int		result;
 	char	**line_split;
+	char	**split_comma;
+	char	*temp;
 
-	line_split = ft_split(line, ' ');
+	temp = ft_strtrim(line, WHITE_SPACE);
+	line_split = ft_split(temp, ' ');
 	result = ft_check_valid_file_elements(line_split) &&
 		ft_check_resolution(line_split, &game_file->resolution) &&
 		ft_check_north_path(line_split, &game_file->no_path) &&
@@ -25,11 +28,13 @@ int			ft_fill_elements(char *line, t_game_file *game_file)
 		ft_check_east_path(line_split, &game_file->ea_path) &&
 		ft_check_west_path(line_split, &game_file->we_path) &&
 		ft_check_sprite_path(line_split, &game_file->sprite_path);
-	line_split = ft_split(line, ',');
-	if (ft_array_size(line_split) > 1)
-		result = result && ft_check_ceiling(line_split, &game_file->ceiling) &&
-			ft_check_floor(line_split, &game_file->floor);
+	split_comma = ft_split(line, ',');
+	if (ft_array_size(split_comma) > 1)
+		result = result && ft_check_ceiling(split_comma, &game_file->ceiling) &&
+			ft_check_floor(split_comma, &game_file->floor);
 	free(line_split);
+	free(split_comma);
+	free(temp);
 	return (result);
 }
 
@@ -45,4 +50,16 @@ int			ft_check_valid_file_elements(char **line)
 		ft_strcmp_trim(line[0], "S") == 0)
 		return (1);
 	return (ft_put_error("Missing or invalid element"));
+}
+
+void		ft_free_array(char **array)
+{
+	int i;
+
+	i = 0;
+	while (array[i])
+	{
+		free(array[i]);
+		i++;
+	}
 }

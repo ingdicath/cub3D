@@ -12,11 +12,15 @@
 
 #include "libft.h"
 
-int			ft_strcmp_trim(char *s1, const char *s2)
+int			ft_strcmp_trim(const char *s1, const char *s2)
 {
 	char	*white_spaces;
+	int		result;
+	char	*temp;
 
 	white_spaces = " \t\n\v\f\r";
-	s1 = ft_strtrim(s1, white_spaces);
-	return (ft_strcmp(s1,s2));	
+	temp = ft_strtrim(s1, white_spaces);
+	result = ft_strcmp(temp, s2);
+	free(temp);
+	return (result);
 }

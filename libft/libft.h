@@ -29,9 +29,9 @@ int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_strdup(const char *s1);
 char	*ft_strjoin(char *s1, char *s2);
 size_t	ft_strlen(const char *s);
-char	*ft_substr(char *s, unsigned int start, size_t len);
+char		*ft_substr(const char *s, unsigned int start, size_t len);
 int		get_next_line(int fd, char **line);
-char	*ft_strtrim(char *s1, char  *set);
-int		ft_strcmp_trim(char *s1, const char *s2);
+char	*ft_strtrim(const char *s1, const char *set);
+int		ft_strcmp_trim(const char *s1, const char *s2);
 
 #endif

@@ -66,7 +66,7 @@ $(NAME): $(OBJECTS) $(LIBMLX) $(LIB)
 	@$(CC) $(FLAGS) -Imlx -Ilibft -c $< -o $@
 
 clean:
-	@rm -f $(OBJECTS) $(LIBMLX) $(BMP)
+	@rm -f $(OBJECTS) $(LIBMLX) $(LIBFT) $(BMP)
 	@make clean -C $(MLX)
 	@make clean -C $(LIB_FT)
 	@rm -f .DS_Store

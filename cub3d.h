@@ -28,7 +28,7 @@
 */
 
 # define ROTATE_SPEED 0.04
-# define MOVE_SPEED 0.13
+# define MOVE_SPEED 0.14
 
 /*
 ** ----------- Colors ---------------------------------------------------------
@@ -322,5 +322,6 @@ void			ft_calc_dist_sprite (t_map *map, t_position current_pos);
 int				ft_resize_resolution(t_screen *screen);
 int				ft_calc_sprite_variables(t_map *map, int i, int j, int k);
 void			ft_free_memory(t_map *map);
+void			ft_free_array(char **array);
 
 #endif
