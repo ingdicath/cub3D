@@ -30,7 +30,7 @@ int			ft_fill_elements(char *line, t_game_file *game_file)
 		ft_check_sprite_path(line_split, &game_file->sprite_path);
 	split_comma = ft_split(line, ',');
 	if (ft_array_size(split_comma) > 1)
-		result = result && 
+		result = result &&
 			ft_check_ceiling(split_comma, &game_file->ceiling) &&
 			ft_check_floor(split_comma, &game_file->floor);
 	ft_free_array(line_split);

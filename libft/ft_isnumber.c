@@ -25,7 +25,7 @@ int			ft_isnumber(char *str)
 	{
 		free(no_space);
 		return (0);
-	}	
+	}
 	if (no_space[i] == '-')
 		i++;
 	while (no_space[i] != '\0')

@@ -54,7 +54,7 @@ int			ft_check_extension(char *file_name, char *valid_ext)
 	int		name_size;
 	int		ext_size;
 	char	*temp;
-	int 	res;
+	int		res;
 
 	res = 0;
 	name_size = ft_strlen(file_name);
