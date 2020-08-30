@@ -34,38 +34,57 @@ int			ft_play_game(t_game *game)
 		game->screen.win_data.image, 0, 0);
 		ft_manage_movements(game->map, &game->player);
 		ft_render_map(game);
-		game->player.rotate.mouse_base = game->player.rotate.mouse_turn;
+		game->player.rotate.mouse_base.x = game->player.rotate.mouse_look.x;
+		game->player.rotate.mouse_base.y = game->player.rotate.mouse_look.y;
+		if(game->player.ray.pitch  > 0)
+			game->player.ray.pitch = ft_max(0, game->player.ray.pitch -
+					100 * MOVE_SPEED);
+		else if ( game->player.ray.pitch < 0)
+			game->player.ray.pitch = ft_min(0, game->player.ray.pitch +
+					100 * MOVE_SPEED);
+		if(game->player.ray.pos_z  > 0)
+			game->player.ray.pos_z = ft_max(0, game->player.ray.pos_z -
+					100 * MOVE_SPEED);
+		else if(game->player.ray.pos_z  < 0)
+			game->player.ray.pos_z = ft_min(0, game->player.ray.pos_z +
+					100 * MOVE_SPEED);
 	}
 	return (0);
 }
 
 int			ft_is_moving(t_movements move, t_rotations rotate)
 {
-	return (move.front || move.back || move.left
-		|| move.right || rotate.right || rotate.left 
-		|| rotate.mouse_base != rotate.mouse_turn);
+	return (move.front || move.back || move.left || move.jump || move.crouch ||
+		move.right || rotate.up || rotate.down || rotate.right ||
+		rotate.left || rotate.mouse_base.x != rotate.mouse_look.x ||
+		rotate.mouse_base.y != rotate.mouse_look.y);
 }
 
 int			ft_manage_movements(t_map map, t_player *player)
 {
-	int rotate_left;
-	int rotate_right;
-
 	if (player->move.front)
-		ft_back_front_move(map, player, player->move.front);
+		ft_back_front_move(map, player, 1);
 	if (player->move.back)
-		ft_back_front_move(map, player, -player->move.back);
+		ft_back_front_move(map, player, -1);
 	if (player->move.left)
-		ft_left_right_move(map, player, -player->move.left);
+		ft_left_right_move(map, player, -1);
 	if (player->move.right)
-		ft_left_right_move(map, player, player->move.right);
-	rotate_left = player->rotate.left || 
-		player->rotate.mouse_turn < player->rotate.mouse_base;
-	if (rotate_left)
-		ft_rotate_move(player, -rotate_left);
-	rotate_right = player->rotate.right || 
-		player->rotate.mouse_turn > player->rotate.mouse_base;
-	if (rotate_right)
-		ft_rotate_move(player, rotate_right);
+		ft_left_right_move(map, player, 1);
+	if (player->move.jump)
+		ft_jump_crouch_move(&player->ray, 1);
+	if (player->move.crouch)
+		ft_jump_crouch_move(&player->ray, -1);
+	if (player->rotate.up ||
+		player->rotate.mouse_look.y < player->rotate.mouse_base.y)
+		ft_up_down_look(&player->ray, 1);
+	if (player->rotate.down ||
+		player->rotate.mouse_look.y > player->rotate.mouse_base.y)
+		ft_up_down_look(&player->ray, -1);
+	if (player->rotate.left ||
+		player->rotate.mouse_look.x < player->rotate.mouse_base.x)
+		ft_rotate_move(player, -1);
+	if (player->rotate.right || 
+		player->rotate.mouse_look.x > player->rotate.mouse_base.x)
+		ft_rotate_move(player, 1);
 	return (0);
 }

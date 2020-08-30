@@ -30,29 +30,29 @@ void	ft_reset_input(t_game_file *game_file)
 	game_file->map.num_sprites = 0;
 }
 
-void	ft_clean_game(t_screen *screen, t_player *player, t_map *map)
+void	ft_clean_game(t_size resolution, t_player *player, t_map *map)
 {
-	screen->mlx = NULL;
-	screen->window = NULL;
-	screen->win_data.image = NULL;
-	screen->north.address = NULL;
-	screen->south.address = NULL;
-	screen->west.address = NULL;
-	screen->east.address = NULL;
-	screen->sprite.address = NULL;
 	player->move.front = 0;
 	player->move.back = 0;
 	player->move.right = 0;
 	player->move.left = 0;
+	player->move.jump = 0;
+	player->move.crouch = 0;
+	player->rotate.up = 0;
+	player->rotate.down = 0;
 	player->rotate.right = 0;
 	player->rotate.left = 0;
-	player->rotate.mouse_base = 0;
-	player->rotate.mouse_turn = 0;
+	player->rotate.mouse_base.x = 0;
+	player->rotate.mouse_look.x = 0;
+	player->rotate.mouse_base.y = -1;
+	player->rotate.mouse_look.y = 0;
 	player->orientation.x = 0;
 	player->orientation.y = 0;
 	player->plane.x = 0;
 	player->plane.y = 0;
-	map->zbuffer = (double *)malloc(sizeof(double) * screen->resolution.width);
+	player->ray.pitch = 0;
+	player->ray.pos_z = 0;
+	map->zbuffer = (double *)malloc(sizeof(double) * resolution.width);
 	if (map->zbuffer == NULL)
 		ft_put_error("It is not possible define size for zbuffer");
 }

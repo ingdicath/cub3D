@@ -27,8 +27,11 @@
 ** ----------- Speed & moves --------------------------------------------------
 */
 
-# define ROTATE_SPEED 0.05
+# define ROTATE_SPEED 0.07
 # define MOVE_SPEED 0.14
+# define U_DIV 1
+# define V_DIV 1
+# define V_MOVE 0.0
 
 /*
 ** ----------- Colors ---------------------------------------------------------
@@ -54,7 +57,7 @@
 typedef enum	e_keys
 {
 	KEY_A = 0, KEY_S = 1, KEY_D = 2, KEY_W = 13, ESC = 53, LEFT = 123,
-	RIGHT = 124
+	RIGHT = 124, UP = 126, DOWN = 125, SPACE = 49, L_SHIFT = 257
 }				t_keys;
 
 typedef enum	e_events
@@ -154,6 +157,7 @@ typedef struct	s_wall
 typedef struct	s_floor_ray
 {
 	int 		current_pos;
+	int			is_floor;
 	double		row_distance;
 	t_position 	f_fraction;
 	t_position 	c_fraction;
@@ -170,6 +174,8 @@ typedef struct	s_ray
 	double		perpwalldist;
 	double		camera_x;
 	double		wall_x;
+	double		pitch;
+	double		pos_z;
 	t_position	dir;
 	t_position	deltadist;
 	t_position	sidedist;
@@ -180,6 +186,7 @@ typedef struct	s_ray
 typedef struct	s_sprite_cast
 {
 	int			screen_x;
+	int 		move_screen;
 	t_size		size;
 	t_position	transform;
 	t_position	draw_start;
@@ -209,14 +216,18 @@ typedef struct	s_movements
 	int			back;
 	int			right;
 	int			left;
+	int 		jump;
+	int 		crouch;
 }				t_movements;
 
 typedef struct	s_rotations
 {
 	int			left;
 	int			right;
-	int 		mouse_base;
-	int 		mouse_turn;
+	int			up;
+	int			down;
+	t_position	mouse_base;
+	t_position	mouse_look;
 }				t_rotations;
 
 typedef struct	s_player
@@ -284,6 +295,7 @@ int				ft_set_screen(t_screen *screen, int screenshot);
 int				ft_set_all_textures(t_game_file file, t_screen *screen);
 int				ft_set_texture(void *mlx, char *path, t_texture *texture);
 int				ft_set_orientation(t_map map, t_player *player);
+void			ft_clean_game(t_size resolution, t_player *player, t_map *map);
 void			ft_render_map(t_game *game);
 void			ft_calc_side_dist(t_position current, t_ray *ray);
 void			ft_perform_dda(t_map map, t_ray *ray);
@@ -293,7 +305,6 @@ void			ft_calc_wall_pos(t_ray *ray, t_screen *screen,
 					t_position current);
 void			ft_draw_walls(t_ray *ray, t_screen *screen, int x);
 t_texture		ft_get_textures(t_screen screen, t_ray *ray);
-void			ft_clean_game(t_screen *screen, t_player *player, t_map *map);
 void			ft_put_pixel(t_texture *texture, int x, int y, int color);
 int				ft_get_color(t_texture texture, t_position position);
 void			ft_set_ray_position(t_game *game, int x);
@@ -311,7 +322,8 @@ void			ft_write_int_bytes(int fd, int param);
 void			ft_inverse_camera(t_sprite sprite, t_sprite_cast *s_cast,
 					t_player player, int w);
 int				ft_render_sprites(t_game *game);
-void			ft_calc_sprite_limits(t_sprite_cast *s_cast, t_size resolution);
+void			ft_calc_sprite_limits(t_sprite_cast *s_cast, t_size resolution,
+					t_ray ray);
 void			ft_vertical_stripes(t_sprite_cast *s_cast, t_screen screen,
 					double *zbuffer);
 void			ft_draw_stripes(t_sprite_cast *s_cast, t_screen screen,
@@ -327,5 +339,9 @@ void			ft_draw_floor_ceiling(t_screen *screen, t_floor_ray *floor_ray,
 void			ft_render_floor_ceiling(t_screen *screen, t_player *player);
 void 			ft_set_ray_pos_floor(t_screen screen, t_player *player, int y);
 int				ft_mouse_move(int x, int y, t_game *game);
+void			ft_up_down_look(t_ray *ray, int look);
+void			ft_jump_crouch_move(t_ray *ray, int dir);
+void			ft_calc_fraction_floor_ceiling(t_screen *screen,
+					t_floor_ray *floor_ray);
 
 #endif

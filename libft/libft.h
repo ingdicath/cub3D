@@ -35,5 +35,7 @@ char	*ft_strtrim(const char *s1, const char *set);
 int		ft_strcmp_trim(const char *s1, const char *s2);
 void	ft_free_array(char **array);
 int		ft_array_size(char **array);
+int		ft_max(int num1, int num2);
+int		ft_min(int num1, int num2);
 
 #endif

@@ -16,7 +16,7 @@ int				ft_set_game(t_game_file file, t_game *game, int screenshot)
 {
 	game->map = file.map;
 	game->screen.resolution = file.resolution;
-	ft_clean_game(&game->screen, &game->player, &game->map);
+	ft_clean_game(game->screen.resolution, &game->player, &game->map);
 	if (!ft_set_screen(&game->screen, screenshot))
 		ft_put_error("set screen failure");
 	ft_set_all_textures(file, &game->screen);

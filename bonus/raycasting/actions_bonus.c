@@ -24,10 +24,18 @@ int		ft_key_press(int keycode, t_game *game)
 		game->player.move.left = 1;
 	if (keycode == KEY_D)
 		game->player.move.right = 1;
+	if (keycode == UP)
+		game->player.rotate.up = 1;
+	if (keycode == DOWN)
+		game->player.rotate.down = 1;
 	if (keycode == RIGHT)
 		game->player.rotate.right = 1;
 	if (keycode == LEFT)
 		game->player.rotate.left = 1;
+	if (keycode == SPACE)
+		game->player.move.jump = 1;
+	if (keycode == L_SHIFT)
+		game->player.move.crouch = 1;
 	return (0);
 }
 
@@ -51,15 +59,24 @@ int		ft_key_release(int keycode, t_game *game)
 		game->player.move.left = 0;
 	if (keycode == KEY_D)
 		game->player.move.right = 0;
+	if (keycode == UP)
+		game->player.rotate.up = 0;
+	if (keycode == DOWN)
+		game->player.rotate.down = 0;
 	if (keycode == LEFT)
 		game->player.rotate.left = 0;
 	if (keycode == RIGHT)
 		game->player.rotate.right = 0;
+	if (keycode == SPACE)
+		game->player.move.jump = 0;
+	if (keycode == L_SHIFT)
+		game->player.move.crouch = 0;
 	return (0);
 }
 
 int		ft_mouse_move(int x, int y, t_game *game)
 {
-	game->player.rotate.mouse_turn = x;
-	return (y);
+	game->player.rotate.mouse_look.x = x;
+	game->player.rotate.mouse_look.y = y;
+	return (0);
 }

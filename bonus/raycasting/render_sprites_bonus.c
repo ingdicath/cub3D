@@ -23,7 +23,8 @@ int					ft_render_sprites(t_game *game)
 	{
 		ft_inverse_camera(game->map.sprites[i], &s_cast, game->player,
 			game->screen.resolution.width);
-		ft_calc_sprite_limits(&s_cast, game->screen.resolution);
+		ft_calc_sprite_limits(&s_cast, game->screen.resolution,
+			game->player.ray);
 		ft_vertical_stripes(&s_cast, game->screen, game->map.zbuffer);
 		i++;
 	}
@@ -60,15 +61,17 @@ void				ft_inverse_camera(t_sprite sprite, t_sprite_cast *s_cast,
 */
 
 void				ft_calc_sprite_limits(t_sprite_cast *s_cast,
-						t_size resolution)
+						t_size resolution, t_ray ray)
 {
+	s_cast->move_screen = (int)(V_MOVE / s_cast->transform.y) + ray.pitch +
+							ray.pos_z / s_cast->transform.y;
 	s_cast->size.height = abs((int)(resolution.height / s_cast->transform.y));
 	s_cast->draw_start.y = (int)(-s_cast->size.height / 2 +
-		resolution.height / 2);
+		resolution.height / 2) + s_cast->move_screen;
 	if (s_cast->draw_start.y < 0)
 		s_cast->draw_start.y = 0;
 	s_cast->draw_end.y = (int)(s_cast->size.height / 2 +
-		resolution.height / 2);
+		resolution.height / 2) + s_cast->move_screen;
 	if (s_cast->draw_end.y >= resolution.height)
 		s_cast->draw_end.y = resolution.height - 1.0;
 	s_cast->size.width = abs((int)(resolution.height / s_cast->transform.y));
@@ -115,7 +118,7 @@ void				ft_draw_stripes(t_sprite_cast *s_cast, t_screen screen,
 	y = s_cast->draw_start.y;
 	while (y < s_cast->draw_end.y)
 	{
-		d = y * 256 - screen.resolution.height * 128 +
+		d = (y - s_cast->move_screen) * 256 - screen.resolution.height * 128 +
 			s_cast->size.height * 128;
 		tex->y = ((d * screen.sprite.height) / s_cast->size.height) / 256;
 		color = ft_get_color(screen.sprite, *tex);

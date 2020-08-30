@@ -60,3 +60,17 @@ void			ft_rotate_move(t_player *player, int turn)
 	player->plane.y = old_plane_x * sin(ROTATE_SPEED * turn) +
 		player->plane.y * cos(ROTATE_SPEED * turn);
 }
+
+void			ft_up_down_look(t_ray *ray, int look)
+{
+	ray->pitch += 400 * MOVE_SPEED * look;
+	if (ray->pitch > 200)
+		ray->pitch = 200;
+	if (ray->pitch < -200)
+		ray->pitch = -200;
+}
+
+void			ft_jump_crouch_move(t_ray *ray, int dir)
+{
+	ray->pos_z = 200 * dir;
+}

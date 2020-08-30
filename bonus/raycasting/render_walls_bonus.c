@@ -39,10 +39,12 @@ void			ft_calc_wall_dist(t_ray *ray, t_position current)
 void			ft_calc_draw_limits(t_ray *ray, t_size resolution)
 {
 	ray->line_height = (int)(resolution.height / ray->perpwalldist);
-	ray->draw_start = resolution.height / 2 - ray->line_height / 2;
+	ray->draw_start = resolution.height / 2 - ray->line_height / 2 +
+						ray->pitch + (ray->pos_z / ray->perpwalldist);
 	if (ray->draw_start < 0)
 		ray->draw_start = 0;
-	ray->draw_end = resolution.height / 2 + ray->line_height / 2;
+	ray->draw_end = resolution.height / 2 + ray->line_height / 2 +
+						ray->pitch + (ray->pos_z / ray->perpwalldist);
 	if (ray->draw_end < 0)
 		ray->draw_end = resolution.height;
 	if (ray->draw_end >= resolution.height)
@@ -87,7 +89,8 @@ void			ft_draw_walls(t_ray *ray, t_screen *screen, int x)
 
 	texture = ft_get_textures(*screen, ray);
 	screen->wall.step = 1.0 * texture.height / ray->line_height;
-	screen->wall.start_pos = (ray->draw_start - screen->resolution.height / 2 +
+	screen->wall.start_pos = (ray->draw_start - ray->pitch -
+		(ray->pos_z / ray->perpwalldist) - screen->resolution.height / 2 +
 		ray->line_height / 2) * screen->wall.step;
 	y = ray->draw_start;
 	while (y < ray->draw_end)
