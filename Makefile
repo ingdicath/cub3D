@@ -12,7 +12,9 @@
 
 NAME = cub3D
 
-HEADERS = cub3d.h
+NAME_BONUS = cub3D_bonus
+
+HEADERS = cub3d.h bonus/cub3d_bonus.h
 
 CC = gcc
 
@@ -32,6 +34,8 @@ LIBFT = libft.a
 
 BMP = cub3d_screenshot.bmp
 
+BMP_BONUS = cub3d_screenshot_bonus.bmp
+
 SRC = parsing/check_args_path.c parsing/check_textures_path.c\
 	parsing/check_res_floor_ceiling_color.c parsing/read_map.c\
 	parsing/check_orientacion.c parsing/fill_elements.c\
@@ -42,9 +46,26 @@ SRC = parsing/check_args_path.c parsing/check_textures_path.c\
 	raycasting/actions.c raycasting/render_floor_ceiling.c\
 	raycasting/screenshot.c raycasting/write_bytes.c main.c\
 	raycasting/render_sprites.c parsing/check_map.c\
-	
+
+SRC_BONUS = bonus/parsing/check_args_path_bonus.c\
+	bonus/parsing/check_textures_path_bonus.c\
+	bonus/parsing/check_res_floor_ceiling_color_bonus.c\
+	bonus/parsing/read_map_bonus.c bonus/parsing/check_orientacion_bonus.c\
+	bonus/parsing/fill_elements_bonus.c bonus/raycasting/render_map_bonus.c\
+	bonus/parsing/initialize_structures_bonus.c\
+	bonus/raycasting/drawer_bonus.c bonus/raycasting/set_game_bonus.c\
+	bonus/raycasting/start_game_bonus.c	bonus/raycasting/render_walls_bonus.c\
+	bonus/raycasting/movements_bonus.c bonus/raycasting/set_utils_bonus.c\
+	bonus/raycasting/sprite_utils_bonus.c bonus/raycasting/actions_bonus.c\
+	bonus/raycasting/screenshot_bonus.c bonus/raycasting/write_bytes_bonus.c\
+	bonus/raycasting/render_sprites_bonus.c bonus/parsing/check_map_bonus.c\
+	bonus/raycasting/render_floor_ceiling_bonus.c\
+	bonus/parsing/check_textures_floor_ceiling.c\
+	bonus/main_bonus.c
 
 OBJECTS = $(SRC:.c=.o)
+
+OBJECTS_BONUS= $(SRC_BONUS:.c=.o)
 
 all: $(NAME)
 
@@ -62,27 +83,33 @@ $(NAME): $(OBJECTS) $(LIBMLX) $(LIB)
 	@$(CC) $(FLAGS) $(MLX_FLAGS) -o $(NAME) $(OBJECTS) $(LIBFT)
 	@echo "name rule executed successfully"
 
+bonus: $(NAME_BONUS)
+	
+$(NAME_BONUS): $(OBJECTS_BONUS) $(LIBMLX) $(LIB)
+	@$(CC) $(FLAGS) $(MLX_FLAGS) -o $(NAME_BONUS) $(OBJECTS_BONUS) $(LIBFT)
+	@echo "name bonus rule executed successfully"
+
 %.o: %.c $(HEADERS)
 	@$(CC) $(FLAGS) -Imlx -Ilibft -c $< -o $@
-
+	
 clean:
-	@rm -f $(OBJECTS) $(LIBMLX) $(LIBFT) $(BMP)
+	@rm -f $(OBJECTS) $(OBJECTS_BONUS) $(LIBMLX) $(LIBFT) $(BMP) $(BMP_BONUS)
 	@make clean -C $(MLX)
 	@make clean -C $(LIB_FT)
 	@rm -f .DS_Store
 	@echo "Objects file were removed - clean."
 
 fclean: clean
-	@rm -f $(NAME)
+	@rm -f $(NAME) $(NAME_BONUS)
 	@make fclean -C $(LIB_FT)	
 	@echo "Objects file were removed - fclean."
 
 sclean: 
-	@rm -f $(OBJECTS) $(BMP)
+	@rm -f $(OBJECTS) $(OBJECTS_BONUS) $(BMP) $(BMP_BONUS)
 	@echo "Objects file were removed - sclean."
 
-cub: sclean $(NAME)
+cub: sclean $(NAME) $(NAME_BONUS) bonus
 
 re: fclean all
 
-.PHONY: all clean fclean re cub
+.PHONY: all clean fclean re cub bonus
