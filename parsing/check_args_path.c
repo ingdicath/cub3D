@@ -69,11 +69,7 @@ int			ft_check_extension(char *file_name, char *valid_ext)
 int			ft_check_path(char *str)
 {
 	int		ret;
-	int		i;
-
-	i = 0;
-	if (str[i] != '.')
-		return (ft_put_error("invalid path"));
+	
 	if (!ft_check_extension(str, XPM) && !ft_check_extension(str, PNG))
 		return (ft_put_error("invalid extension for texture"));
 	ret = open(str, O_RDONLY);

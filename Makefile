@@ -104,7 +104,7 @@ sclean:
 	@rm -f $(OBJECTS) $(OBJECTS_BONUS) $(BMP) $(BMP_BONUS)
 	@echo "Objects file were removed - sclean."
 
-cub: sclean $(NAME) bonus
+cub: sclean $(NAME)
 
 re: fclean all
 

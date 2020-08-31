@@ -50,6 +50,7 @@
 # include <math.h>
 # include "mlx/mlx.h"
 # include "libft/libft.h"
+# include <stdio.h>
 
 /*
 ** ----------- Actions constants ----------------------------------------------
