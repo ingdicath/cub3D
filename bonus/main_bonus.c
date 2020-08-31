@@ -16,7 +16,7 @@ int				main(int argc, char **argv)
 {
 	int			screenshot;
 	t_game_file	game_file;
-	
+
 	if (!ft_parsing(argc, argv, &game_file, &screenshot))
 		return (ft_put_error("Parsing failure"));
 	if (screenshot)

@@ -36,16 +36,16 @@ int			ft_play_game(t_game *game)
 		ft_render_map(game);
 		game->player.rotate.mouse_base.x = game->player.rotate.mouse_look.x;
 		game->player.rotate.mouse_base.y = game->player.rotate.mouse_look.y;
-		if(game->player.ray.pitch  > 0)
+		if (game->player.ray.pitch > 0)
 			game->player.ray.pitch = ft_max(0, game->player.ray.pitch -
 					100 * MOVE_SPEED);
-		else if ( game->player.ray.pitch < 0)
+		else if (game->player.ray.pitch < 0)
 			game->player.ray.pitch = ft_min(0, game->player.ray.pitch +
 					100 * MOVE_SPEED);
-		if(game->player.ray.pos_z  > 0)
+		if (game->player.ray.pos_z > 0)
 			game->player.ray.pos_z = ft_max(0, game->player.ray.pos_z -
 					100 * MOVE_SPEED);
-		else if(game->player.ray.pos_z  < 0)
+		else if (game->player.ray.pos_z < 0)
 			game->player.ray.pos_z = ft_min(0, game->player.ray.pos_z +
 					100 * MOVE_SPEED);
 	}
@@ -83,7 +83,7 @@ int			ft_manage_movements(t_map map, t_player *player)
 	if (player->rotate.left ||
 		player->rotate.mouse_look.x < player->rotate.mouse_base.x)
 		ft_rotate_move(player, -1);
-	if (player->rotate.right || 
+	if (player->rotate.right ||
 		player->rotate.mouse_look.x > player->rotate.mouse_base.x)
 		ft_rotate_move(player, 1);
 	return (0);

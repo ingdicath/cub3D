@@ -127,7 +127,7 @@ typedef struct	s_game_file
 	char		*we_path;
 	char		*sprite_path;
 	char		*floor_path;
-	char 		*ceil_path;
+	char		*ceil_path;
 	t_size		resolution;
 	t_map		map;
 }				t_game_file;
@@ -156,11 +156,13 @@ typedef struct	s_wall
 
 typedef struct	s_floor_ray
 {
-	int 		current_pos;
+	int			current_pos;
 	int			is_floor;
 	double		row_distance;
-	t_position 	f_fraction;
-	t_position 	c_fraction;
+	t_position	ray_dir0;
+	t_position	ray_dir1;
+	t_position	f_fraction;
+	t_position	c_fraction;
 	t_position	step;
 	t_position	leftmost;
 }				t_floor_ray;
@@ -176,6 +178,7 @@ typedef struct	s_ray
 	double		wall_x;
 	double		pitch;
 	double		pos_z;
+	double		cam_z;
 	t_position	dir;
 	t_position	deltadist;
 	t_position	sidedist;
@@ -186,7 +189,7 @@ typedef struct	s_ray
 typedef struct	s_sprite_cast
 {
 	int			screen_x;
-	int 		move_screen;
+	int			move_screen;
 	t_size		size;
 	t_position	transform;
 	t_position	draw_start;
@@ -216,8 +219,8 @@ typedef struct	s_movements
 	int			back;
 	int			right;
 	int			left;
-	int 		jump;
-	int 		crouch;
+	int			jump;
+	int			crouch;
 }				t_movements;
 
 typedef struct	s_rotations
@@ -236,9 +239,9 @@ typedef struct	s_player
 	t_position	plane;
 	t_position	current_pos;
 	t_movements	move;
-	t_rotations rotate;
+	t_rotations	rotate;
 	t_ray		ray;
-	t_floor_ray floor_ray;
+	t_floor_ray	floor_ray;
 }				t_player;
 
 typedef struct	s_game
@@ -337,11 +340,12 @@ void			ft_free_array(char **array);
 void			ft_draw_floor_ceiling(t_screen *screen, t_floor_ray *floor_ray,
 					int y);
 void			ft_render_floor_ceiling(t_screen *screen, t_player *player);
-void 			ft_set_ray_pos_floor(t_screen screen, t_player *player, int y);
+void			ft_set_ray_pos_floor(t_screen screen, t_player *player, int y);
 int				ft_mouse_move(int x, int y, t_game *game);
 void			ft_up_down_look(t_ray *ray, int look);
 void			ft_jump_crouch_move(t_ray *ray, int dir);
 void			ft_calc_fraction_floor_ceiling(t_screen *screen,
 					t_floor_ray *floor_ray);
+void			ft_row_distance_step(t_screen screen, t_player *player);
 
 #endif

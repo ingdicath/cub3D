@@ -17,7 +17,7 @@ void			ft_render_floor_ceiling(t_screen *screen, t_player *player)
 	int			y;
 
 	y = 0;
-	while(y < screen->resolution.height)
+	while (y < screen->resolution.height)
 	{
 		player->floor_ray.is_floor = y > (screen->resolution.height / 2
 									+ player->ray.pitch);
@@ -29,38 +29,39 @@ void			ft_render_floor_ceiling(t_screen *screen, t_player *player)
 
 void			ft_set_ray_pos_floor(t_screen screen, t_player *player, int y)
 {
-	double		ray_dir0_x;
-	double		ray_dir0_y;
-	double		ray_dir1_x;
-	double		ray_dir1_y;
-	double		cam_z;
-
-	ray_dir0_x = player->orientation.x - player->plane.x;
-	ray_dir0_y = player->orientation.y - player->plane.y;
-	ray_dir1_x = player->orientation.x + player->plane.x;
-	ray_dir1_y = player->orientation.y + player->plane.y;
+	player->floor_ray.ray_dir0.x = player->orientation.x - player->plane.x;
+	player->floor_ray.ray_dir0.y = player->orientation.y - player->plane.y;
+	player->floor_ray.ray_dir1.x = player->orientation.x + player->plane.x;
+	player->floor_ray.ray_dir1.y = player->orientation.y + player->plane.y;
 	if (player->floor_ray.is_floor)
 	{
 		player->floor_ray.current_pos = y - screen.resolution.height / 2
 			- player->ray.pitch;
-		cam_z = 0.5 * screen.resolution.height + player->ray.pos_z;
+		player->ray.cam_z = 0.5 * screen.resolution.height + player->ray.pos_z;
 	}
 	else
 	{
-	
 		player->floor_ray.current_pos = screen.resolution.height / 2
 			- y + player->ray.pitch;
-		cam_z = 0.5 * screen.resolution.height - player->ray.pos_z;
-	}	
-	player->floor_ray.row_distance = cam_z / player->floor_ray.current_pos;
+		player->ray.cam_z = 0.5 * screen.resolution.height - player->ray.pos_z;
+	}
+	ft_row_distance_step(screen, player);
+}
+
+void			ft_row_distance_step(t_screen screen, t_player *player)
+{
+	player->floor_ray.row_distance = player->ray.cam_z /
+										player->floor_ray.current_pos;
 	player->floor_ray.step.x = player->floor_ray.row_distance *
-		(ray_dir1_x - ray_dir0_x) / screen.resolution.width;
+		(player->floor_ray.ray_dir1.x - player->floor_ray.ray_dir0.x) /
+			screen.resolution.width;
 	player->floor_ray.step.y = player->floor_ray.row_distance *
-		(ray_dir1_y - ray_dir0_y) / screen.resolution.width;
+		(player->floor_ray.ray_dir1.y - player->floor_ray.ray_dir0.y) /
+			screen.resolution.width;
 	player->floor_ray.leftmost.x = player->current_pos.x +
-		player->floor_ray.row_distance * ray_dir0_x;
+		player->floor_ray.row_distance * player->floor_ray.ray_dir0.x;
 	player->floor_ray.leftmost.y = player->current_pos.y +
-		player->floor_ray.row_distance * ray_dir0_y;
+		player->floor_ray.row_distance * player->floor_ray.ray_dir0.y;
 }
 
 void			ft_draw_floor_ceiling(t_screen *screen, t_floor_ray *floor_ray,
@@ -68,12 +69,11 @@ void			ft_draw_floor_ceiling(t_screen *screen, t_floor_ray *floor_ray,
 {
 	int			x;
 	int			color;
-	
+
 	x = 0;
 	while (x < screen->resolution.width)
 	{
 		ft_calc_fraction_floor_ceiling(screen, floor_ray);
-		
 		if (floor_ray->is_floor)
 		{
 			color = ft_get_color(screen->floor, floor_ray->f_fraction);
@@ -91,7 +91,7 @@ void			ft_draw_floor_ceiling(t_screen *screen, t_floor_ray *floor_ray,
 void			ft_calc_fraction_floor_ceiling(t_screen *screen,
 					t_floor_ray *floor_ray)
 {
-	t_position	cell;	
+	t_position	cell;
 
 	cell.x = (int)(floor_ray->leftmost.x);
 	cell.y = (int)(floor_ray->leftmost.y);

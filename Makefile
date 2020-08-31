@@ -12,8 +12,6 @@
 
 NAME = cub3D
 
-NAME_BONUS = cub3D_bonus
-
 HEADERS = cub3d.h bonus/cub3d_bonus.h
 
 CC = gcc
@@ -83,10 +81,8 @@ $(NAME): $(OBJECTS) $(LIBMLX) $(LIB)
 	@$(CC) $(FLAGS) $(MLX_FLAGS) -o $(NAME) $(OBJECTS) $(LIBFT)
 	@echo "name rule executed successfully"
 
-bonus: $(NAME_BONUS)
-	
-$(NAME_BONUS): $(OBJECTS_BONUS) $(LIBMLX) $(LIB)
-	@$(CC) $(FLAGS) $(MLX_FLAGS) -o $(NAME_BONUS) $(OBJECTS_BONUS) $(LIBFT)
+bonus: $(OBJECTS_BONUS) $(LIBMLX) $(LIB)
+	@$(CC) $(FLAGS) $(MLX_FLAGS) -o $(NAME) $(OBJECTS_BONUS) $(LIBFT)
 	@echo "name bonus rule executed successfully"
 
 %.o: %.c $(HEADERS)
@@ -100,7 +96,7 @@ clean:
 	@echo "Objects file were removed - clean."
 
 fclean: clean
-	@rm -f $(NAME) $(NAME_BONUS)
+	@rm -f $(NAME)
 	@make fclean -C $(LIB_FT)	
 	@echo "Objects file were removed - fclean."
 
@@ -108,7 +104,7 @@ sclean:
 	@rm -f $(OBJECTS) $(OBJECTS_BONUS) $(BMP) $(BMP_BONUS)
 	@echo "Objects file were removed - sclean."
 
-cub: sclean $(NAME) $(NAME_BONUS) bonus
+cub: sclean $(NAME) bonus
 
 re: fclean all
 

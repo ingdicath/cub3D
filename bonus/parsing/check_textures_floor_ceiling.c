@@ -24,7 +24,7 @@ int		ft_check_tex_floor(char **line, char **floor_path)
 			return (ft_put_error("more arguments than expected for F text."));
 		if (ft_check_path(line[1]))
 			*floor_path = ft_strdup(line[1]);
-	}	
+	}
 	return (1);
 }
 
