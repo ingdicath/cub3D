@@ -20,7 +20,7 @@
 # define CUB ".cub"
 # define XPM ".xpm"
 # define PNG ".png"
-# define SCREENSHOT "cub3d_screenshot_bonus.bmp"
+# define SCREENSHOT "cub3d_screenshot.bmp"
 # define WHITE_SPACE " \t\n\v\f\r"
 
 /*
@@ -256,8 +256,10 @@ typedef struct	s_game
 */
 
 void			ft_reset_input(t_game_file *mapfile);
-int				ft_read_file(char *file_name, t_game_file *file);
-int				ft_check_resolution(char **line, t_size *resolution);
+int				ft_read_file(char *file_name, t_game_file *file,
+					int screenshot); //screenshot
+int				ft_check_resolution(char **line, t_size *resolution,
+					int screenshot); //screenshot
 int				ft_check_north_path(char **line, char **north_path);
 int				ft_check_west_path(char **line, char **west_path);
 int				ft_check_east_path(char **line, char **east_path);
@@ -269,7 +271,8 @@ int				ft_array_size(char **array);
 int				ft_check_path(char *str);
 int				ft_check_extension(char *file_name, char *valid_ext);
 int				ft_check_valid_char(char c);
-int				ft_fill_elements(char *line, t_game_file *mapfile);
+int				ft_fill_elements(char *line, t_game_file *mapfile,
+					int screenshot); //screenshot
 char			**ft_join_lines(char **matrix, char *new_line);
 int				ft_check_unique_orientation(t_map *map, int i, int j);
 int				ft_check_args(int argc, char **argv, int *screenshot);
@@ -278,7 +281,7 @@ int				ft_set_sprites_and_orientation(t_map *map);
 int				ft_check_map(t_map map);
 int				ft_flood_fill(char **matrix, int x, int y);
 int				ft_uncovered_map(char **matrix);
-int				ft_read_line(t_game_file *file, char *line);
+int				ft_read_line(t_game_file *file, char *line, int screenshot); //screensht
 int				ft_parsing(int argc, char **argv, t_game_file *file,
 					int *screenshot);
 int				ft_check_tex_floor(char **line, char **floor_path);

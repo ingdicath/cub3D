@@ -29,7 +29,7 @@ int		ft_flood_fill(char **matrix, int x, int y)
 
 	res = 1;
 	if (y < 0 || matrix[y] == NULL || (!res && matrix[y][x] != '+'
-		   && !ft_check_valid_char(matrix[y][x]) && matrix[y][x] != ' '))
+			&& !ft_check_valid_char(matrix[y][x]) && matrix[y][x] != ' '))
 		return (0);
 	if (matrix[y][x] == '1' || matrix[y][x] == '*' || matrix[y][x] == '+')
 		return (res);

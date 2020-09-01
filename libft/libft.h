@@ -37,5 +37,6 @@ void	ft_free_array(char **array);
 int		ft_array_size(char **array);
 int		ft_max(int num1, int num2);
 int		ft_min(int num1, int num2);
+int		ft_ispositive_number(char *str);
 
 #endif

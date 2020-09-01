@@ -16,7 +16,7 @@
 ** The maximum max resolution mlx can handle is 16384.
 */
 
-int			ft_check_resolution(char **line, t_size *resolution)
+int			ft_check_resolution(char **line, t_size *resolution, int scrshot)
 {
 	if (line[0] && (ft_strcmp_trim(line[0], "R") == 0))
 	{
@@ -30,7 +30,8 @@ int			ft_check_resolution(char **line, t_size *resolution)
 		resolution->height = ft_atoi(line[2]);
 		if (resolution->width <= 0 || resolution->height <= 0)
 			return (ft_put_error("Invalid value for Resolution"));
-		if (resolution->width > 16384 || resolution->height > 16384)
+		if (scrshot == 1 && (resolution->width > 16384 ||
+				resolution->height > 16384))
 			return (ft_put_error("Resolution exceeds maximum value 16384"));
 	}
 	return (1);

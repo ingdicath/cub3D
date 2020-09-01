@@ -1,6 +1,6 @@
-R      1200     800
+R      1200  800
 
-WE ./textures/edgar.xpm
+WE textures/edgar.xpm
 NO      ./textures/wood.xpm
 SO ./textures/greystone.xpm
 EA ./textures/dog.xpm

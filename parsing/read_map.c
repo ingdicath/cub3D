@@ -12,7 +12,7 @@
 
 #include "../cub3d.h"
 
-int			ft_read_file(char *file_name, t_game_file *file)
+int			ft_read_file(char *file_name, t_game_file *file, int screenshot)
 {
 	int		ret;
 	int		fd;
@@ -29,7 +29,7 @@ int			ft_read_file(char *file_name, t_game_file *file)
 		ret = get_next_line(fd, &line);
 		if (ret < 0)
 			return (ft_put_error("file not found"));
-		if (!ft_read_line(file, line))
+		if (!ft_read_line(file, line, screenshot))
 			valid = 0;
 		free(line);
 	}
@@ -41,11 +41,11 @@ int			ft_read_file(char *file_name, t_game_file *file)
 	return (valid);
 }
 
-int			ft_read_line(t_game_file *file, char *line)
+int			ft_read_line(t_game_file *file, char *line, int screenshot)
 {
 	if (!ft_check_complete_elements(file))
 	{
-		if (!ft_fill_elements(line, file))
+		if (!ft_fill_elements(line, file, screenshot))
 			return (ft_put_error("check map elements"));
 	}
 	else

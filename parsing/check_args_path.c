@@ -18,7 +18,7 @@ int			ft_parsing(int argc, char **argv, t_game_file *file, int *scrshot)
 
 	ft_reset_input(file);
 	res = ft_check_args(argc, argv, scrshot) &&
-		ft_read_file(argv[1], file) &&
+		ft_read_file(argv[1], file, *scrshot) &&
 		ft_set_sprites_and_orientation(&file->map) &&
 		ft_check_map(file->map);
 	return (res);
@@ -69,7 +69,7 @@ int			ft_check_extension(char *file_name, char *valid_ext)
 int			ft_check_path(char *str)
 {
 	int		ret;
-	
+
 	if (!ft_check_extension(str, XPM) && !ft_check_extension(str, PNG))
 		return (ft_put_error("invalid extension for texture"));
 	ret = open(str, O_RDONLY);

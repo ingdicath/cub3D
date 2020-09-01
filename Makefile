@@ -32,8 +32,6 @@ LIBFT = libft.a
 
 BMP = cub3d_screenshot.bmp
 
-BMP_BONUS = cub3d_screenshot_bonus.bmp
-
 SRC = parsing/check_args_path.c parsing/check_textures_path.c\
 	parsing/check_res_floor_ceiling_color.c parsing/read_map.c\
 	parsing/check_orientacion.c parsing/fill_elements.c\
@@ -89,7 +87,7 @@ bonus: $(OBJECTS_BONUS) $(LIBMLX) $(LIB)
 	@$(CC) $(FLAGS) -Imlx -Ilibft -c $< -o $@
 	
 clean:
-	@rm -f $(OBJECTS) $(OBJECTS_BONUS) $(LIBMLX) $(LIBFT) $(BMP) $(BMP_BONUS)
+	@rm -f $(OBJECTS) $(OBJECTS_BONUS) $(LIBMLX) $(LIBFT) $(BMP)
 	@make clean -C $(MLX)
 	@make clean -C $(LIB_FT)
 	@rm -f .DS_Store
@@ -101,7 +99,7 @@ fclean: clean
 	@echo "Objects file were removed - fclean."
 
 sclean: 
-	@rm -f $(OBJECTS) $(OBJECTS_BONUS) $(BMP) $(BMP_BONUS)
+	@rm -f $(OBJECTS) $(OBJECTS_BONUS) $(BMP)
 	@echo "Objects file were removed - sclean."
 
 cub: sclean $(NAME)

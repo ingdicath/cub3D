@@ -12,7 +12,7 @@
 
 #include "../cub3d.h"
 
-int			ft_fill_elements(char *line, t_game_file *game_file)
+int			ft_fill_elements(char *line, t_game_file *game_file, int scrshot)
 {
 	int		result;
 	char	**line_split;
@@ -22,7 +22,7 @@ int			ft_fill_elements(char *line, t_game_file *game_file)
 	temp = ft_strtrim(line, WHITE_SPACE);
 	line_split = ft_split(temp, ' ');
 	result = ft_check_valid_file_elements(line_split) &&
-		ft_check_resolution(line_split, &game_file->resolution) &&
+		ft_check_resolution(line_split, &game_file->resolution, scrshot) &&
 		ft_check_north_path(line_split, &game_file->no_path) &&
 		ft_check_south_path(line_split, &game_file->so_path) &&
 		ft_check_east_path(line_split, &game_file->ea_path) &&
