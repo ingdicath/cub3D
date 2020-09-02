@@ -12,79 +12,99 @@
 
 #include "../cub3d.h"
 
-/*
-** The maximum max resolution mlx can handle is 16384.
-*/
-
-int			ft_check_resolution(char **line, t_size *resolution, int scrshot)
+int			ft_check_resolution(char *header, char *element, t_size *resolution)
 {
-	if (line[0] && (ft_strcmp_trim(line[0], "R") == 0))
+	int 	res;
+	char	**line_split;
+	
+	res = 1;
+	if (ft_strcmp(header, "R") == 0)
 	{
+		line_split = ft_split(element, ' ');
 		if (resolution->width >= 0 || resolution->height >= 0)
-			return (ft_put_error("argument(s) for RES already exist(s)"));
-		if (ft_array_size(line) != 3)
-			return (ft_put_error("wrong number of arguments for RES"));
-		if (!ft_isnumber(line[1]) || !ft_isnumber(line[2]))
-			return (ft_put_error("is not number for resolution"));
-		resolution->width = ft_atoi(line[1]);
-		resolution->height = ft_atoi(line[2]);
-		if (resolution->width <= 0 || resolution->height <= 0)
-			return (ft_put_error("Invalid value for Resolution"));
-		if (scrshot == 1 && (resolution->width > 16384 ||
-				resolution->height > 16384))
-			return (ft_put_error("Resolution exceeds maximum value 16384"));
+			res = ft_put_error("argument(s) for RES already exist(s)");
+		else if (ft_array_size(line_split) != 2)
+			res = ft_put_error("wrong number of arguments for RES");
+		else if (!ft_isnumber(line_split[0]) || !ft_isnumber(line_split[1]))
+			res = ft_put_error("is not number for resolution");
+		else 
+		{
+			resolution->width = ft_atoi_max_int(line_split[0]);
+			resolution->height = ft_atoi_max_int(line_split[1]);
+			if (resolution->width <= 0 || resolution->height <= 0)
+				res = ft_put_error("Invalid value for Resolution");
+		}
+		ft_free_array(line_split);
 	}
-	return (1);
+	return (res);
 }
 
-int			ft_check_ceiling(char **line, t_color *ceiling)
+int			ft_check_ceiling(char *header, char *element, t_color *ceiling)
 {
-	char	**header;
+	char	**colors;
+	int 	res;
 
-	header = ft_split(line[0], ' ');
-	if (header[0] && (ft_strcmp_trim(header[0], "C") == 0))
+	res = 1;
+	if (ft_strcmp(header, "C") == 0)
 	{
+		colors = ft_split(element, ',');
 		if (ceiling->red >= 0 || ceiling->green >= 0 || ceiling->blue >= 0)
-			return (ft_put_error("argument(s) already for ceiling exist(s)"));
-		if (ft_array_size(line) != 3)
-			return (ft_put_error("Wrong number of arguments for ceiling."));
-		if (!ft_isnumber(header[1]) || !ft_isnumber(line[1])
-			|| !ft_isnumber(line[2]))
-			return (ft_put_error("check numbers for ceiling"));
-		ceiling->red = atoi(header[1]);
-		ceiling->green = atoi(line[1]);
-		ceiling->blue = atoi(line[2]);
-		if (ceiling->red < 0 || ceiling->green < 0 || ceiling->blue < 0)
-			return (ft_put_error("ceil.: Non negative numbers are expected"));
-		if (ceiling->red > 255 || ceiling->green > 255 || ceiling->blue > 255)
-			return (ft_put_error("ceiling: color value must be maximum 255"));
+			res = ft_put_error("argument(s) already for ceiling exist(s)");
+		else if (ft_array_size(colors) != 3 || element[0] == ','
+				|| element[(ft_strlen(element) - 1)] == ',')
+			res = ft_put_error("Wrong number of arguments for ceiling.");
+		else if (!ft_isnumber(colors[0]) || !ft_isnumber(colors[1])
+				|| !ft_isnumber(colors[2]))
+			res = ft_put_error("check numbers for ceiling");
+		else 
+		{
+			ceiling->red = atoi(colors[0]);
+			ceiling->green = atoi(colors[1]);
+			ceiling->blue = atoi(colors[2]);
+			res = ft_check_rgb_color(*ceiling);
+		}
+		ft_free_array(colors);
 	}
-	ft_free_array(header);
-	return (1);
+	return (res);
 }
 
-int			ft_check_floor(char **line, t_color *floor)
+int ft_check_rgb_color(t_color color)
 {
-	char	**header;
+	if (color.red < 0 || color.green < 0 || color.blue < 0)
+		return (ft_put_error("Color: Value should not be negative"));
+	else if (color.red > 255 || color.green > 255 || color.blue > 255)
+		return (ft_put_error("Color: Value must be maximum 255"));
+	else 
+		return (1);
+}
 
-	header = ft_split(line[0], ' ');
-	if (header[0] && (ft_strcmp_trim(header[0], "F") == 0))
+
+
+int			ft_check_floor(char *header, char *element, t_color *floor)
+{
+	char	**colors;
+	int 	res;
+
+	res = 1;
+	if (ft_strcmp(header, "F") == 0)
 	{
+		colors = ft_split(element, ',');
 		if (floor->red >= 0 || floor->green >= 0 || floor->blue >= 0)
-			return (ft_put_error("argument(s) already for floor exist(s)"));
-		if (ft_array_size(line) != 3)
-			return (ft_put_error("Wrong number of arguments for floor."));
-		if (!ft_isnumber(header[1]) || !ft_isnumber(line[1])
-			|| !ft_isnumber(line[2]))
-			return (ft_put_error("check numbers for floor"));
-		floor->red = atoi(header[1]);
-		floor->green = atoi(line[1]);
-		floor->blue = atoi(line[2]);
-		if (floor->red < 0 || floor->green < 0 || floor->blue < 0)
-			return (ft_put_error("floor: Non negative numbers are expected"));
-		if (floor->red > 255 || floor->green > 255 || floor->blue > 255)
-			return (ft_put_error("floor: color value must be maximum 255"));
+			res = ft_put_error("argument(s) already for floor exist(s)");
+		else if (ft_array_size(colors) != 3 || element[0] == ','
+				|| element[(ft_strlen(element) - 1)] == ',')
+			res = ft_put_error("Wrong number of arguments for floor.");
+		else if (!ft_isnumber(colors[0]) || !ft_isnumber(colors[1])
+				|| !ft_isnumber(colors[2]))
+			res = ft_put_error("check numbers for floor");
+		else 
+		{
+			floor->red = atoi(colors[0]);
+			floor->green = atoi(colors[1]);
+			floor->blue = atoi(colors[2]);
+			res = ft_check_rgb_color(*floor);
+		}
+		ft_free_array(colors);
 	}
-	ft_free_array(header);
-	return (1);
+	return (res);
 }

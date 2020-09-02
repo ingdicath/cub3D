@@ -18,7 +18,7 @@ int			ft_parsing(int argc, char **argv, t_game_file *file, int *scrshot)
 
 	ft_reset_input(file);
 	res = ft_check_args(argc, argv, scrshot) &&
-		ft_read_file(argv[1], file, *scrshot) &&
+		ft_read_file(argv[1], file) &&
 		ft_set_sprites_and_orientation(&file->map) &&
 		ft_check_map(file->map);
 	return (res);

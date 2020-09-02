@@ -13,21 +13,27 @@
 #include "../cub3d_bonus.h"
 
 /*
-** Flags
-** 	- O_WRONLY: Open for writing only.
-** 	- O_CREAT: the file shall be created if it does not exist.
-** 	- O_TRUNC: truncating the file length to 0 if it does exist.
+** OPEN FUNCTION:
+** - Flags: O_WRONLY: Open for writing only. O_CREAT: the file shall be created
+** if it does not exist. O_TRUNC: truncating the file length to 0 if 
+** it does exist.
+** - mode_t: The Mode Bits for Access Permission. It can set up with octal or
+** with symbolic constants:
 **
-** mode_t: The Mode Bits for Access Permission
-** It can set up with octal or with symbolic constants:
-** 	1) 0644: Permissions read, write or execute, it should be in octal.
-**	2) S_IRWXU: This is equivalent to ‘(S_IRUSR | S_IWUSR | S_IXUSR)’
+** The maximum max resolution mlx can handle is 16384.
+**
 */
 
 void		ft_take_screenshot(t_game_file file)
 {
 	int		fd;
 	t_game	game;
+
+	if (file.resolution.width > 16384 || file.resolution.height > 16384)
+	{
+		ft_put_error("Resolution exceeds maximum value 16384");
+		return ;
+	}
 
 	fd = open(SCREENSHOT, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd < 0)

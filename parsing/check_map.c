@@ -28,16 +28,13 @@ int		ft_flood_fill(char **matrix, int x, int y)
 	int	res;
 
 	res = 1;
-	if (y < 0 || matrix[y] == NULL || (!res && matrix[y][x] != '+'
-			&& !ft_check_valid_char(matrix[y][x]) && matrix[y][x] != ' '))
+	if (y < 0 || matrix[y] == NULL)
 		return (0);
 	if (matrix[y][x] == '1' || matrix[y][x] == '*' || matrix[y][x] == '+')
 		return (res);
 	else if (matrix[y][x] == '0' || matrix[y][x] == '2')
 	{
-		matrix[y][x] = '+';
-		if (matrix[y][x] == '2')
-			matrix[y][x] = '*';
+		matrix[y][x] = matrix[y][x] == '0' ?  '+' : '*';
 		res = res && ft_flood_fill(matrix, x - 1, y);
 		res = res && ft_flood_fill(matrix, x, y - 1);
 		res = res && ft_flood_fill(matrix, x + 1, y);
@@ -47,8 +44,8 @@ int		ft_flood_fill(char **matrix, int x, int y)
 		res = res && ft_flood_fill(matrix, x + 1, y + 1);
 		res = res && ft_flood_fill(matrix, x + 1, y - 1);
 	}
-	else
-		return (0);
+	else 
+		return(0);
 	return (res);
 }
 

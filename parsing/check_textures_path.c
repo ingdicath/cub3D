@@ -12,82 +12,72 @@
 
 #include "../cub3d.h"
 
-int		ft_check_north_path(char **line, char **north_path)
+int		ft_check_north_path(char *header, char *element, char **north_path)
 {
-	if (line[0] && (ft_strcmp_trim(line[0], "NO") == 0))
+	if (ft_strcmp(header, "NO") == 0)
 	{
 		if (*north_path != NULL)
 			return (ft_put_error("argument(s) already for NO exist(s)"));
-		if (!line[1])
+		if (!element)
 			return (ft_put_error("invalid arguments for NO texture"));
-		if (line[2])
-			return (ft_put_error("more arguments than expected for NO text."));
-		if (ft_check_path(line[1]))
-			*north_path = ft_strdup(line[1]);
+		if (ft_check_path(element))
+			*north_path = ft_strdup(element);
 	}
 	return (1);
 }
 
-int		ft_check_south_path(char **line, char **south_path)
-{
-	if (line[0] && (ft_strcmp_trim(line[0], "SO") == 0))
+int		ft_check_south_path(char *header, char *element, char **south_path)
+{	
+	if (ft_strcmp(header, "SO") == 0)
 	{
 		if (*south_path != NULL)
 			return (ft_put_error("argument(s) already for SO exist(s)"));
-		if (!line[1])
+		if (!element)
 			return (ft_put_error("invalid arguments for SO texture"));
-		if (line[2])
-			return (ft_put_error("more arguments than expected for SO text."));
-		if (ft_check_path(line[1]))
-			*south_path = ft_strdup(line[1]);
+		if (ft_check_path(element))
+			*south_path = ft_strdup(element);
 	}
 	return (1);
 }
 
-int		ft_check_west_path(char **line, char **west_path)
+int		ft_check_west_path(char *header, char *element, char **west_path)
 {
-	if (line[0] && (ft_strcmp_trim(line[0], "WE") == 0))
+	if (ft_strcmp(header, "WE") == 0)
 	{
 		if (*west_path != NULL)
 			return (ft_put_error("argument(s) already for WE exist(s)"));
-		if (!line[1])
-			return (ft_put_error("invalid arguments WE texture"));
-		if (line[2])
-			return (ft_put_error("more arguments than expected for WE text."));
-		if (ft_check_path(line[1]))
-			*west_path = ft_strdup(line[1]);
+		if (!element)
+			return (ft_put_error("invalid arguments for WE texture"));
+		if (ft_check_path(element))
+			*west_path = ft_strdup(element);
 	}
 	return (1);
 }
 
-int		ft_check_east_path(char **line, char **east_path)
+int		ft_check_east_path(char *header, char *element, char **east_path)
 {
-	if (line[0] && (ft_strcmp_trim(line[0], "EA") == 0))
+	if (ft_strcmp(header, "EA") == 0)
 	{
 		if (*east_path != NULL)
 			return (ft_put_error("argument(s) already for EA exist(s)"));
-		if (!line[1])
+		if (!element)
 			return (ft_put_error("invalid arguments for EA texture"));
-		if (line[2])
-			return (ft_put_error("more arguments than expected for EA text."));
-		if (ft_check_path(line[1]))
-			*east_path = ft_strdup(line[1]);
+		if (ft_check_path(element))
+			*east_path = ft_strdup(element);
 	}
 	return (1);
 }
 
-int		ft_check_sprite_path(char **line, char **sprite_path)
+int		ft_check_sprite_path(char *header, char *element, char **sprite_path)
 {
-	if (line[0] && (ft_strcmp_trim(line[0], "S") == 0))
+	if (ft_strcmp(header, "S") == 0)
 	{
 		if (*sprite_path != NULL)
 			return (ft_put_error("argument(s) already for sprite exist(s)"));
-		if (!line[1])
+		if (!element)
 			return (ft_put_error("invalid arguments for sprite texture"));
-		if (line[2])
-			return (ft_put_error("more arguments than expected for texture"));
-		if (ft_check_path(line[1]))
-			*sprite_path = ft_strdup(line[1]);
+		if (ft_check_path(element))
+			*sprite_path = ft_strdup(element);
 	}
 	return (1);
 }

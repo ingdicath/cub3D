@@ -17,6 +17,7 @@
 # include <stdlib.h>
 
 int		ft_atoi(const char *str);
+int		ft_atoi_max_int(const char *str);
 int		ft_isemptyline(char *str);
 int		ft_isnumber(char *str);
 int		ft_iswhitespace(char c);

@@ -17,7 +17,7 @@ int			ft_array_size(char **array)
 	int		i;
 
 	i = 0;
-	while (array[i])
+	while (array[i] != NULL)
 		i++;
 	return (i);
 }
