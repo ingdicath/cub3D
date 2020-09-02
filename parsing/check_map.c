@@ -34,7 +34,7 @@ int		ft_flood_fill(char **matrix, int x, int y)
 		return (res);
 	else if (matrix[y][x] == '0' || matrix[y][x] == '2')
 	{
-		matrix[y][x] = matrix[y][x] == '0' ?  '+' : '*';
+		matrix[y][x] = matrix[y][x] == '0' ? '+' : '*';
 		res = res && ft_flood_fill(matrix, x - 1, y);
 		res = res && ft_flood_fill(matrix, x, y - 1);
 		res = res && ft_flood_fill(matrix, x + 1, y);
@@ -44,8 +44,8 @@ int		ft_flood_fill(char **matrix, int x, int y)
 		res = res && ft_flood_fill(matrix, x + 1, y + 1);
 		res = res && ft_flood_fill(matrix, x + 1, y - 1);
 	}
-	else 
-		return(0);
+	else
+		return (0);
 	return (res);
 }
 

@@ -54,21 +54,19 @@ int			ft_check_valid_file_elements(char *header)
 
 char		**ft_extract_element(char *line)
 {
-	int i;
-	int len;
-	char **elements;
+	int		i;
+	int		len;
+	char	**elements;
 
 	i = 0;
 	len = ft_strlen(line);
 	while (line[i] != ' ')
 		i++;
-	
-	elements = (char **)malloc(sizeof(char *) *  3);
+	elements = (char **)malloc(sizeof(char *) * 3);
 	if (!elements)
 		return (NULL);
 	elements[0] = ft_substr(line, 0, i);
 	elements[1] = ft_substr(line, i, len);
 	elements[2] = NULL;
-
-	return(elements);
+	return (elements);
 }

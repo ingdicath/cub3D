@@ -14,9 +14,9 @@
 
 int			ft_check_resolution(char *header, char *element, t_size *resolution)
 {
-	int 	res;
+	int		res;
 	char	**line_split;
-	
+
 	res = 1;
 	if (ft_strcmp(header, "R") == 0)
 	{
@@ -27,7 +27,7 @@ int			ft_check_resolution(char *header, char *element, t_size *resolution)
 			res = ft_put_error("wrong number of arguments for RES");
 		else if (!ft_isnumber(line_split[0]) || !ft_isnumber(line_split[1]))
 			res = ft_put_error("is not number for resolution");
-		else 
+		else
 		{
 			resolution->width = ft_atoi_max_int(line_split[0]);
 			resolution->height = ft_atoi_max_int(line_split[1]);
@@ -42,7 +42,7 @@ int			ft_check_resolution(char *header, char *element, t_size *resolution)
 int			ft_check_ceiling(char *header, char *element, t_color *ceiling)
 {
 	char	**colors;
-	int 	res;
+	int		res;
 
 	res = 1;
 	if (ft_strcmp(header, "C") == 0)
@@ -56,7 +56,7 @@ int			ft_check_ceiling(char *header, char *element, t_color *ceiling)
 		else if (!ft_isnumber(colors[0]) || !ft_isnumber(colors[1])
 				|| !ft_isnumber(colors[2]))
 			res = ft_put_error("check numbers for ceiling");
-		else 
+		else
 		{
 			ceiling->red = atoi(colors[0]);
 			ceiling->green = atoi(colors[1]);
@@ -68,22 +68,20 @@ int			ft_check_ceiling(char *header, char *element, t_color *ceiling)
 	return (res);
 }
 
-int ft_check_rgb_color(t_color color)
+int			ft_check_rgb_color(t_color color)
 {
 	if (color.red < 0 || color.green < 0 || color.blue < 0)
 		return (ft_put_error("Color: Value should not be negative"));
 	else if (color.red > 255 || color.green > 255 || color.blue > 255)
 		return (ft_put_error("Color: Value must be maximum 255"));
-	else 
+	else
 		return (1);
 }
-
-
 
 int			ft_check_floor(char *header, char *element, t_color *floor)
 {
 	char	**colors;
-	int 	res;
+	int		res;
 
 	res = 1;
 	if (ft_strcmp(header, "F") == 0)
@@ -97,7 +95,7 @@ int			ft_check_floor(char *header, char *element, t_color *floor)
 		else if (!ft_isnumber(colors[0]) || !ft_isnumber(colors[1])
 				|| !ft_isnumber(colors[2]))
 			res = ft_put_error("check numbers for floor");
-		else 
+		else
 		{
 			floor->red = atoi(colors[0]);
 			floor->green = atoi(colors[1]);

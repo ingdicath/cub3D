@@ -50,7 +50,6 @@
 # include <math.h>
 # include "mlx/mlx.h"
 # include "libft/libft.h"
-# include <stdio.h> //borrar
 
 /*
 ** ----------- Actions constants ----------------------------------------------
@@ -242,15 +241,22 @@ typedef struct	s_game
 
 void			ft_reset_input(t_game_file *mapfile);
 int				ft_read_file(char *file_name, t_game_file *file);
-int				ft_check_resolution(char *header, char *element, t_size *resolution);
-int				ft_check_ceiling(char *header, char *element, t_color *ceiling);
+int				ft_check_resolution(char *header, char *element,
+					t_size *resolution);
+int				ft_check_ceiling(char *header, char *element,
+					t_color *ceiling);
 int				ft_check_floor(char *header, char *element, t_color *floor);
-int				ft_check_north_path(char *header, char *element, char **north_path);
-int				ft_check_west_path(char *header, char *element, char **west_path);
-int				ft_check_east_path(char *header, char *element, char **east_path);
-int				ft_check_south_path(char *header, char *element, char **south_path);
-int				ft_check_sprite_path(char *header, char *element, char **sprite_path);
-int 			ft_check_rgb_color(t_color color);
+int				ft_check_north_path(char *header, char *element,
+					char **north_path);
+int				ft_check_west_path(char *header, char *element,
+					char **west_path);
+int				ft_check_east_path(char *header, char *element,
+					char **east_path);
+int				ft_check_south_path(char *header, char *element,
+					char **south_path);
+int				ft_check_sprite_path(char *header, char *element,
+					char **sprite_path);
+int				ft_check_rgb_color(t_color color);
 int				ft_check_complete_elements(t_game_file *mapfile);
 int				ft_check_valid_file_elements(char *header);
 char			**ft_extract_element(char *line);

@@ -27,7 +27,7 @@ int		ft_check_north_path(char *header, char *element, char **north_path)
 }
 
 int		ft_check_south_path(char *header, char *element, char **south_path)
-{	
+{
 	if (ft_strcmp(header, "SO") == 0)
 	{
 		if (*south_path != NULL)
