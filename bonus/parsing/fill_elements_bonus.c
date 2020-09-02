@@ -15,35 +15,58 @@
 int			ft_fill_elements(char *line, t_game_file *game_file)
 {
 	int		result;
-	char	**line_split;
 	char	*temp;
+	char	**element;
 
+	if (ft_isemptyline(line))
+		return (1);
 	temp = ft_strtrim(line, WHITE_SPACE);
-	line_split = ft_split(temp, ' ');
-	result = ft_check_valid_file_elements(line_split) &&
-		ft_check_resolution(line_split, &game_file->resolution) &&
-		ft_check_north_path(line_split, &game_file->no_path) &&
-		ft_check_south_path(line_split, &game_file->so_path) &&
-		ft_check_east_path(line_split, &game_file->ea_path) &&
-		ft_check_west_path(line_split, &game_file->we_path) &&
-		ft_check_sprite_path(line_split, &game_file->sprite_path) &&
-		ft_check_tex_floor(line_split, &game_file->floor_path) &&
-		ft_check_tex_ceiling(line_split, &game_file->ceil_path);
-	ft_free_array(line_split);
+	element = ft_extract_element(temp);
 	free(temp);
+	temp = ft_strtrim(element[1], WHITE_SPACE);
+	result = element[0] != NULL && ft_check_valid_file_elements(element[0]) &&
+		ft_check_resolution(element[0], temp, &game_file->resolution) &&
+		ft_check_north_path(element[0], temp, &game_file->no_path) &&
+		ft_check_south_path(element[0], temp, &game_file->so_path) &&
+		ft_check_east_path(element[0], temp, &game_file->ea_path) &&
+		ft_check_west_path(element[0], temp, &game_file->we_path) &&
+		ft_check_sprite_path(element[0], temp, &game_file->sprite_path) &&
+		ft_check_tex_ceiling(element[0], temp, &game_file->ceil_path) &&
+		ft_check_tex_floor(element[0], temp, &game_file->floor_path);
+	free(temp);
+	ft_free_array(element);
 	return (result);
 }
 
-int			ft_check_valid_file_elements(char **line)
+int			ft_check_valid_file_elements(char *header)
 {
-	if (!line[0] || ft_strcmp_trim(line[0], "C") == 0 ||
-		ft_strcmp_trim(line[0], "F") == 0 ||
-		ft_strcmp_trim(line[0], "R") == 0 ||
-		ft_strcmp_trim(line[0], "NO") == 0 ||
-		ft_strcmp_trim(line[0], "SO") == 0 ||
-		ft_strcmp_trim(line[0], "WE") == 0 ||
-		ft_strcmp_trim(line[0], "EA") == 0 ||
-		ft_strcmp_trim(line[0], "S") == 0)
+	if (!header || ft_strcmp(header, "C") == 0 ||
+		ft_strcmp(header, "F") == 0 ||
+		ft_strcmp(header, "R") == 0 ||
+		ft_strcmp(header, "NO") == 0 ||
+		ft_strcmp(header, "SO") == 0 ||
+		ft_strcmp(header, "WE") == 0 ||
+		ft_strcmp(header, "EA") == 0 ||
+		ft_strcmp(header, "S") == 0)
 		return (1);
 	return (ft_put_error("Missing or invalid element"));
+}
+
+char		**ft_extract_element(char *line)
+{
+	int		i;
+	int		len;
+	char	**elements;
+
+	i = 0;
+	len = ft_strlen(line);
+	while (line[i] != ' ')
+		i++;
+	elements = (char **)malloc(sizeof(char *) * 3);
+	if (!elements)
+		return (NULL);
+	elements[0] = ft_substr(line, 0, i);
+	elements[1] = ft_substr(line, i, len);
+	elements[2] = NULL;
+	return (elements);
 }

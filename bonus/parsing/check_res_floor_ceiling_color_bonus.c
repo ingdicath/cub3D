@@ -12,20 +12,29 @@
 
 #include "../cub3d_bonus.h"
 
-int			ft_check_resolution(char **line, t_size *resolution)
+int			ft_check_resolution(char *header, char *element, t_size *resolution)
 {
-	if (line[0] && (ft_strcmp_trim(line[0], "R") == 0))
+	int		res;
+	char	**line_split;
+
+	res = 1;
+	if (ft_strcmp(header, "R") == 0)
 	{
+		line_split = ft_split(element, ' ');
 		if (resolution->width >= 0 || resolution->height >= 0)
-			return (ft_put_error("argument(s) for RES already exist(s)"));
-		if (ft_array_size(line) != 3)
-			return (ft_put_error("wrong number of arguments for RES"));
-		if (!ft_isnumber(line[1]) || !ft_isnumber(line[2]))
-			return (ft_put_error("is not number for resolution"));
-		resolution->width = ft_atoi_max_int(line[1]);
-		resolution->height = ft_atoi_max_int(line[2]);
-		if (resolution->width <= 0 || resolution->height <= 0)
-			return (ft_put_error("Invalid value for Resolution"));
+			res = ft_put_error("argument(s) for RES already exist(s)");
+		else if (ft_array_size(line_split) != 2)
+			res = ft_put_error("wrong number of arguments for RES");
+		else if (!ft_isnumber(line_split[0]) || !ft_isnumber(line_split[1]))
+			res = ft_put_error("is not number for resolution");
+		else
+		{
+			resolution->width = ft_atoi_max_int(line_split[0]);
+			resolution->height = ft_atoi_max_int(line_split[1]);
+			if (resolution->width <= 0 || resolution->height <= 0)
+				res = ft_put_error("Invalid value for Resolution");
+		}
+		ft_free_array(line_split);
 	}
-	return (1);
+	return (res);
 }

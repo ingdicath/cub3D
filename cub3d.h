@@ -260,7 +260,6 @@ int				ft_check_rgb_color(t_color color);
 int				ft_check_complete_elements(t_game_file *mapfile);
 int				ft_check_valid_file_elements(char *header);
 char			**ft_extract_element(char *line);
-int				ft_array_size(char **array);
 int				ft_check_path(char *str);
 int				ft_check_extension(char *file_name, char *valid_ext);
 int				ft_check_valid_char(char c);

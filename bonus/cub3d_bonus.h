@@ -257,15 +257,25 @@ typedef struct	s_game
 
 void			ft_reset_input(t_game_file *mapfile);
 int				ft_read_file(char *file_name, t_game_file *file);
-int				ft_check_resolution(char **line, t_size *resolution);
-int				ft_check_north_path(char **line, char **north_path);
-int				ft_check_west_path(char **line, char **west_path);
-int				ft_check_east_path(char **line, char **east_path);
-int				ft_check_south_path(char **line, char **south_path);
-int				ft_check_sprite_path(char **line, char **sprite_path);
+int				ft_check_resolution(char *header, char *element,
+					t_size *resolution);
+int				ft_check_north_path(char *header, char *element,
+					char **north_path);
+int				ft_check_west_path(char *header, char *element,
+					char **west_path);
+int				ft_check_east_path(char *header, char *element,
+					char **east_path);
+int				ft_check_south_path(char *header, char *element,
+					char **south_path);
+int				ft_check_sprite_path(char *header, char *element,
+					char **sprite_path);
+int				ft_check_tex_floor(char *header, char *element,
+					char **floor_path);
+int				ft_check_tex_ceiling(char *header, char *element,
+					char **ceil_path);
 int				ft_check_complete_elements(t_game_file *mapfile);
-int				ft_check_valid_file_elements(char **line);
-int				ft_array_size(char **array);
+int				ft_check_valid_file_elements(char *header);
+char			**ft_extract_element(char *line);
 int				ft_check_path(char *str);
 int				ft_check_extension(char *file_name, char *valid_ext);
 int				ft_check_valid_char(char c);
@@ -281,8 +291,6 @@ int				ft_uncovered_map(char **matrix);
 int				ft_read_line(t_game_file *file, char *line);
 int				ft_parsing(int argc, char **argv, t_game_file *file,
 					int *screenshot);
-int				ft_check_tex_floor(char **line, char **floor_path);
-int				ft_check_tex_ceiling(char **line, char **ceil_path);
 
 /*
 ** ---------- Raycasting functions --------------------------------------------
