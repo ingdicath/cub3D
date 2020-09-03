@@ -15,13 +15,11 @@
 /*
 ** OPEN FUNCTION:
 ** - Flags: O_WRONLY: Open for writing only. O_CREAT: the file shall be created
-** if it does not exist. O_TRUNC: truncating the file length to 0 if 
+** if it does not exist. O_TRUNC: truncating the file length to 0 if
 ** it does exist.
 ** - mode_t: The Mode Bits for Access Permission. It can set up with octal or
 ** with symbolic constants:
-**
 ** The maximum max resolution mlx can handle is 16384.
-**
 */
 
 void		ft_take_screenshot(t_game_file file)
@@ -34,7 +32,6 @@ void		ft_take_screenshot(t_game_file file)
 		ft_put_error("Resolution exceeds maximum value 16384");
 		return ;
 	}
-
 	fd = open(SCREENSHOT, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd < 0)
 		ft_put_error("File screenshot cannot open");

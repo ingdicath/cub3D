@@ -22,7 +22,7 @@ int		ft_check_north_path(char *header, char *element, char **north_path)
 			return (ft_put_error("invalid arguments for NO texture"));
 		else if (ft_check_path(element))
 			*north_path = ft_strdup(element);
-		else 
+		else
 			return (0);
 	}
 	return (1);
@@ -38,7 +38,7 @@ int		ft_check_south_path(char *header, char *element, char **south_path)
 			return (ft_put_error("invalid arguments for SO texture"));
 		else if (ft_check_path(element))
 			*south_path = ft_strdup(element);
-		else 
+		else
 			return (0);
 	}
 	return (1);
@@ -86,7 +86,7 @@ int		ft_check_sprite_path(char *header, char *element, char **sprite_path)
 			return (ft_put_error("invalid arguments for sprite texture"));
 		else if (ft_check_path(element))
 			*sprite_path = ft_strdup(element);
-		else 
+		else
 			return (0);
 	}
 	return (1);

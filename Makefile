@@ -56,7 +56,7 @@ SRC_BONUS = bonus/parsing/check_args_path_bonus.c\
 	bonus/raycasting/screenshot_bonus.c bonus/raycasting/write_bytes_bonus.c\
 	bonus/raycasting/render_sprites_bonus.c bonus/parsing/check_map_bonus.c\
 	bonus/raycasting/render_floor_ceiling_bonus.c\
-	bonus/parsing/check_textures_floor_ceiling.c\
+	bonus/parsing/check_textures_floor_ceiling_bonus.c\
 	bonus/main_bonus.c
 
 OBJECTS = $(SRC:.c=.o)

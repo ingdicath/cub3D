@@ -1,4 +1,4 @@
-R      1200 800
+R      1200 801
 
 WE textures/edgar.xpm
 NO      ./textures/wood.xpm
@@ -6,8 +6,9 @@ SO ./textures/greystone.xpm
 EA ./textures/dog.xpm
 
 
+
 S       ./textures/sprite_tennis_ball.xpm
-F            ./textures/mossy.xpm
+F          ./textures/mossy.png
 C         textures/wood.xpm
 
 

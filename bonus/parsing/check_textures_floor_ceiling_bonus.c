@@ -16,12 +16,14 @@ int		ft_check_tex_floor(char *header, char *element, char **floor_path)
 {
 	if (ft_strcmp(header, "F") == 0)
 	{
-		if (*floor_path!= NULL)
+		if (*floor_path != NULL)
 			return (ft_put_error("argument(s) already for F exist(s)"));
-		if (!element)
+		else if (!element)
 			return (ft_put_error("invalid arguments for F texture"));
-		if (ft_check_path(element))
+		else if (ft_check_path(element))
 			*floor_path = ft_strdup(element);
+		else
+			return (0);
 	}
 	return (1);
 }
@@ -32,10 +34,12 @@ int		ft_check_tex_ceiling(char *header, char *element, char **ceil_path)
 	{
 		if (*ceil_path != NULL)
 			return (ft_put_error("argument(s) already for C exist(s)"));
-		if (!element)
+		else if (!element)
 			return (ft_put_error("invalid arguments for C texture"));
-		if (ft_check_path(element))
+		else if (ft_check_path(element))
 			*ceil_path = ft_strdup(element);
+		else
+			return (0);
 	}
 	return (1);
 }
