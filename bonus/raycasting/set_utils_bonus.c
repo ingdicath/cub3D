@@ -37,7 +37,7 @@ int		ft_set_texture(void *mlx, char *path, t_texture *texture)
 	}
 	free(path);
 	if (texture->image == NULL)
-		return (ft_put_error("invalid path for texture"));
+		return (ft_put_error("invalid path for texture or xpm res is >2048"));
 	texture->address = mlx_get_data_addr(texture->image,
 		&texture->bits_per_pixel, &texture->size_line, &texture->endian);
 	if (texture->address == NULL)

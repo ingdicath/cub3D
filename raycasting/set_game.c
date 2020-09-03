@@ -20,7 +20,8 @@ int				ft_set_game(t_game_file file, t_game *game, int screenshot)
 	if (!ft_set_screen(&game->screen, screenshot))
 		ft_put_error("set screen failure");
 	ft_set_floor_ceiling(file, &game->screen);
-	ft_set_all_textures(file, &game->screen);
+	if (!ft_set_all_textures(file, &game->screen))
+		ft_close_game(game);
 	ft_set_orientation(game->map, &game->player);
 	ft_render_map(game);
 	return (1);

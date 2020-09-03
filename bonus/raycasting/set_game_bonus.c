@@ -19,7 +19,8 @@ int				ft_set_game(t_game_file file, t_game *game, int screenshot)
 	ft_clean_game(game->screen.resolution, &game->player, &game->map);
 	if (!ft_set_screen(&game->screen, screenshot))
 		ft_put_error("set screen failure");
-	ft_set_all_textures(file, &game->screen);
+	if (!ft_set_all_textures(file, &game->screen))
+		ft_close_game(game);
 	ft_set_orientation(game->map, &game->player);
 	ft_render_floor_ceiling(&game->screen, &game->player);
 	ft_render_map(game);
