@@ -103,7 +103,7 @@ char		**ft_extract_color(char *element)
 
 	i = 0;
 	commas = 0;
-	colors = (char **)malloc(sizeof(char *) * 1); 
+	colors = (char **)malloc(sizeof(char *) * 1);
 	if (!colors)
 		return (NULL);
 	colors[0] = NULL;
@@ -114,8 +114,8 @@ char		**ft_extract_color(char *element)
 		i++;
 	}
 	if (commas == 2)
-	{	
-		free (colors);
+	{
+		free(colors);
 		colors = ft_split(element, ',');
 	}
 	return (colors);

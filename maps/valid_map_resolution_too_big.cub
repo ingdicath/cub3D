@@ -1,6 +1,6 @@
     
           
-  R 999999999999999999 50
+  R 999999999999999999 5000000000000000
 
 WE ./textures/colorstone.xpm
 NO ./textures/wood.xpm
