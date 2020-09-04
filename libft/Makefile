@@ -27,10 +27,10 @@ all: $(NAME)
 $(NAME): $(OBJECTS)
 	@ar rc $(NAME) $(OBJECTS)
 	@ranlib $(NAME)
+	@echo "libft library creation successful"
 
-$(OBJECTS): $(SRC)
-	@gcc $(FLAGS) -c $(SRC)
-	@echo "libft successful creation"
+%.o: %.c
+	@gcc $(FLAGS) -c $< -o $@
 
 clean:
 	@rm -f *.o
