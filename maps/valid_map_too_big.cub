@@ -1,5 +1,5 @@
 R 800 600
-        WE textures/edgar.xpm
+        WE
         NO     ./textures/wood.xpm
 SO ./textures/greystone.xpm
         EA ./textures/dog.xpm

@@ -257,6 +257,7 @@ int				ft_check_south_path(char *header, char *element,
 int				ft_check_sprite_path(char *header, char *element,
 					char **sprite_path);
 int				ft_check_rgb_color(t_color color);
+char			**ft_extract_color(char *element);
 int				ft_check_complete_elements(t_game_file *mapfile);
 int				ft_check_valid_file_elements(char *header);
 char			**ft_extract_element(char *line);

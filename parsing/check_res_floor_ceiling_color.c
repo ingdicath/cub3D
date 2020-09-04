@@ -47,11 +47,10 @@ int			ft_check_ceiling(char *header, char *element, t_color *ceiling)
 	res = 1;
 	if (ft_strcmp(header, "C") == 0)
 	{
-		colors = ft_split(element, ',');
+		colors = ft_extract_color(element);
 		if (ceiling->red >= 0 || ceiling->green >= 0 || ceiling->blue >= 0)
 			res = ft_put_error("argument(s) already for ceiling exist(s)");
-		else if (ft_array_size(colors) != 3 || element[0] == ','
-				|| element[(ft_strlen(element) - 1)] == ',')
+		else if (colors[0] == NULL && ft_array_size(colors) != 3)
 			res = ft_put_error("Wrong number of arguments for ceiling.");
 		else if (!ft_isnumber(colors[0]) || !ft_isnumber(colors[1])
 				|| !ft_isnumber(colors[2]))
@@ -68,16 +67,6 @@ int			ft_check_ceiling(char *header, char *element, t_color *ceiling)
 	return (res);
 }
 
-int			ft_check_rgb_color(t_color color)
-{
-	if (color.red < 0 || color.green < 0 || color.blue < 0)
-		return (ft_put_error("Color: Value should not be negative"));
-	else if (color.red > 255 || color.green > 255 || color.blue > 255)
-		return (ft_put_error("Color: Value must be maximum 255"));
-	else
-		return (1);
-}
-
 int			ft_check_floor(char *header, char *element, t_color *floor)
 {
 	char	**colors;
@@ -86,11 +75,10 @@ int			ft_check_floor(char *header, char *element, t_color *floor)
 	res = 1;
 	if (ft_strcmp(header, "F") == 0)
 	{
-		colors = ft_split(element, ',');
+		colors = ft_extract_color(element);
 		if (floor->red >= 0 || floor->green >= 0 || floor->blue >= 0)
 			res = ft_put_error("argument(s) already for floor exist(s)");
-		else if (ft_array_size(colors) != 3 || element[0] == ','
-				|| element[(ft_strlen(element) - 1)] == ',')
+		else if (colors[0] == NULL && ft_array_size(colors) != 3)
 			res = ft_put_error("Wrong number of arguments for floor.");
 		else if (!ft_isnumber(colors[0]) || !ft_isnumber(colors[1])
 				|| !ft_isnumber(colors[2]))
@@ -105,4 +93,40 @@ int			ft_check_floor(char *header, char *element, t_color *floor)
 		ft_free_array(colors);
 	}
 	return (res);
+}
+
+char		**ft_extract_color(char *element)
+{
+	int		i;
+	int		commas;
+	char	**colors;
+
+	i = 0;
+	commas = 0;
+	colors = (char **)malloc(sizeof(char *) * 1); 
+	if (!colors)
+		return (NULL);
+	colors[0] = NULL;
+	while (element[i] != '\0')
+	{
+		if (element[i] == ',')
+			commas++;
+		i++;
+	}
+	if (commas == 2)
+	{	
+		free (colors);
+		colors = ft_split(element, ',');
+	}
+	return (colors);
+}
+
+int			ft_check_rgb_color(t_color color)
+{
+	if (color.red < 0 || color.green < 0 || color.blue < 0)
+		return (ft_put_error("Color: Value should not be negative"));
+	else if (color.red > 255 || color.green > 255 || color.blue > 255)
+		return (ft_put_error("Color: Value must be maximum 255"));
+	else
+		return (1);
 }

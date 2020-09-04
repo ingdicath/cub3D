@@ -13,10 +13,10 @@ EA ./textures/dog.xpm
 
         S ./textures/sprite_cat_in_box.png
 
-	F 		100, 	 100, 100
+	F     100, 100,100
 
 
-C                     255 ,   255    ,             220
+C                     255 ,   255,             220
 
 
         1111111111111111111111111

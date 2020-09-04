@@ -21,7 +21,7 @@ int			ft_isnumber(char *str)
 	white_spaces = " \t\n\v\f\r";
 	no_space = ft_strtrim(str, white_spaces);
 	i = 0;
-	if (no_space[i] == '\0')
+	if (!no_space || no_space[i] == '\0')
 	{
 		free(no_space);
 		return (0);

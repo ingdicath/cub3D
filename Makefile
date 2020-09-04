@@ -16,7 +16,7 @@ HEADERS = cub3d.h bonus/cub3d_bonus.h
 
 CC = gcc
 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -fsanitize=address
 
 MLX_FLAGS = -Lmlx -lmlx -framework OpenGL -framework AppKit
 
@@ -65,7 +65,7 @@ OBJECTS_BONUS= $(SRC_BONUS:.c=.o)
 
 all: $(NAME)
 
-$(LIB):
+$(LIBFT):
 	@make -C $(LIB_FT)
 	@cp $(LIB_FT)/$(LIBFT) .
 	@echo "libft library created successfully"
@@ -75,11 +75,11 @@ $(LIBMLX):
 	@cp $(MLX)/$(LIBMLX) .
 	@echo "mlx library created successfully"
 
-$(NAME): $(OBJECTS) $(LIBMLX) $(LIB)
+$(NAME): $(OBJECTS) $(LIBMLX) $(LIBFT)
 	@$(CC) $(FLAGS) $(MLX_FLAGS) -o $(NAME) $(OBJECTS) $(LIBFT)
 	@echo "name rule executed successfully"
 
-bonus: $(OBJECTS_BONUS) $(LIBMLX) $(LIB)
+bonus: $(OBJECTS_BONUS) $(LIBMLX) $(LIBFT)
 	@$(CC) $(FLAGS) $(MLX_FLAGS) -o $(NAME) $(OBJECTS_BONUS) $(LIBFT)
 	@echo "name bonus rule executed successfully"
 
