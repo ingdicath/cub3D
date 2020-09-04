@@ -31,3 +31,15 @@ $ ./cub3D ./<file name of your choise with a valid map>
 ```
 $ ./cub3D ./<file name of your choise with a valid map> --save
 ```
+
+## How to run it
+
+#### Mandatory movements: use the keys
+- ```W``` move forward
+- ```A``` move backward
+- ```S``` move rigth
+- ```D``` move left
+- ```🠈``` look left
+- ```🠊``` look left
+
+🠉 🠋
