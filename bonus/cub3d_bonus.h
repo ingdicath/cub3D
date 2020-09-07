@@ -362,6 +362,7 @@ void			ft_row_distance_step(t_screen screen, t_player *player);
 int				ft_validate_additional_sprites(char *line, t_game_file *game_file);
 int				ft_check_additional_sprites(char *line);
 int 			ft_count_sprite_types(t_map *map,char **sprite_path);
+void 			ft_initialize_sprites(t_game_file *game_file);
 
 
 
