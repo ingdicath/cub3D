@@ -45,6 +45,7 @@ int		ft_close_game(t_game *game)
 		mlx_destroy_window(game->screen.mlx, game->screen.window);
 	if (game->screen.win_data.image)
 		mlx_destroy_image(game->screen.mlx, game->screen.win_data.image);
+	free(game->screen.sprite);
 	ft_free_memory(&game->map);
 	exit(0);
 }

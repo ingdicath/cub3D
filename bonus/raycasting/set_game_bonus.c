@@ -77,6 +77,7 @@ int				ft_set_all_textures(t_game_file file, t_screen *screen)
 		}
 		type++;
 	}
+	free(file.sprite_path);
 	return (result);
 }
 
