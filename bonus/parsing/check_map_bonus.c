@@ -32,7 +32,7 @@ int		ft_flood_fill(char **matrix, int x, int y)
 		return (0);
 	if (matrix[y][x] == '1' || matrix[y][x] == '*' || matrix[y][x] == '+')
 		return (res);
-	else if (matrix[y][x] == '0' || matrix[y][x] == '2')
+	else if (matrix[y][x] == '0' || (matrix[y][x] >= '2' && matrix[y][x] <= '9'))
 	{
 		matrix[y][x] = matrix[y][x] == '0' ? '+' : '*';
 		res = res && ft_flood_fill(matrix, x - 1, y);
@@ -60,7 +60,7 @@ int		ft_uncovered_map(char **matrix)
 		j = 0;
 		while (matrix[i][j] != '\0')
 		{
-			if (matrix[i][j] == '0' || matrix[i][j] == '2')
+			if (matrix[i][j] == '0' ||(matrix[i][j] >= '2' && matrix[i][j] <= '9'))
 			{
 				if (!ft_flood_fill(matrix, j, i))
 					return (0);

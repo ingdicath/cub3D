@@ -49,7 +49,7 @@
 # include <math.h>
 # include "../mlx/mlx.h"
 # include "../libft/libft.h"
-
+# include <stdio.h> //borrar
 /*
 ** ----------- Actions constants ----------------------------------------------
 */
@@ -105,6 +105,7 @@ typedef struct	s_position
 
 typedef struct	s_sprite
 {
+	int			type;
 	double		distance;
 	t_position	position;
 }				t_sprite;
@@ -114,6 +115,8 @@ typedef struct	s_map
 	char		**matrix;
 	double		*zbuffer;
 	int			num_sprites;
+	int			num_type_sprite;
+	int 		*type_sprite;
 	char		orientation;
 	t_sprite	*sprites;
 	t_position	start_pos;
@@ -125,7 +128,7 @@ typedef struct	s_game_file
 	char		*so_path;
 	char		*ea_path;
 	char		*we_path;
-	char		*sprite_path;
+	char		**sprite_path;
 	char		*floor_path;
 	char		*ceil_path;
 	t_size		resolution;
@@ -208,7 +211,7 @@ typedef struct	s_screen
 	t_texture	south;
 	t_texture	west;
 	t_texture	east;
-	t_texture	sprite;
+	t_texture	*sprite;
 	t_texture	floor;
 	t_texture	ceiling;
 }				t_screen;
@@ -268,7 +271,7 @@ int				ft_check_east_path(char *header, char *element,
 int				ft_check_south_path(char *header, char *element,
 					char **south_path);
 int				ft_check_sprite_path(char *header, char *element,
-					char **sprite_path);
+					char ***sprite_path);
 int				ft_check_tex_floor(char *header, char *element,
 					char **floor_path);
 int				ft_check_tex_ceiling(char *header, char *element,
@@ -336,9 +339,9 @@ int				ft_render_sprites(t_game *game);
 void			ft_calc_sprite_limits(t_sprite_cast *s_cast, t_size resolution,
 					t_ray ray);
 void			ft_vertical_stripes(t_sprite_cast *s_cast, t_screen screen,
-					double *zbuffer);
+					double *zbuffer, t_sprite sprite);
 void			ft_draw_stripes(t_sprite_cast *s_cast, t_screen screen,
-					t_position *tex, int stripe);
+					t_position *tex, int stripe, t_sprite sprite);
 void			ft_sort_sprites(t_map *map, t_position current_pos);
 void			ft_calc_dist_sprite (t_map *map, t_position current_pos);
 int				ft_resize_resolution(t_screen *screen);
@@ -355,5 +358,10 @@ void			ft_jump_crouch_move(t_ray *ray, int dir);
 void			ft_calc_fraction_floor_ceiling(t_screen *screen,
 					t_floor_ray *floor_ray);
 void			ft_row_distance_step(t_screen screen, t_player *player);
+int				ft_validate_additional_sprites(char *line, t_game_file *game_file);
+int				ft_check_additional_sprites(char *line);
+int 			ft_count_sprite_types(t_map *map,char **sprite_path);
+
+
 
 #endif

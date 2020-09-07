@@ -64,8 +64,10 @@ int				ft_check_unique_orientation(t_map *map, int i, int j)
 
 int				ft_calc_sprite_variables(t_map *map, int i, int j, int k)
 {
-	if (map->matrix[i][j] == '2')
+	
+	if (map->matrix[i][j] > '1' && map->matrix[i][j] <= '9')
 	{
+		map->sprites[k].type = map->matrix[i][j] - '0';
 		map->sprites[k].position.x = j + 0.5;
 		map->sprites[k].position.y = i + 0.5;
 		map->sprites[k].distance = 0;

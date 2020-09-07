@@ -55,14 +55,29 @@ int				ft_set_screen(t_screen *screen, int screenshot)
 int				ft_set_all_textures(t_game_file file, t_screen *screen)
 {
 	int			result;
-
+	int 		i;
+	int 		type;
+	
 	result = ft_set_texture(screen->mlx, file.no_path, &screen->north)
 	&& ft_set_texture(screen->mlx, file.so_path, &screen->south)
 	&& ft_set_texture(screen->mlx, file.we_path, &screen->west)
 	&& ft_set_texture(screen->mlx, file.ea_path, &screen->east)
-	&& ft_set_texture(screen->mlx, file.sprite_path, &screen->sprite)
 	&& ft_set_texture(screen->mlx, file.floor_path, &screen->floor)
 	&& ft_set_texture(screen->mlx, file.ceil_path, &screen->ceiling);
+	screen->sprite = (t_texture *)malloc(sizeof(t_texture) * 10);
+	if (screen->sprite == NULL)
+		ft_put_error("It is not possible define sprites for screen");
+	i = 0;
+	type =0;
+	while (type < 10)
+	{
+		if (file.map.type_sprite[type])
+		{
+			result = result && ft_set_texture(screen->mlx, file.sprite_path[i], &screen->sprite[type]);
+			i++;
+		}	
+		type++;
+	}
 	return (result);
 }
 

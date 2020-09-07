@@ -16,7 +16,7 @@ HEADERS = cub3d.h bonus/cub3d_bonus.h
 
 CC = gcc
 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -fsanitize=address
 
 MLX_FLAGS = -Lmlx -lmlx -framework OpenGL -framework AppKit
 

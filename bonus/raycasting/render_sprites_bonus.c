@@ -25,7 +25,8 @@ int					ft_render_sprites(t_game *game)
 			game->screen.resolution.width);
 		ft_calc_sprite_limits(&s_cast, game->screen.resolution,
 			game->player.ray);
-		ft_vertical_stripes(&s_cast, game->screen, game->map.zbuffer);
+		ft_vertical_stripes(&s_cast, game->screen, game->map.zbuffer, 
+			game->map.sprites[i]);
 		i++;
 	}
 	return (0);
@@ -89,7 +90,7 @@ void				ft_calc_sprite_limits(t_sprite_cast *s_cast,
 */
 
 void				ft_vertical_stripes(t_sprite_cast *s_cast, t_screen screen,
-						double *zbuffer)
+						double *zbuffer, t_sprite sprite)
 {
 	int				stripe;
 	t_position		tex;
@@ -99,17 +100,17 @@ void				ft_vertical_stripes(t_sprite_cast *s_cast, t_screen screen,
 	{
 		tex.x = (int)(256 * (stripe - (-s_cast->size.width / 2 +
 			s_cast->screen_x)) *
-		screen.sprite.width / s_cast->size.width) / 256;
+		screen.sprite[sprite.type].width / s_cast->size.width) / 256;
 		if (s_cast->transform.y > 0 && stripe > 0 &&
 			stripe < screen.resolution.width &&
 			s_cast->transform.y < zbuffer[stripe])
-			ft_draw_stripes(s_cast, screen, &tex, stripe);
+			ft_draw_stripes(s_cast, screen, &tex, stripe, sprite);
 		stripe++;
 	}
 }
 
 void				ft_draw_stripes(t_sprite_cast *s_cast, t_screen screen,
-						t_position *tex, int stripe)
+						t_position *tex, int stripe, t_sprite sprite)
 {
 	int				color;
 	int				y;
@@ -120,8 +121,8 @@ void				ft_draw_stripes(t_sprite_cast *s_cast, t_screen screen,
 	{
 		d = (y - s_cast->move_screen) * 256 - screen.resolution.height * 128 +
 			s_cast->size.height * 128;
-		tex->y = ((d * screen.sprite.height) / s_cast->size.height) / 256;
-		color = ft_get_color(screen.sprite, *tex);
+		tex->y = ((d * screen.sprite[sprite.type].height) / s_cast->size.height) / 256;
+		color = ft_get_color(screen.sprite[sprite.type], *tex);
 		if ((color & 0x00FFFFFF) != 0)
 			ft_put_pixel(&screen.win_data, stripe, y, color);
 		y++;

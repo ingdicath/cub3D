@@ -76,16 +76,14 @@ int		ft_check_east_path(char *header, char *element, char **east_path)
 	return (1);
 }
 
-int		ft_check_sprite_path(char *header, char *element, char **sprite_path)
+int		ft_check_sprite_path(char *header, char *element, char ***sprite_path)
 {
 	if (ft_strcmp(header, "S") == 0)
 	{
-		if (*sprite_path != NULL)
-			return (ft_put_error("argument(s) already for sprite exist(s)"));
-		else if (!element)
+		if (!element)
 			return (ft_put_error("invalid arguments for sprite texture"));
 		else if (ft_check_path(element))
-			*sprite_path = ft_strdup(element);
+			*sprite_path = ft_join_lines(*sprite_path, element);
 		else
 			return (0);
 	}
