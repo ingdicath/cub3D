@@ -197,6 +197,7 @@ typedef struct	s_sprite_cast
 	t_position	transform;
 	t_position	draw_start;
 	t_position	draw_end;
+	t_position	draw_pos;
 }				t_sprite_cast;
 
 typedef struct	s_screen
@@ -341,7 +342,7 @@ void			ft_calc_sprite_limits(t_sprite_cast *s_cast, t_size resolution,
 void			ft_vertical_stripes(t_sprite_cast *s_cast, t_screen screen,
 					double *zbuffer, t_sprite sprite);
 void			ft_draw_stripes(t_sprite_cast *s_cast, t_screen screen,
-					t_position *tex, int stripe, t_sprite sprite);
+						int stripe, t_sprite sprite);
 void			ft_sort_sprites(t_map *map, t_position current_pos);
 void			ft_calc_dist_sprite (t_map *map, t_position current_pos);
 int				ft_resize_resolution(t_screen *screen);
