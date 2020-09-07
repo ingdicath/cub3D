@@ -25,7 +25,7 @@ int					ft_render_sprites(t_game *game)
 			game->screen.resolution.width);
 		ft_calc_sprite_limits(&s_cast, game->screen.resolution,
 			game->player.ray);
-		ft_vertical_stripes(&s_cast, game->screen, game->map.zbuffer, 
+		ft_vertical_stripes(&s_cast, game->screen, game->map.zbuffer,
 			game->map.sprites[i]);
 		i++;
 	}
@@ -120,7 +120,8 @@ void				ft_draw_stripes(t_sprite_cast *s_cast, t_screen screen,
 	{
 		d = (y - s_cast->move_screen) * 256 - screen.resolution.height * 128 +
 			s_cast->size.height * 128;
-		s_cast->draw_pos.y = ((d * screen.sprite[sprite.type].height) / s_cast->size.height) / 256;
+		s_cast->draw_pos.y = ((d *
+			screen.sprite[sprite.type].height) / s_cast->size.height) / 256;
 		color = ft_get_color(screen.sprite[sprite.type], s_cast->draw_pos);
 		if ((color & 0x00FFFFFF) != 0)
 			ft_put_pixel(&screen.win_data, stripe, y, color);

@@ -21,8 +21,7 @@ int			ft_parsing(int argc, char **argv, t_game_file *file, int *scrshot)
 		ft_read_file(argv[1], file) &&
 		ft_set_sprites_and_orientation(&file->map) &&
 		ft_check_map(file->map) &&
-		ft_count_sprite_types(&file->map,file->sprite_path);
-
+		ft_count_sprite_types(&file->map, file->sprite_path);
 	return (res);
 }
 
@@ -84,34 +83,8 @@ int			ft_check_path(char *str)
 int			ft_check_valid_char(char c)
 {
 	if (c != '0' && c != '1' && c != '2' && c != ' ' && c != 'N' && c != 'S' &&
-			c != 'W' && c != 'E' && c != '3'&& c != '4'&& c != '5'&& c != '6'
-			&& c != '7' && c != '8'&& c != '9')
+			c != 'W' && c != 'E' && c != '3' && c != '4' && c != '5' && c != '6'
+			&& c != '7' && c != '8' && c != '9')
 		return (0);
-	return (1);
-}
-
-int ft_count_sprite_types(t_map *map, char **sprite_path)
-{
-	int i;
-	int type;
-	
-	i =0;
-	while (i < map->num_sprites)
-	{
-		type = map->sprites[i].type;
-		map->type_sprite[type] = 1;
-		i++;
-	}
-	i = 0;
-	while(i < 10)
-	{
-		if(map->type_sprite[i])
-			map->num_type_sprite++;
-		i++;
-	}
-
-	printf("%d %d\n",ft_array_size(sprite_path), map->num_type_sprite );
-	if(ft_array_size(sprite_path) != map->num_type_sprite)
-		return(ft_put_error("Sprite textures do not match"));
 	return (1);
 }

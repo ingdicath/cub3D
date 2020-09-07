@@ -49,7 +49,7 @@
 # include <math.h>
 # include "../mlx/mlx.h"
 # include "../libft/libft.h"
-# include <stdio.h> //borrar
+
 /*
 ** ----------- Actions constants ----------------------------------------------
 */
@@ -116,7 +116,7 @@ typedef struct	s_map
 	double		*zbuffer;
 	int			num_sprites;
 	int			num_type_sprite;
-	int 		*type_sprite;
+	int			*type_sprite;
 	char		orientation;
 	t_sprite	*sprites;
 	t_position	start_pos;
@@ -359,11 +359,11 @@ void			ft_jump_crouch_move(t_ray *ray, int dir);
 void			ft_calc_fraction_floor_ceiling(t_screen *screen,
 					t_floor_ray *floor_ray);
 void			ft_row_distance_step(t_screen screen, t_player *player);
-int				ft_validate_additional_sprites(char *line, t_game_file *game_file);
+int				ft_validate_additional_sprites(char *line,
+					t_game_file *game_file);
 int				ft_check_additional_sprites(char *line);
-int 			ft_count_sprite_types(t_map *map,char **sprite_path);
-void 			ft_initialize_sprites(t_game_file *game_file);
-
-
+int				ft_count_sprite_types(t_map *map, char **sprite_path);
+void			ft_initialize_sprites(t_game_file *game_file);
+void			ft_init_texture_sprites(t_screen *screen);
 
 #endif

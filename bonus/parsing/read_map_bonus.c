@@ -69,30 +69,13 @@ int			ft_check_complete_elements(t_game_file *game_file)
 	if (game_file->resolution.width == -1 ||
 		game_file->resolution.height == -1 || game_file->no_path == NULL ||
 		game_file->so_path == NULL || game_file->ea_path == NULL ||
-		game_file->we_path == NULL || ft_array_size(game_file->sprite_path) < 1 ||
+		game_file->we_path == NULL ||
+		ft_array_size(game_file->sprite_path) < 1 ||
 		game_file->floor_path == NULL || game_file->ceil_path == NULL)
 		return (0);
 	else
 		return (1);
 }
-
-int			ft_count_sprites(char *line, t_map *map)
-{
-	int		i;
-
-	i = 0;
-	while (line[i] != '\0')
-	{
-		if (!ft_check_valid_char(line[i]))
-			return (0);
-		else if (line[i] > '1' && line[i] <= '9')
-			map->num_sprites++;
-		i++;
-	}
-	return (1);
-}
-
-
 
 char		**ft_join_lines(char **matrix, char *new_line)
 {
@@ -118,37 +101,18 @@ char		**ft_join_lines(char **matrix, char *new_line)
 	return (new_matrix);
 }
 
-
-int			ft_check_additional_sprites(char *line)
+int			ft_count_sprites(char *line, t_map *map)
 {
 	int		i;
-	int		res;
-	char	*temp;
 
-	if (ft_isemptyline(line))
-		return (0);
-	temp = ft_strtrim(line, WHITE_SPACE);
 	i = 0;
-	res = 0;
-	if (temp[i] == 'S' && (ft_check_extension(temp, XPM) || ft_check_extension(temp, PNG)))
-		res = 1;
-	free(temp);
-	return (res);
+	while (line[i] != '\0')
+	{
+		if (!ft_check_valid_char(line[i]))
+			return (0);
+		else if (line[i] > '1' && line[i] <= '9')
+			map->num_sprites++;
+		i++;
+	}
+	return (1);
 }
-
-int			ft_validate_additional_sprites(char *line, t_game_file *game_file)
-{
-	int		result;
-	char	*temp;
-	char	**element;
-
-	temp = ft_strtrim(line, WHITE_SPACE);
-	element = ft_extract_element(temp);
-	free(temp);
-	temp = ft_strtrim(element[1], WHITE_SPACE);
-	result = ft_check_sprite_path(element[0], temp, &game_file->sprite_path);
-	free(temp);
-	ft_free_array(element);
-	return(result);
-}
-
