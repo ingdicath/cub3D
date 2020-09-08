@@ -38,6 +38,8 @@ int				ft_get_color(t_texture texture, t_position position)
 	int			color;
 	char		*dst;
 
+	if (position.y < 0)
+ 		position.y = 0;
 	dst = texture.address + ((int)position.y * texture.size_line +
 		((int)position.x * (texture.bits_per_pixel / EIGHT_BITS)));
 	color = *(unsigned int*)dst;

@@ -20,7 +20,8 @@ int			ft_parsing(int argc, char **argv, t_game_file *file, int *scrshot)
 	res = ft_check_args(argc, argv, scrshot) &&
 		ft_read_file(argv[1], file) &&
 		ft_set_sprites_and_orientation(&file->map) &&
-		ft_check_map(file->map);
+		ft_check_map(file->map) &&
+		ft_count_sprite_types(&file->map, file->sprite_path);
 	return (res);
 }
 
@@ -82,7 +83,8 @@ int			ft_check_path(char *str)
 int			ft_check_valid_char(char c)
 {
 	if (c != '0' && c != '1' && c != '2' && c != ' ' && c != 'N' && c != 'S' &&
-			c != 'W' && c != 'E')
+			c != 'W' && c != 'E' && c != '3' && c != '4' && c != '5' && c != '6'
+			&& c != '7' && c != '8' && c != '9')
 		return (0);
 	return (1);
 }

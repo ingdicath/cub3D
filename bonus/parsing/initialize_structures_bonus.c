@@ -20,7 +20,10 @@ void	ft_reset_input(t_game_file *game_file)
 	game_file->so_path = NULL;
 	game_file->ea_path = NULL;
 	game_file->we_path = NULL;
-	game_file->sprite_path = NULL;
+	game_file->sprite_path = (char **)malloc(sizeof(char *) * 1);
+	if (game_file->sprite_path == NULL)
+		ft_put_error("It is not possible define sprites");
+	game_file->sprite_path[0] = NULL;
 	game_file->floor_path = NULL;
 	game_file->ceil_path = NULL;
 	game_file->map.matrix = NULL;
@@ -28,6 +31,23 @@ void	ft_reset_input(t_game_file *game_file)
 	game_file->map.start_pos.x = -1;
 	game_file->map.start_pos.y = -1;
 	game_file->map.num_sprites = 0;
+	game_file->map.num_type_sprite = 0;
+	ft_initialize_sprites(game_file);
+}
+
+void	ft_initialize_sprites(t_game_file *game_file)
+{
+	int i;
+
+	i = 0;
+	game_file->map.type_sprite = (int *)malloc(sizeof(int *) * 10);
+	if (game_file->map.type_sprite == NULL)
+		ft_put_error("It is not possible define sprites");
+	while (i < 10)
+	{
+		game_file->map.type_sprite[i] = 0;
+		i++;
+	}
 }
 
 void	ft_clean_game(t_size resolution, t_player *player, t_map *map)
@@ -55,4 +75,11 @@ void	ft_clean_game(t_size resolution, t_player *player, t_map *map)
 	map->zbuffer = (double *)malloc(sizeof(double) * resolution.width);
 	if (map->zbuffer == NULL)
 		ft_put_error("It is not possible define size for zbuffer");
+}
+
+void	ft_init_texture_sprites(t_screen *screen)
+{
+	screen->sprite = (t_texture *)malloc(sizeof(t_texture) * 10);
+	if (screen->sprite == NULL)
+		ft_put_error("It is not possible define sprites for screen");
 }
