@@ -1,12 +1,13 @@
 # cub3D
 
-CODAM project Curriculum 2019/2020 - My first RayCaster with miniLibX
+***CODAM project Curriculum 2019/2020 - My first RayCaster with miniLibX***
 
 This project is inspired by the world-famous eponymous 90’s game, which
 was the first FPS ever. It will enable you to explore ray-casting. The goal was to
 make a dynamic view inside a maze.
 
 This project contained mandatory part and some bonuses.
+
 
 ## Mandatory part
 
@@ -23,14 +24,18 @@ $ ./cub3D ./<file name of your choise with a valid map>
 $ ./cub3D ./<file name of your choise with a valid map> --save
 ```
 
-### Movements
+### Actions
 
-- ```W``` move forward
-- ```A``` move backward
-- ```S``` move rigth
-- ```D``` move left
-- ```🠈``` look left
-- ```🠊``` look right
+| Key           | Action        | 
+| ------------- |---------------| 
+|    `W`    | move forward  | 
+|    `A`    | move left     | 
+|    `S`    | move backward | 
+|    `D`    | move rigth    |
+|    `🠈`    | look left    |
+|    `🠊`    | look right   |
+
+```ESC``` or click on the red cross to exit the game.
 
 ## Bonus part
 
@@ -59,16 +64,15 @@ $ ./cub3D ./<file name of your choise with a bonus valid map> --save
 
 ![Demo bonus part](demo/bonus_demo.gif)
 
-### Movements
+### Actions
 
 Including the movements for mandatory part, bonus part has the following extra movements:
 - ```🠉``` look up
 - ```🠋``` look down
-- ```Space key``` jump
+- ```SPACE``` jump
 - ```Left Shift``` crouch
-
+- Mouse movements
 ```
-Mouse movements
    🠉
  🠈  🠊
    🠋
