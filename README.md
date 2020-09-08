@@ -56,6 +56,9 @@ $ ./cub3D ./<file name of your choise with a bonus valid map> --save
 - Object collisions.
 - Rotate the point of view with the mouse: look up, look down, look left, look right
 
+
+![Demo bonus part](demo/bonus_demo.gif)
+
 ### Movements
 
 Including the movements for mandatory part, bonus part has the following extra movements:
