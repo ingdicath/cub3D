@@ -17,7 +17,7 @@ This project contained mandatory part and some bonuses.
 
 - Run the executable ```cub3D``` and choose a valid map
 ```
-$ ./cub3D ./<file name of your choise with a valid map>
+$ ./cub3D ./<file name path with a valid map>
 ```
 - For screenshot add ```--save```
 ```
@@ -49,7 +49,7 @@ $ ./cub3D ./<file name of your choise with a bonus valid map>
 ```
 - For screenshot add ```--save```
 ```
-$ ./cub3D ./<file name of your choise with a bonus valid map> --save
+$ ./cub3D ./<file name path with a bonus valid map> --save
 ```
 ### Bonuses implemented
 
@@ -60,7 +60,6 @@ $ ./cub3D ./<file name of your choise with a bonus valid map> --save
 - More items in the maze.
 - Object collisions.
 - Rotate the point of view with the mouse: look up, look down, look left, look right
-
 
 ![Demo bonus part](demo/bonus_demo.gif)
 
@@ -76,5 +75,4 @@ Including the movements for mandatory part, bonus part has the following extra m
    🠉
  🠈  🠊
    🠋
-
 ```
