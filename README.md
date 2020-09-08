@@ -8,18 +8,9 @@ make a dynamic view inside a maze.
 
 This project contained mandatory part and some bonuses.
 
-### Bonuses implemented:
-- Wall collisions.
-- Ability to look up and down (Up arrow key, Down arrow key)
-- Floor & ceiling texture.
-- Object collisions.
-- Rotate the point of view with the mouse (It works for rotate right & left, look up & down)
-- Jump or crouch (Space key for jump, Left Shift key for crouch)
-
-
 ## Mandatory part
 
-- Clone the repository
+### How to run it
 
 - Run ```make```
 
@@ -32,9 +23,8 @@ $ ./cub3D ./<file name of your choise with a valid map>
 $ ./cub3D ./<file name of your choise with a valid map> --save
 ```
 
-## Details
+### Movements
 
-#### Mandatory movements: use the keys
 - ```W``` move forward
 - ```A``` move backward
 - ```S``` move rigth
@@ -42,7 +32,22 @@ $ ./cub3D ./<file name of your choise with a valid map> --save
 - ```🠈``` look left
 - ```🠊``` look right
 
-#### Bonuses implemented: 
+## Bonus part
+
+### How to run it
+
+- Run ```make bonus```
+
+- Run the executable ```cub3D``` and choose a bonus valid map
+```
+$ ./cub3D ./<file name of your choise with a bonus valid map>
+```
+- For screenshot add ```--save```
+```
+$ ./cub3D ./<file name of your choise with a bonus valid map> --save
+```
+### Bonuses implemented
+
 - Wall collisions.
 - Floor and ceiling texture.
 - Ability to look up and down.
@@ -51,8 +56,18 @@ $ ./cub3D ./<file name of your choise with a valid map> --save
 - Object collisions.
 - Rotate the point of view with the mouse: look up, look down, look left, look right
 
-##### Use the keys
+### Movements
+
+Including the movements for mandatory part, bonus part has the following extra movements:
 - ```🠉``` look up
 - ```🠋``` look down
 - ```Space key``` jump
 - ```Left Shift``` crouch
+
+```
+Mouse movements
+   🠉
+ 🠈  🠊
+   🠋
+
+```
