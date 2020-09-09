@@ -11,9 +11,12 @@ This project contained mandatory part and some bonuses.
 
 ## Mandatory part
 
-### How to run it
+- It is allowed to use both XPM and PNG images.
+- The map must to have a '.cub' extension.
 
-- Run ```make```
+### How to start
+
+- Build :hammer: with ```make```
 
 - Run the executable ```cub3D``` and choose a valid map
 ```
@@ -21,7 +24,7 @@ $ ./cub3D ./<file name path with a valid map>
 ```
 - For screenshot add ```--save```
 ```
-$ ./cub3D ./<file name of your choise with a valid map> --save
+$ ./cub3D ./<file name path with a valid map> --save
 ```
 
 ### Actions
@@ -32,16 +35,18 @@ $ ./cub3D ./<file name of your choise with a valid map> --save
 |    `A`    | move left     | 
 |    `S`    | move backward | 
 |    `D`    | move rigth    |
-|  &larr;   | look left    |
-|  &#8594; | look right   |
+|  :arrow_left:   | look left    |
+|  :arrow_right: | look right   |
 
-```ESC``` or click on the red cross to exit the game.
+```ESC``` or click on the red button :red_circle: to exit the game.
 
-## Bonus part
+## Bonus part :star:
 
-### How to run it
 
-- Run ```make bonus```
+
+### How to start
+
+- Build :hammer: with ```make bonus```
 
 - Run the executable ```cub3D``` and choose a bonus valid map
 ```
@@ -67,15 +72,15 @@ $ ./cub3D ./<file name path with a bonus valid map> --save
 
 Including the movements for mandatory part, bonus part has the following extra movements:
 - :arrow_up: &nbsp; look up
-- &#8595; &nbsp; look down
+- :arrow_down: &nbsp; look down
 - ```SPACE``` jump
-- ```Left Shift``` crouch
+- ```LShift``` crouch
 - Mouse movements
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &#8593;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&#8592; &nbsp; &#8594; <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &#8595; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; :arrow_up:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;:arrow_left: &nbsp; :arrow_right: <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; :arrow_down: <br>
 
-## Resources
+## Resources :books:
 
 More info in the Wiki!
