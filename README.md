@@ -32,8 +32,8 @@ $ ./cub3D ./<file name of your choise with a valid map> --save
 |    `A`    | move left     | 
 |    `S`    | move backward | 
 |    `D`    | move rigth    |
-|    `🠈`    | look left    |
-|    `🠊`    | look right   |
+|  &larr;   | look left    |
+|  &#8594; | look right   |
 
 ```ESC``` or click on the red cross to exit the game.
 
@@ -45,7 +45,7 @@ $ ./cub3D ./<file name of your choise with a valid map> --save
 
 - Run the executable ```cub3D``` and choose a bonus valid map
 ```
-$ ./cub3D ./<file name of your choise with a bonus valid map>
+$ ./cub3D ./<file name path with a bonus valid map>
 ```
 - For screenshot add ```--save```
 ```
@@ -66,13 +66,16 @@ $ ./cub3D ./<file name path with a bonus valid map> --save
 ### Actions
 
 Including the movements for mandatory part, bonus part has the following extra movements:
-- ```🠉``` look up
-- ```🠋``` look down
+- &#8593; &nbsp; look up
+- &#8595; &nbsp; look down
 - ```SPACE``` jump
 - ```Left Shift``` crouch
 - Mouse movements
-```
-   🠉
- 🠈  🠊
-   🠋
-```
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &#8593;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&#8592; &nbsp; &#8594; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &#8595; <br>
+
+## Resources
+
+More info in the Wiki!
