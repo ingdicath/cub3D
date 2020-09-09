@@ -66,7 +66,7 @@ $ ./cub3D ./<file name path with a bonus valid map> --save
 ### Actions
 
 Including the movements for mandatory part, bonus part has the following extra movements:
-- &#8593; &nbsp; look up
+- :arrow_up: &nbsp; look up
 - &#8595; &nbsp; look down
 - ```SPACE``` jump
 - ```Left Shift``` crouch
