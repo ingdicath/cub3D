@@ -26,8 +26,6 @@ LIBMLX = libmlx.dylib
 
 LIB_FT = libft
 
-LIB = lib_ft
-
 LIBFT = libft.a
 
 BMP = cub3d_screenshot.bmp
